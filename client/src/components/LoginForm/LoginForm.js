@@ -35,6 +35,7 @@ class LoginForm extends React.Component {
                             container: styles.inputContainer,
                             input: styles.input,
                             warning: styles.fieldWarning,
+                            valid: styles.valid,
                             notValid: styles.notValid
                         }}
                         component={FormInput}
@@ -47,6 +48,7 @@ class LoginForm extends React.Component {
                             container: styles.inputContainer,
                             input: styles.input,
                             warning: styles.fieldWarning,
+                            valid: styles.valid,
                             notValid: styles.notValid
                         }}
                         component={FormInput}

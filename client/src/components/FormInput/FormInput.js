@@ -6,7 +6,7 @@ const FormInput = (props) => {
     return (
         <div className={classes.container}>
             <input {...input} placeholder={label} type={type}
-                   className={classNames(classes.input, {[classes.notValid]: touched && error})}/>
+                   className={classNames(classes.input, {[classes.notValid]: touched && error},  {[classes.valid]: touched && !error})}/>
             {classes.warning && (touched && (error && <span className={classes.warning}>{error}</span>))}
         </div>
     )
