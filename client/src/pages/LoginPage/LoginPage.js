@@ -7,11 +7,9 @@ import {clearErrorSignUpAndLogin} from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 import Home from "../Home/Home";
 import {Route, Router} from 'react-router-dom';
+import Error from "../../components/Error/Error";
 
 const LoginPage = (props) => {
-    const changeRoute = () => {
-        props.history.replace('/');
-    };
     return (
         <div className={styles.mainContainer}>
             <div className={styles.loginContainer}>
@@ -24,7 +22,9 @@ const LoginPage = (props) => {
                     </div>
                 </div>
                 <div className={styles.loginFormContainer}>
-                    <LoginForm changeRoute={changeRoute}/>
+                        <h2>LOGIN TO YOUR ACCOUNT</h2>
+                    <LoginForm />
+
                 </div>
             </div>
         </div>

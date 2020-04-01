@@ -25,10 +25,8 @@ class LoginForm extends React.Component {
         const {error, isFetching} = this.props.auth;
         const {handleSubmit, submitting, authClear} = this.props;
         return (
-            <div className={styles.loginForm}>
-                {error && <Error data={error.data} status={error.status} clearError={authClear}/>}
-                <h2>LOGIN TO YOUR ACCOUNT</h2>
-                <form onSubmit={handleSubmit(this.clicked)}>
+                <form onSubmit={handleSubmit(this.clicked)} className={styles.loginForm}>
+                    {error && <Error data={error.data} status={error.status} clearError={authClear}/>}
                     <Field
                         name='email'
                         classes={{
@@ -59,7 +57,7 @@ class LoginForm extends React.Component {
                         <span className={styles.inscription}>{isFetching ? 'Submitting...' : 'LOGIN'}</span>
                     </button>
                 </form>
-            </div>
+
         );
     }
 }
