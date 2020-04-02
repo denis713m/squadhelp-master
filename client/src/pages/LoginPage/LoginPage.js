@@ -3,13 +3,13 @@ import LoginForm from '../../components/LoginForm/LoginForm';
 import styles from './LoginPage.module.sass';
 import {Link} from "react-router-dom";
 import {connect} from 'react-redux';
-import {clearErrorSignUpAndLogin} from '../../actions/actionCreator';
+import {authActionLogin, clearAuth, clearErrorSignUpAndLogin} from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
-import Home from "../Home/Home";
-import {Route, Router} from 'react-router-dom';
 import Error from "../../components/Error/Error";
 
-const LoginPage = (props) => {
+const LoginPage = ({error, authClear, loginUser, ...restProps}) => {
+    const handleSubmit = values => loginUser(values);
+    const clearFields = () => authClear();
     return (
         <div className={styles.mainContainer}>
             <div className={styles.loginContainer}>
@@ -23,7 +23,8 @@ const LoginPage = (props) => {
                 </div>
                 <div className={styles.loginFormContainer}>
                         <h2>LOGIN TO YOUR ACCOUNT</h2>
-                    <LoginForm />
+                    {error && <Error data={error.data} status={error.status} clearError={clearFields}/>}
+                    <LoginForm onSubmit={handleSubmit}/>
 
                 </div>
             </div>
@@ -32,11 +33,14 @@ const LoginPage = (props) => {
 
 };
 
+const mapStateToProps = state => state.auth;
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        clearError: () => dispatch(clearErrorSignUpAndLogin())
+        clearError: () => dispatch(clearErrorSignUpAndLogin()),
+        authClear: () => dispatch(clearAuth()),
+        loginUser: (data) => dispatch(authActionLogin(data)),
     }
 };
 
-export default connect(null, mapDispatchToProps)(LoginPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
