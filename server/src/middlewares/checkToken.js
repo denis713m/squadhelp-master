@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const CONSTANTS = require('../../constants');
+const CONSTANTS = require('../constants');
 const TokenError = require('../errors/TokenError');
 import userQueries from '../controllers/queries/userQueries';
 

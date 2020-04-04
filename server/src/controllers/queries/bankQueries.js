@@ -1,4 +1,4 @@
-const bd = require('../../models/index');
+const bd = require('../../models');
 const BankDeclineError = require('../../errors/BankDeclineError');
 
 module.exports.updateBankBalance = async (data, predicate, transaction) => {

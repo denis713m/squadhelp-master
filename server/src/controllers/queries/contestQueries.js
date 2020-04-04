@@ -1,4 +1,4 @@
-const bd = require('../../models/index');
+const bd = require('../../models');
 const ServerError = require('../../errors/ServerError');
 
 module.exports.updateContest = async (data, predicate, transaction) => {
