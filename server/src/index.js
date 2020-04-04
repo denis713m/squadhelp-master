@@ -1,7 +1,5 @@
 require('./dbMongo/mongoose');
-import httpServer from "./boot/configureHTTPServer";
+require('./boot/configureSocketIO');
 
-const controller = require('./socketInit');
 
-controller.createConnection(httpServer);
 

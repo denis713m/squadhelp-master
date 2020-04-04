@@ -1,9 +1,8 @@
 const db = require('../models');
 import ServerError from '../errors/ServerError';
-
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
-const controller = require('../socketInit');
+const controller = require('../boot/configureSocketIO');
 const UtilFunctions = require('../utils/functions');
 const NotFound = require('../errors/UserNotFoundError');
 const CONSTANTS = require('../constants');
