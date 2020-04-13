@@ -8,6 +8,7 @@ import styles from './Home.module.sass';
 import carouselConstants from '../../carouselConstants';
 import {connect} from 'react-redux';
 import Spinner from '../../components/Spinner/Spinner';
+import StartContestBar from "../../components/StartContestBar/StartContestBar";
 
 
 const Home = (props) => {
@@ -115,6 +116,7 @@ const Home = (props) => {
                             </div>
                         </div>
                     </div>
+                    <StartContestBar/>
                     <h2>How Do Name Contest Work?</h2>
                     <div className={styles.whiteContainer}>
                         <div className={styles.stepReverse}>
