@@ -4,6 +4,8 @@ import CustomerDashboard from '../../components/CustomerDashboard/CustomerDashbo
 import CreatorDashboard from '../../components/CreatorDashboard/CreatorDashboard';
 import Header from '../../components/Header/Header';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
+import styles from './Dashboard.module.sass';
 
 
 const Dashboard = (props) => {
@@ -17,6 +19,9 @@ const Dashboard = (props) => {
                     :
                     <CreatorDashboard history={history} match={props.match}/>
             }
+            <Link to='/Transactions' style={{ textDecoration: 'none' }}>
+                <div className={styles.button}>Go to my transactions</div>
+            </Link>
         </div>
     );
 };
