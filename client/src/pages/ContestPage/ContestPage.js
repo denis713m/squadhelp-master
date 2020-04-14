@@ -41,6 +41,10 @@ class ContestPage extends React.Component {
         this.props.getData({contestId: params.id});
     };
 
+    checkOffers = () => {
+        return this.props.contestByIdStore.offers.length !== 0
+    };
+
 
     setOffersList = () => {
         const array = [];
@@ -127,8 +131,9 @@ class ContestPage extends React.Component {
                                     <div className={styles.buttonsContainer}>
                         <span onClick={() => changeContestViewMode(true)}
                               className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
-                                        <span onClick={() => changeContestViewMode(false)}
-                                              className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
+                                        {this.checkOffers() &&
+                                            <span onClick={() => changeContestViewMode(false)}
+                                              className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>}
                                     </div>
                                     {
                                         isBrief ?
