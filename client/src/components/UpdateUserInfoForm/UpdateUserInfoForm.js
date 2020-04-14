@@ -12,6 +12,12 @@ import Error from '../../components/Error/Error';
 
 const UpdateUserInfoForm = (props) => {
     const {handleSubmit, submitting, error, clearUserError} = props;
+    const className = {
+        container: styles.inputContainer,
+        input: styles.input,
+        warning: styles.error,
+        notValid: styles.notValid
+    };
     return (
         <form onSubmit={handleSubmit} className={styles.updateContainer}>
             {error && <Error data={error.data} status={error.status} clearError={clearUserError}/>}
@@ -22,12 +28,7 @@ const UpdateUserInfoForm = (props) => {
                     component={FormInput}
                     type='text'
                     label='First Name'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.error,
-                        notValid: styles.notValid
-                    }}
+                    className={className}
                 />
             </div>
             <div className={styles.container}>
@@ -37,12 +38,7 @@ const UpdateUserInfoForm = (props) => {
                     component={FormInput}
                     type='text'
                     label='LastName'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.error,
-                        notValid: styles.notValid
-                    }}
+                    className={className}
                 />
             </div>
             <div className={styles.container}>
@@ -52,12 +48,7 @@ const UpdateUserInfoForm = (props) => {
                     component={FormInput}
                     type='text'
                     label='Display Name'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.error,
-                        notValid: styles.notValid
-                    }}
+                    className={className}
                 />
             </div>
             <Field

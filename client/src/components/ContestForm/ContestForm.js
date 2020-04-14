@@ -25,6 +25,11 @@ class ContestForm extends React.Component {
         submitFunc = props.submitData;
     }
 
+     className = {
+         container: styles.componentInputContainer,
+         input: styles.input,
+         warning: styles.warning
+    };
 
     getPreference = () => {
         const {contestType}=this.props;
@@ -90,11 +95,7 @@ class ContestForm extends React.Component {
                                 component={FormInput}
                                 type='text'
                                 label='name of venture'
-                                classes={{
-                                    container: styles.componentInputContainer,
-                                    input: styles.input,
-                                    warning: styles.warning
-                                }}
+                                className={this.className}
                             />
                         </div>
                         <Field
@@ -121,11 +122,7 @@ class ContestForm extends React.Component {
                                 component={FormInput}
                                 type='text'
                                 label='name of venture'
-                                classes={{
-                                    container: styles.componentInputContainer,
-                                    input: styles.input,
-                                    warning: styles.warning
-                                }}
+                                className={this.className}
                             />
                         </div>
                         <Field
@@ -168,11 +165,7 @@ class ContestForm extends React.Component {
                                             component={FormInput}
                                             type='text'
                                             label='Title'
-                                            classes={{
-                                                container: styles.componentInputContainer,
-                                                input: styles.input,
-                                                warning: styles.warning
-                                            }}
+                                            className={this.className}
                                         />
                                     </div>
                                     <div className={styles.inputContainer}>

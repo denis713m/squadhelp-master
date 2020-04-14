@@ -1,4 +1,4 @@
-import React, {lazy, Suspense} from 'react';
+import React  from 'react';
 import RegistrationForm from '../../components/RegistrationForm/RegistrationForm';
 import styles from './RegistrationPage.module.sass';
 import {Link} from 'react-router-dom';
@@ -24,19 +24,19 @@ const RegistrationPage = ({registerUser, error, authClear, ...restProps}) => {
                             <Link to='/login' style={{textDecoration: 'none'}}><span>Login</span></Link>
                         </div>
                     </div>
+                    <div className={styles.formContainer}>
+                        <div className={styles.headerFormContainer}>
+                            <h2>
+                                CREATE AN ACCOUNT
+                            </h2>
+                            <h4>
+                                We always keep your name and email address private.
+                            </h4>
+                        </div>
 
-                    <div className={styles.headerFormContainer}>
-                        <h2>
-                            CREATE AN ACCOUNT
-                        </h2>
-                        <h4>
-                            We always keep your name and email address private.
-                        </h4>
+                        {error && <Error data={error.data} status={error.status} clearError={authClear}/>}
+                        <RegistrationForm onSubmit={handleSubmit}/>
                     </div>
-
-                    {error && <Error data={error.data} status={error.status} clearError={authClear}/>}
-                    <RegistrationForm onSubmit={handleSubmit}/>
-
                 </div>
                 <div className={styles.footer}>
                     <Articles/>

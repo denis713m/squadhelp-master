@@ -11,8 +11,6 @@ const LoginForm = props => {
         container: styles.inputContainer,
         input: styles.input,
         warning: styles.fieldWarning,
-        valid: styles.valid,
-        notValid: styles.notValid
     };
 
     {

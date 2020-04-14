@@ -15,6 +15,12 @@ import Error from '../../components/Error/Error';
 let contestType;
 
 const OfferForm = (props) => {
+    const className = {
+        container: styles.inputContainer,
+        input: styles.input,
+        warning: styles.fieldWarning,
+        notValid: styles.notValid
+    };
     const renderOfferInput = () => {
         if (props.contestType === CONTANTS.LOGO_CONTEST) {
             return (
@@ -32,12 +38,7 @@ const OfferForm = (props) => {
             return (
                 <Field
                     name='offerData'
-                    classes={{
-                        container: styles.inputContainer,
-                        input: styles.input,
-                        warning: styles.fieldWarning,
-                        notValid: styles.notValid
-                    }}
+                    className={className}
                     component={FormInput}
                     type='text'
                     label='your suggestion'

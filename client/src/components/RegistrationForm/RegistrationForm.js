@@ -15,8 +15,6 @@ const RegistrationForm = (props) => {
         container: styles.inputContainer,
         input: styles.input,
         warning: styles.fieldWarning,
-        valid: styles.valid,
-        notValid: styles.notValid
     };
 
     const {handleSubmit, submitting} = props;
