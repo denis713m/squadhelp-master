@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './StartContestBar.module.sass';
-import CONSTANTS from "../../constants";
+import CONSTANTS from '../../constants';
 
 
 const StartContestBar = () => {
