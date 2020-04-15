@@ -9,29 +9,29 @@ const TransactionsPage = () => {
             <Header/>
             <div className={styles.container}>
                 <h1>All transactions</h1>
-                <table>
+                <table className={styles.transactionTable}>
                     <thead>
                     <tr>
-                        <th>id</th>
-                        <th>description</th>
-                        <th>money</th>
+                        <th className={styles.transactionTableHead}>id</th>
+                        <th className={styles.transactionTableHead}>description</th>
+                        <th className={styles.transactionTableHead}>money</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr>
-                        <td>1</td>
-                        <td>ЗАРАБОТАЛ</td>
-                        <td>+350$</td>
+                        <td className={styles.transactionTableData}>1</td>
+                        <td className={styles.transactionTableData}>ЗАРАБОТАЛ</td>
+                        <td className={styles.transactionTableData}>+350$</td>
                     </tr>
                     <tr>
-                        <td>2</td>
-                        <td>ПОТРАТИЛ</td>
-                        <td>-350$</td>
+                        <td className={styles.transactionTableData}>2</td>
+                        <td className={styles.transactionTableData}>ПОТРАТИЛ</td>
+                        <td className={styles.transactionTableData}>-350$</td>
                     </tr>
                     <tr>
-                        <td>3</td>
-                        <td>ЗАРАБОТАЛ</td>
-                        <td>+450$</td>
+                        <td className={styles.transactionTableData}>3</td>
+                        <td className={styles.transactionTableData}>ЗАРАБОТАЛ</td>
+                        <td className={styles.transactionTableData}>+450$</td>
                     </tr>
                     </tbody>
                 </table>
