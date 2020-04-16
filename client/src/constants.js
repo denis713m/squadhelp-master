@@ -87,4 +87,5 @@ export default {
       ],
     },
   ],
+  types: ['', 'name,tagline,logo', 'name', 'tagline', 'logo', 'name,tagline', 'logo,tagline', 'name,logo'],
 };
