@@ -1,3 +1,5 @@
+import * as offersMiddleware from '../middlewares/offersMiddleware';
+
 const express = require('express');
 const basicMiddlewares = require('../middlewares/basicMiddlewares');
 const hashPass = require('../middlewares/hashPassMiddle');
@@ -86,6 +88,7 @@ router.post(
 
 router.get(
     '/getOffers',
+    offersMiddleware.offersSearchOptions,
     contestController.getOffers,
 );
 

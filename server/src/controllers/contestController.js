@@ -281,30 +281,14 @@ module.exports.getContests = (req, res, next) => {
 };
 
 module.exports.getOffers = (req, res, next) => {
-    const Sequelize = require('sequelize');
-    const Op = Sequelize.Op;
-    const searchOptions = {
-        fileName: {
-            [Op.ne]: null
-        }
-    };
-    if ( (req.body.time) && ( !isNaN(new Date(req.body.time))) ) {
-        searchOptions.timestamp = {
-            [Op.gte]: new Date(req.body.time)
-        }
-    }
     db.Offers.findAll(
         {
-            where: searchOptions,
+            where: req.body.searchOptions,
             attributes: ['fileName']
         }
     )
         .then(offers => {
-          const fileNames = [];
-          offers.forEach((offer) =>{
-            fileNames.push(offer.fileName)
-              });
-            res.send(fileNames);
+            res.send(offers);
         })
         .catch(err => {
             next(new ServerError());
