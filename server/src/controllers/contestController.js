@@ -294,3 +294,37 @@ module.exports.getOffers = (req, res, next) => {
             next(new ServerError());
         })
 };
+
+module.exports.getAllTransactions = (req, res, next) => {
+    db.TransactionHistory.findAll(
+        {
+            limit: req.body.limit,
+            offset: req.body.offset,
+        }
+    )
+        .then(offers => {
+            res.send(offers);
+        })
+        .catch(err => {
+            next(new ServerError());
+        })
+};
+
+module.exports.getUserTransactions = (req, res, next) => {
+    db.TransactionHistory.findAll(
+        {
+            where: {
+              userId: req.tokenData.userId
+            },
+            limit: req.body.limit,
+            offset: req.body.offset,
+            attributes: ['typeOperation', 'sum'],
+}
+    )
+        .then(offers => {
+            res.send(offers);
+        })
+        .catch(err => {
+            next(new ServerError());
+        })
+};
