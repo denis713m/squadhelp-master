@@ -6,6 +6,7 @@ const controller = require('../boot/configureSocketIO');
 const UtilFunctions = require('../utils/functions');
 const NotFound = require('../errors/UserNotFoundError');
 const CONSTANTS = require('../constants');
+const sequelize = require('sequelize');
 
 module.exports.dataForContest = async (req, res, next) => {
     let response = {};
@@ -314,12 +315,30 @@ module.exports.getUserTransactions = (req, res, next) => {
     db.TransactionHistory.findAll(
         {
             where: {
-              userId: req.tokenData.userId
+                userId: req.tokenData.userId
             },
             limit: req.body.limit,
             offset: req.body.offset,
             attributes: ['typeOperation', 'sum'],
-}
+        }
+    )
+        .then(offers => {
+            res.send(offers);
+        })
+        .catch(err => {
+            next(new ServerError());
+        })
+};
+
+module.exports.getTransactionsSummary = (req, res, next) => {
+    db.TransactionHistory.findAll(
+        {
+            where: {
+                userId: req.tokenData.userId
+            },
+            attributes: ['typeOperation', [sequelize.fn('sum', sequelize.col('sum')), 'total']],
+            group: ['typeOperation']
+        }
     )
         .then(offers => {
             res.send(offers);

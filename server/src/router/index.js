@@ -201,4 +201,10 @@ router.get(
     contestController.getUserTransactions,
 );
 
+router.get(
+    '/getTransactionsSummary',
+    checkToken.checkToken,
+    contestController.getTransactionsSummary,
+);
+
 module.exports = router;
