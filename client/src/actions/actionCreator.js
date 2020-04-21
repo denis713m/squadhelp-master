@@ -436,3 +436,15 @@ export const changeModalShow=(data)=>{
         data: data
     }
 };
+
+export const getTransactions=()=>{
+    return{
+        type: ACTION.GET_TRANSACTIONS,
+    }
+};
+
+export const getTotalTransactions=()=>{
+    return{
+        type: ACTION.GET_TOTAL_TRANSACTIONS,
+    }
+};

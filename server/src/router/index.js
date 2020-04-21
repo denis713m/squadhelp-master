@@ -194,7 +194,7 @@ router.get(
     contestController.getAllTransactions,
 );
 
-router.get(
+router.post(
     '/getUserTransactions',
     checkToken.checkToken,
     transactionHistory.getAllTransactions,
