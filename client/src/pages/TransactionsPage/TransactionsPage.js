@@ -43,7 +43,10 @@ class TransactionsPage extends React.Component {
 
 
     render() {
-        const total = {};
+        const total = {
+            INCOME: 0,
+            CONSUMPTION: 0
+        };
         this.props.total.forEach((item) => {
            total[item.typeOperation] = item.total
         });
@@ -52,6 +55,7 @@ class TransactionsPage extends React.Component {
                 <Header/>
                 <div className={styles.container}>
                     <div className={styles.totalContainer}>
+                        <div className={styles.total}>{`БАЛАНС: ${total.INCOME - total.CONSUMPTION} $`}</div>
                         <div className={styles.total}>{`ЗАРАБОТАЛ: ${
                             typeof total.INCOME === 'undefined' ?
                                 0

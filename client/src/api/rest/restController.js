@@ -51,6 +51,9 @@ export const getTotalTransaction = () => {
     return http.get('getTransactionsSummary');
 };
 
+export const makeTransaction = (data) => {
+    return http.post('makeTransaction', data);
+};
 
 
 

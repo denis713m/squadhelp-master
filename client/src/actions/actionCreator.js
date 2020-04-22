@@ -448,3 +448,10 @@ export const getTotalTransactions=()=>{
         type: ACTION.GET_TOTAL_TRANSACTIONS,
     }
 };
+
+export const makeTransaction = (data) => {
+    return {
+        type: ACTION.MAKE_TRANSACTION,
+        data: data
+    }
+};

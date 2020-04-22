@@ -6,7 +6,8 @@ import {
     goToExpandedDialog,
     changeEditContest,
     changeContestViewMode,
-    changeShowImage
+    changeShowImage,
+    makeTransaction
 } from '../../actions/actionCreator';
 import {connect} from 'react-redux';
 import Header from "../../components/Header/Header";
@@ -42,7 +43,7 @@ class ContestPage extends React.Component {
     };
 
     checkOffers = () => {
-        return this.props.contestByIdStore.offers.length !== 0
+        return this.props.userStore.data.role === CONSTANTS.CREATOR ? true : this.props.contestByIdStore.offers.length !== 0
     };
 
 
@@ -78,6 +79,12 @@ class ContestPage extends React.Component {
             contestId: id
         };
         this.props.setOfferStatus(obj);
+        if (command === 'resolve'){
+            this.props.makeTransaction({
+                sum: 100,
+                userId: creatorId
+            })
+        }
     };
 
 
@@ -131,7 +138,7 @@ class ContestPage extends React.Component {
                                     <div className={styles.buttonsContainer}>
                         <span onClick={() => changeContestViewMode(true)}
                               className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
-                                        {this.checkOffers() &&
+                                        { this.checkOffers() &&
                                             <span onClick={() => changeContestViewMode(false)}
                                               className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>}
                                     </div>
@@ -176,7 +183,8 @@ const mapDispatchToProps = (dispatch) => {
         goToExpandedDialog: (data) => dispatch(goToExpandedDialog(data)),
         changeEditContest: (data) => dispatch(changeEditContest(data)),
         changeContestViewMode: (data) => dispatch(changeContestViewMode(data)),
-        changeShowImage: data => dispatch(changeShowImage(data))
+        changeShowImage: data => dispatch(changeShowImage(data)),
+        makeTransaction: (data) => dispatch(makeTransaction(data))
     }
 };
 
