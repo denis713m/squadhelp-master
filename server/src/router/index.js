@@ -207,4 +207,12 @@ router.get(
     contestController.getTransactionsSummary,
 );
 
+router.post(
+    '/makeTransaction',
+    checkToken.checkToken,
+    transactionHistory.makeTransaction,
+    contestController.makeTransaction,
+);
+
+
 module.exports = router;

@@ -202,6 +202,13 @@ module.exports.cashout = async (req, res, next) => {
         },
       },
       transaction);
+    await bd.TransactionHistory.create(
+        {
+          typeOperation: 'CONSUMPTION',
+          sum: req.body.sum,
+          userId: req.tokenData.userId,
+        },
+        {transaction: transaction});
     transaction.commit();
     res.send({ balance: updatedUser.balance });
   } catch (err) {

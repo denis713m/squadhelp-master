@@ -34,6 +34,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
         defaultValue: 'pending',
       },
+      timestamp:{
+          type: DataTypes.DATE,
+          allowNull: true,
+          defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      }
     },
     {
       timestamps: false,

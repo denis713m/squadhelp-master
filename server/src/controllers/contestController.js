@@ -347,3 +347,29 @@ module.exports.getTransactionsSummary = (req, res, next) => {
             next(new ServerError());
         })
 };
+
+module.exports.makeTransaction = (req, res, next) => {
+    db.sequelize.transaction(async (t) => {
+        db.TransactionHistory.create(
+            {
+                typeOperation: 'CONSUMPTION',
+                sum: req.body.sum,
+                userId: req.tokenData.userId,
+            },
+            {transaction: t})
+            .then(
+                db.TransactionHistory.create(
+                    {
+                        typeOperation: 'INCOME',
+                        sum: req.body.sum,
+                        userId: req.body.userId,
+                    },
+                    {transaction: t})
+            )
+    })
+        .then(() => res.send('1'))
+        .catch(err => {
+            next(new ServerError());
+        })
+};
+
