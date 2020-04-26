@@ -1,0 +1,275 @@
+@import '../../styles/breakPoints'
+@import '../../styles/colors'
+@import '../../styles/fonts'
+
+*
+  box-sizing: border-box
+
+.borderBoth
+  border-right: 1px solid $borderColor
+  border-left: 1px solid $borderColor
+
+.loginSignnUpHeaders
+  display: flex
+  align-items: center
+  justify-content: space-around
+  border: 1px solid #ebebeb
+  margin-bottom: 13px
+
+.contactWraper
+  width: 50%
+
+.contactDetails
+  width: fit-content
+  display: flex
+  justify-content: center
+  align-items: center
+  margin: 0 auto
+  padding: 0 15px
+  @extend .borderBoth
+  height: 40px
+  @media(max-width: 600px)
+    margin-left: 10px
+  @media(max-width: 360px)
+    padding: 0 5px
+    margin-left: 0
+  a
+    @extend .ralewayMain
+    color: $phoneColor
+    text-decoration: none
+    margin-left: 10px
+    vertical-align: baseline
+    @media(max-width: 360px)
+      font-size: 12px
+    &:hover
+      color: $phoneHover
+  img
+    color: $blueMain
+
+.userButtonsWraper
+  width: 50%
+
+.userButtonsContainer
+  width: fit-content
+  margin-left: auto
+  align-items: center
+  justify-content: flex-end
+  display: flex
+  padding:  0 15px
+  @extend .borderBoth
+  height: 40px
+  @media(max-width: 600px)
+    margin-left: 60px
+  @media(max-width: 400px)
+    margin-left: 20px
+  @media(max-width: 320px)
+    margin-left: 0
+  .emailIcon
+    padding: 0 15px
+    border-right: 1px solid #ebebeb
+  .userInfo
+    display: flex
+    justify-content: center
+    align-items: center
+    padding: 0 15px
+    border-right: 1px solid #ebebeb
+    &:hover
+      ul
+        display: block
+        position: absolute
+        top: 45px
+    ul
+      border: 1px solid #eee
+      z-index: 500
+      padding: 5px 0
+      list-style: none
+      background: white
+      width: 180px
+      display: none
+      li
+        text-align: left
+        &:hover
+          background: #f9fafb
+        span
+          display: inline-block
+          padding: 5px 15px
+          color: #333
+          font-size: 16px
+
+    img
+      width: 20px
+      height: 20px
+      border-radius: 10px
+    span
+      padding: 0
+      margin-left: 5px
+      color: #718888
+      font-weight: 400
+      font-size: 16px
+      border: none
+
+
+.btn
+  @extend .ralewayMain
+  font-size: 13.5px
+  font-weight: 500
+  padding: 0 15px
+  color: $loginColor
+  border-right: 1px solid $borderColor
+
+.navToggle
+  @extend .ralewayMain
+  color: $navColor
+  font-size: 13px
+  font-weight: 500
+  padding: 15px 0
+  text-transform: uppercase
+  &:hover
+    color: $navHover
+    .dropDownMenu
+      display: block
+  @media (max-width: $w992)
+    font-size: 12px
+
+.fafIcon
+  display: inline-block
+  color: #ccc
+  font-size: 17px
+  font-weight: 400
+  font-stretch: 100%
+  border-image-repeat: stretch
+  top: 2px
+  margin-left: 5px
+  width: 100%
+
+.dropDownMenu
+  display: none
+  position: absolute
+  min-width: 160px
+  border: 1px solid #eee
+  z-index: 1000
+  top: 14px
+  background-color: white
+  box-shadow: rgba(0, 0, 0, 0.176) 0 6px 12px 0
+  list-style: none
+  padding-left: 0
+  @media(max-width: 700px)
+    top: auto
+    left: 145px
+  &::before
+    content: ''
+    display: inline-block
+    border-left: 7px solid transparent
+    border-right: 7px solid transparent
+    border-bottom: 7px solid #ccc
+    position: absolute
+    top: -7px
+    left: 30px
+
+.dropDownItem
+  padding: 8px 15px
+  &:hover
+    background-image: linear-gradient(to bottom, #f5f5f5 0%, #e8e8e8 100%)
+    a
+      color: $navHover
+  a
+    text-decoration: none
+    font-size: 11px
+    color: #666
+
+.divider
+  height: 1px
+  width: 100%
+  background-color: #e5e5e5
+  margin: 9px 0
+  padding: 0
+
+.btnStartContest
+  width: 160px
+  height: 38px
+  margin-left: 35px
+  margin-right: 10px
+  border-radius: 5px
+  border: 2px solid $blueMain
+  padding: 10px 22px
+  text-transform: uppercase
+  cursor: pointer
+  @extend .ralewayMain
+  a
+    text-decoration: none
+    color: $blueMain
+    font-weight: 500
+    font-size: 14px
+  &:hover
+    background-color: $blueMain
+    a
+      background-color: $blueMain
+      color: #ffffff
+  @media (max-width: 1110px)
+    width: 126px
+    padding: 10px 5px
+  @media (max-width: 992px)
+    width: 94px
+    margin-left: 70px
+    a
+      text-transform: capitalize
+      font-size: 13px
+  @media (max-width: 960px)
+    margin-left: 30px
+    width: 135px
+  @media (max-width: 768px)
+    width: 104px
+    margin-left: 2px
+    padding: 10px
+  @media (max-width: 767px)
+    display: none
+
+.space
+  width: 20%
+  @media (max-width: 850px)
+    width: 10%
+
+.leftNav
+  display: flex
+  justify-content: space-around
+  align-items: center
+  flex-grow: 1
+
+.headerContainer
+  display: flex
+  flex-direction: column
+  justify-content: flex-start
+  width: 100%
+  height: 115px
+  box-shadow: 0 0 12px 6px rgba(0, 0, 0, 0.1)
+  .navContainer
+    width: 100%
+    max-width: 1170px
+    margin: 0 auto
+    @extend .borderBoth
+    display: flex
+    justify-content: space-around
+    align-items: center
+    @media(max-width: 920px)
+      justify-content: center
+    @media(max-width: 700px)
+      justify-content: flex-start
+    .logo
+      align-self: flex-end
+    .nav
+      position: relative
+      flex-grow: 1
+      .mainNav
+        list-style: none
+        margin: 0
+        display: flex
+        justify-content: space-between
+        align-items: center
+        @media(max-width: 920px)
+          justify-content: space-between
+          padding: 0
+        @media(max-width: 700px)
+          flex-direction: column
+          align-items: flex-start
+
+
