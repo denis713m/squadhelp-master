@@ -1,0 +1,138 @@
+@import '../../styles/breakPoints'
+@import '../../styles/colors'
+@import '../../styles/fonts'
+@import '../../styles/flex'
+*
+  box-sizing: border-box
+.top
+  @extend .ralewayMain
+  padding: 86px 0
+  background-color: $footerTop
+  @media (max-width: $w992)
+    display: none
+  @media (max-width: $md)
+    display: block
+
+.topContainer
+  width: 970px
+  margin: 0 auto
+  padding: 0 15px
+  @media (min-width: $xl)
+    width: 1170px
+  @media (max-width: $md)
+    width: 100%
+
+
+.mainCategories
+  margin: 0 -15px
+  padding-bottom: 43px
+  @extend .baseFlex
+  flex-wrap: wrap
+
+.mainCategoryConteiner
+  width: 50%
+  padding: 0 15px 40px
+  @media (min-width: $xl)
+    width: 292.5px
+  @media (max-width: $md)
+    width: 100%
+.mainCategoryTitle
+  margin-bottom: 20px
+  color: #ffffff
+  font-weight: 500
+
+.mainCategorHref
+  display: block
+  text-decoration: none
+  padding-bottom: 7px
+  color: #abadad
+  font-size: 14px
+  &:hover
+    color: $navHover
+    text-decoration: underline
+
+.mainCategorySubConteiner
+  width: 100%
+  padding-bottom: 40px
+
+.featureCategoryTitle
+  padding-bottom: 30px
+  margin-bottom: 20px
+  border-bottom: 1px solid #555959
+  color: #ffffff
+  @extend .latoBold
+
+.featuredCategoriesCont
+  @extend .baseFlex
+  @media (max-width: $md)
+    flex-direction: column
+
+.featureCatgorCategories
+  width: 25%
+  @media (max-width: $md)
+    width: 100%
+
+.bottom
+  padding: 40px 0 25px
+  background-color: $footerBottom
+  @extend .ralewayMain
+  color: #666868
+.bottomContainer
+  @extend .baseFlex
+  width: 1170px
+  margin: 0 auto
+  @media(max-width: $xl)
+    width: 970px
+  @media (max-width: $w1150)
+    width: 100%
+  @media (max-width: $w992)
+    flex-direction: column
+
+.bottomLogo
+  width: 50%
+  padding: 4px 15px 0
+  @extend .baseFlex
+  @media (max-width: $w992)
+    width: 100%
+  @media (max-width: $md)
+    flex-direction: column
+    align-items: center
+.logo
+  width: 138px
+.copyright
+  margin: 0 0 5px 33px
+  padding: 10px 0 10px 30px
+  border-left: 1px solid #3d4141
+  font-size: 14px
+  @media (max-width: $md)
+    border: none
+    align-self: flex-start
+.bottomContacts
+  width: 50%
+  @media (max-width: $w992)
+    width: 100%
+  padding: 0 15px
+  @extend .baseFlex
+  justify-content: flex-end
+  @media (max-width: $w992)
+    flex-direction: column
+    order: -1
+    align-items: center
+  @media (max-width: $md)
+    flex-direction: row
+    justify-content: center
+
+.contactContainer
+  @extend .flexCenter
+  margin: 0px 5px 0 15px
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  border: 1px solid #fff
+  background-color: #666868
+
+
+.fafIcon
+  height: 20px
+  width: 20px
+  color: $blueMain
