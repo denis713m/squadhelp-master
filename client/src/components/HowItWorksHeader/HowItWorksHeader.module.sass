@@ -11,11 +11,15 @@
   border-left: 1px solid $borderColor
 
 .loginSignnUpHeaders
+  width: 1170px
+  margin: 0 auto 13px
   display: flex
   align-items: center
   justify-content: space-around
-  border: 1px solid #ebebeb
-  margin-bottom: 13px
+  @media (max-width: $xl)
+    width: 970px
+  @media (max-width: $w1150)
+    width: 100%
   @media (max-width: $md)
     display: none
 
@@ -57,7 +61,7 @@
   justify-content: flex-end
   display: flex
   padding:  0 15px
-  @extend .borderBoth
+  border-left: 1px solid $borderColor
   height: 40px
   @media(max-width: 600px)
     margin-left: 60px
@@ -322,14 +326,16 @@
     z-index: 10
     background-color: #ffffff
   .navContainer
-    width: 100%
-    max-width: 1170px
+    width: 1170px
     margin: 0 auto
-    @extend .borderBoth
     display: flex
     justify-content: space-around
     align-items: center
     position: relative
+    @media (max-width: $xl)
+      width: 970px
+    @media (max-width: $w1150)
+      width: 100%
     @media(max-width: 920px)
       justify-content: center
     @media(max-width: 768px)

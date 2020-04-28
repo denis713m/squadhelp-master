@@ -48,8 +48,7 @@ body
 .howItWorkHeaderH2
   padding: 0 0 25px
   margin: 0 0 20px
-  font-weight: bold
-  font-size: 36px
+  @extend .ralewayBold
   line-height: 40px
   @media (max-width: $w992)
     font-size: 22px
@@ -67,8 +66,7 @@ body
 
 .stepsHeader
   vertical-align: baseline
-  font-weight: bold
-  font-size: 36px
+  @extend .ralewayBold
   margin: 0 0 20px
   padding: 50px 0
   text-align: center
@@ -152,6 +150,7 @@ body
 .FAQTitleContainer
   padding: 20px 10px
   @extend .baseFlex
+  justify-content: flex-start
   flex-wrap: wrap
   border-bottom: 1px solid #e1e1e1
 
@@ -171,11 +170,14 @@ body
 .FAQTitleBox
   display: inline-block
   padding: 10px 15px
+  @extend .ralewayBold
   font-size: 30px
-  font-weight: bold
   @media (max-width: $xs)
     font-size: 22px
     margin-bottom: 20px
+
+.questWraper
+  padding: 0 10px
 
 .questionContainer
   margin: 10px 0
@@ -185,8 +187,8 @@ body
 .questionTitle
   margin-bottom: 20px
   padding: 15px 0
-  font-size: 22px
-  font-weight: bold
+  @extend .ralewayBold
+  font-size: 18px
 
 .question
   margin-top: 15px
@@ -254,7 +256,9 @@ body
 .getIntouchHeader
   margin-bottom: 20px
   padding: 12px 0 20px
-  font-size: 22px
+  @extend .ralewayBold
+  line-height: 30px
+  font-size: 25px
   color: #ffffff
   font-weight: bold
   @media (max-width: $w992)
@@ -281,8 +285,8 @@ body
   border: 2px solid #fff
   border-radius: 5px
   text-decoration: none
+  @extend .ralewayBold
   font-size: 20px
-  font-weight: bold
   color: #ffffff
   cursor: pointer
   &:hover
