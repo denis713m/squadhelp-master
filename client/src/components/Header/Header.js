@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import {Link, withRouter} from 'react-router-dom';
 import CONSTANTS from '../../constants';
 import {getUserAction, clearUserStore, headerRequest} from '../../actions/actionCreator';
-import Home from "../../pages/Home/Home";
+
+
 
 
 class Header extends React.Component {
@@ -102,7 +103,7 @@ class Header extends React.Component {
                                     <span>CONTESTS</span><img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`}
                                                               alt='menu'/>
                                     <ul>
-                                        <li><a href="http://www.google.com">HOW IT WORKS</a></li>
+                                        <li><Link to='/howitworks.php'>HOW IT WORKS</Link></li>
                                         <li><a href="http://www.google.com">PRICING</a></li>
                                         <li><a href="http://www.google.com">AGENCY SERVICE</a></li>
                                         <li><a href="http://www.google.com">ACTIVE CONTESTS</a></li>

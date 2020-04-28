@@ -1,0 +1,328 @@
+@import '../../styles/fonts'
+@import '../../styles/breakPoints'
+@import '../../styles/colors'
+@import '../../styles/flex'
+
+.padding15
+  padding: 0 15px
+*
+  box-sizing: border-box
+
+body
+  line-height: 1
+
+.mainContainer
+  width: 1170px
+  padding-top: 5px
+  margin: 0 auto
+  @extend .ralewayMain
+  color: #515b5f
+  @extend .padding15
+  @media (min-width: $lg) and (max-width: $xl)
+    width: 970px
+  @media (max-width: $lg)
+    width: 100%
+
+.howItWorkHeader
+  display: flex
+  justify-content: center
+  align-items: flex-start
+  margin: 0 -15px
+  padding: 80px 0
+  @media (max-width: $md)
+    flex-direction: column
+
+
+.video
+  @extend .padding15
+  width: 50%
+  @media (max-width: $md)
+    width: 100%
+
+.headerLabel
+  width: 50%
+  @extend .padding15
+  @media (max-width: $md)
+    width: 100%
+
+.howItWorkHeaderH2
+  padding: 0 0 25px
+  margin: 0 0 20px
+  font-weight: bold
+  font-size: 36px
+  line-height: 40px
+  @media (max-width: $w992)
+    font-size: 22px
+    line-height: 25px
+    padding: 0
+
+
+.howItWorkHeaderParag
+  line-height: 25px
+
+.stepsWraper
+
+
+
+
+.stepsHeader
+  vertical-align: baseline
+  font-weight: bold
+  font-size: 36px
+  margin: 0 0 20px
+  padding: 50px 0
+  text-align: center
+
+
+.stepsContainer
+  margin: 15px -15px
+  padding: 25px 0
+  @extend .baseFlex
+  justify-content: flex-start
+  flex-wrap: wrap
+
+.stepContainer
+  width: 195px
+  padding: 0 15px
+  text-align: center
+  @media (max-width: $xl)
+    width: 50%
+  @media (max-width: $md)
+    width: 100%
+
+.stepNumber, .stepNumberSelected
+  width: 90px
+  height: 90px
+  border-radius: 45px
+  background-color: $borderColor
+  margin: 0 auto
+  font-weight: bold
+  font-size: 32px
+  color: #000000
+  text-align: center
+  line-height: 90px
+  &:hover
+    color: #ffffff
+    background-color: $blueMain
+
+.stepNumberSelected
+  color: #ffffff
+  background-color: $blueMain
+
+.stepTitle
+  height: 72px
+  margin: 0 0 20px
+  padding: 20px 0
+  font-weight: bold
+
+.step
+  font-size: 14px
+  line-height: 18px
+
+.btnStartContestContainer
+  height: 130px
+  margin: 15px -68px 45px
+  padding: 35px 0
+  background: $blueMain
+  @media (max-width: $md)
+    margin: 0
+
+.btnStartContest
+  display: block
+  margin: 0 auto
+  padding: 18px 0
+  width: 235px
+  height: 60px
+  border: 2px solid #ffffff
+  border-radius: 5px
+  @extend .ralewayMain
+  font-size: 20px
+  text-align: center
+  font-weight: bold
+  text-decoration: none
+  color: #ffffff
+  cursor: pointer
+  &:hover
+    color: $blueMain
+    background-color: #ffffff
+
+.questionsContainer
+  margin: 0 -15px 50px
+
+.FAQTitleContainer
+  padding: 20px 10px
+  @extend .baseFlex
+  flex-wrap: wrap
+  border-bottom: 1px solid #e1e1e1
+
+
+.FAQQuestion
+  display: inline-block
+  width: 60px
+  height: 60px
+  border-radius: 50px
+  border: 2px solid $blueMain
+  color: $blueMain
+  font-size: 36px
+  text-align: center
+  line-height: 60px
+  vertical-align: center
+
+.FAQTitleBox
+  display: inline-block
+  padding: 10px 15px
+  font-size: 30px
+  font-weight: bold
+  @media (max-width: $xs)
+    font-size: 22px
+    margin-bottom: 20px
+
+.questionContainer
+  margin: 10px 0
+  padding: 15px
+  width: 100%
+
+.questionTitle
+  margin-bottom: 20px
+  padding: 15px 0
+  font-size: 22px
+  font-weight: bold
+
+.question
+  margin-top: 15px
+  font-size: 16px
+  line-height: 20px
+  color: #333
+
+.questionHref
+  color: $blueMain
+
+.questionUl
+  margin-top: 20px
+  padding: 0 25px
+  list-style: none
+
+.questionLi
+  margin: 5px 0
+
+.getInTouch
+  padding: 35px 15px
+  background-color: $getInTouch
+  @extend .ralewayMain
+
+.getInTouchCounteiner
+  width: 1170px
+  margin: 0 auto
+  @extend .baseFlex
+  @media (max-width: $xl)
+    width: 970px
+    flex-direction: column
+  @media (max-width: $w992)
+    width: 100%
+
+
+.EnvContainer
+  padding: 0 40px 0 15px
+  @media (max-width: $xl)
+    display: none
+
+.faEnvContainer
+  background: #fff
+  border-radius: 200px
+  width: 100px
+  height: 100px
+  display: table-cell
+  vertical-align: middle
+  text-align: center
+
+.fafIcon
+  width: 40px
+  height: 40px
+  color: $getInTouch
+
+.getIntouchQuestCont
+  width: 680px
+  padding: 0 30px 0 15px
+  @media (max-width: $xl)
+    width: 485px
+  @media (max-width: 1150px)
+    padding: 0 15px
+    width: 53%
+  @media (max-width: $w992)
+    width: 100%
+
+.getIntouchHeader
+  margin-bottom: 20px
+  padding: 12px 0 20px
+  font-size: 22px
+  color: #ffffff
+  font-weight: bold
+  @media (max-width: $w992)
+    text-align: center
+
+.getIntouchParag
+  color: #ffffff
+  font-size: 20px
+  @media (max-width: $w992)
+    text-align: center
+
+
+.getIntouchHref
+  text-decoration: none
+  color: $phoneHover
+
+.getIntouchBtn
+  align-self: flex-end
+  display: block
+  width: 223px
+  height: 68px
+  margin: 8px 15px 0 70px
+  padding: 22px 40px
+  border: 2px solid #fff
+  border-radius: 5px
+  text-decoration: none
+  font-size: 20px
+  font-weight: bold
+  color: #ffffff
+  cursor: pointer
+  &:hover
+    background-color: #ffffff
+    color: $getInTouch
+
+.intercom
+  @extend .flexCenter
+  position: fixed
+  z-index: 20
+  bottom: 20px
+  right: 20px
+  width: 60px
+  height: 60px
+  border-radius: 50%
+  background: #2392EC
+  cursor: pointer
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16)
+
+
+.scrollUp
+  @extend .flexCenter
+  background: #f18762
+  height: 33px
+  width: 33px
+  color: #fff
+  font-size: 16px
+  line-height: 30px
+  text-align: center
+  position: fixed
+  bottom: 80px
+  text-decoration: none
+  right: 10px
+  z-index: 30
+  opacity: 0.5
+  border-radius: 50%
+  &:hover
+    opacity: 1
+
+.interComIco
+  width: 28px
+  height: 32px
+  fill: #ffffff
