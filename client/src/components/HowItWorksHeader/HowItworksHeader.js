@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { clearUserStore, headerRequest } from '../../actions/actionCreator';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+import { faAngleDown, faPhoneAlt } from '@fortawesome/free-solid-svg-icons'
 
 class HowItworksHeader extends React.Component {
 
@@ -66,25 +66,33 @@ class HowItworksHeader extends React.Component {
             <div className={styles.headerContainer}>
                 <div className={styles.loginSignnUpHeaders}>
                     <div className={styles.contactWraper}>
-                    <div className={styles.contactDetails}>
-                        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone-call.png`} alt='phone'/>
-                        <a href="tel:+8773553585"> (877)&nbsp;355-3585 </ a>
-                    </div>
+                        <div className={styles.contactDetails}>
+                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone-call.png`} alt='phone'/>
+                            <a href="tel:+8773553585"> (877)&nbsp;355-3585 </ a>
+                        </div>
                     </div>
                     <div className={styles.userButtonsWraper}>
-                    <div className={styles.userButtonsContainer}>
-                        {this.renderLoginButtons()}
-                    </div>
+                        <div className={styles.userButtonsContainer}>
+                            {this.renderLoginButtons()}
+                        </div>
                     </div>
                 </div>
+
                 <div className={styles.navContainer}>
-                    <Link to={'/'}><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo}
-                                        alt='blue_logo'/></Link>
+                    <Link to={'/'}>
+                        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo}
+                             alt='blue_logo'/></Link>
+                    <input type="checkbox" id="hideShowPanel" hidden/>
                     <div className={styles.leftNav}>
                         <div className={styles.nav}>
-
                             <ul className={styles.mainNav}>
                                 <li className={styles.space}>
+                                </li>
+                                <li className={styles.teleMedia}>
+                                    <div className={styles.navTogglePhone}>
+                                        <FontAwesomeIcon icon={faPhoneAlt} className={styles.fafIcon}/>
+                                        <span className={styles.navPhone}>(877)&nbsp;355-3585</span>
+                                    </div>
                                 </li>
                                 <li className={styles.mainNavItem}>
                                     <div className={styles.navToggle}>NAME IDEAS
@@ -97,7 +105,7 @@ class HowItworksHeader extends React.Component {
                                             <li className={styles.dropDownItem}><a href="#">Finance</a></li>
                                             <li className={styles.dropDownItem}><a href="#">Real Estate</a></li>
                                             <li className={styles.dropDownItem}><a href="#">Tech</a></li>
-                                            <li className={styles.divider}> </li>
+                                            <li className={styles.divider}></li>
                                             <li className={styles.dropDownItem}><a href="#">More Categories</a>
                                             </li>
                                         </ul>
@@ -109,14 +117,15 @@ class HowItworksHeader extends React.Component {
                                         CONTESTS
                                         <FontAwesomeIcon icon={faAngleDown} className={styles.fafIcon}/>
                                         <ul className={styles.dropDownMenu}>
-                                            <li className={styles.dropDownItem}><Link to='/howitworks.php'>HOW IT WORKS</Link></li>
+                                            <li className={styles.dropDownItem}><Link to='/howitworks.php'>HOW IT
+                                                WORKS</Link></li>
                                             <li className={styles.dropDownItem}><a href="#">PRICING</a></li>
                                             <li className={styles.dropDownItem}><a href="#">AGENCY SERVICE</a></li>
-                                            <li className={styles.divider}> </li>
+                                            <li className={styles.divider}></li>
                                             <li className={styles.dropDownItem}><a href="#">ACTIVE CONTESTS</a></li>
                                             <li className={styles.dropDownItem}><a href="#">WINNERS</a></li>
                                             <li className={styles.dropDownItem}><a href="#">LEADERBOARD</a></li>
-                                            <li className={styles.divider}> </li>
+                                            <li className={styles.divider}></li>
                                             <li className={styles.dropDownItem}><a href="#">BECOME A
                                                 CREATIVE</a></li>
                                         </ul>
@@ -129,7 +138,7 @@ class HowItworksHeader extends React.Component {
                                             <li className={styles.dropDownItem}><a href="#">NAMES</a></li>
                                             <li className={styles.dropDownItem}><a href="#">TAGLINES</a></li>
                                             <li className={styles.dropDownItem}><a href="#">LOGOS</a></li>
-                                            <li className={styles.divider}> </li>
+                                            <li className={styles.divider}></li>
                                             <li className={styles.dropDownItem}><a href="#">TESTIMONIALS</a>
                                             </li>
                                         </ul>
@@ -145,8 +154,9 @@ class HowItworksHeader extends React.Component {
                                             <li className={styles.dropDownItem}><a href="#">SHORT NAMES</a></li>
                                             <li className={styles.dropDownItem}><a href="#">INTRIGUING NAMES</a></li>
                                             <li className={styles.dropDownItem}><a href="#">NAMES BY CATEGORY</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">VISUAL NAME GENERATOR</a></li>
-                                            <li className={styles.divider}> </li>
+                                            <li className={styles.dropDownItem}><a href="#">VISUAL NAME GENERATOR</a>
+                                            </li>
+                                            <li className={styles.divider}></li>
                                             <li className={styles.dropDownItem}><a href="#">SELL YOUR
                                                 DOMAINS</a></li>
                                         </ul>
@@ -157,17 +167,28 @@ class HowItworksHeader extends React.Component {
                                     <div className={styles.navToggle}>Blog
                                         <FontAwesomeIcon icon={faAngleDown} className={styles.fafIcon}/>
                                         <ul className={styles.dropDownMenu}>
-                                            <li className={styles.dropDownItem}><a href="#">ULTIMATE NAMING GUIDE</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">POETIC DEVICES IN BUSINESS NAMING</a></li>
+                                            <li className={styles.dropDownItem}><a href="#">ULTIMATE NAMING GUIDE</a>
+                                            </li>
+                                            <li className={styles.dropDownItem}><a href="#">POETIC DEVICES IN BUSINESS
+                                                NAMING</a></li>
                                             <li className={styles.dropDownItem}><a href="#">CROWDED BAR THEORY</a></li>
-                                            <li className={styles.divider}> </li>
+                                            <li className={styles.divider}></li>
                                             <li className={styles.dropDownItem}><a href="#">ALL ARTICLES</a>
                                             </li>
                                         </ul>
                                     </div>
-
-
                                 </li>
+                                <li className={styles.mediaLogin}>
+                                    <div className={styles.navToggle} style={{textDecoration: 'none'}}>
+                                        <Link to='/login' style={{textDecoration: 'none'}}><span
+                                            className={styles.navLogin}>LOGIN</span></Link>
+                                        &nbsp;/&nbsp;
+                                        <Link to='/registration' style={{textDecoration: 'none'}}><span
+                                            className={styles.navLogin}>SIGN UP</span></Link>
+
+                                    </div>
+                                </li>
+
                             </ul>
                         </div>
                         <div className={styles.btnStartContest}>
@@ -177,6 +198,13 @@ class HowItworksHeader extends React.Component {
 
                         </div>
                     </div>
+                    <label htmlFor="hideShowPanel">
+                        <div className={styles.btnNav}>
+                            <div className={styles.line}/>
+                            <div className={styles.line}/>
+                            <div className={styles.line}/>
+                        </div>
+                    </label>
 
 
                 </div>
