@@ -1,3 +1,5 @@
+import writeError from './ErrorLogging'
+
 module.exports = (err, req, res, next) => {
   console.log(err);
   if (err.message ===
@@ -12,4 +14,5 @@ module.exports = (err, req, res, next) => {
   } else {
     res.status(err.code).send(err.message);
   }
+  writeError(err);
 };
