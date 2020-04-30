@@ -5,7 +5,7 @@ import CONSTANTS from './../constants'
 export default function (err) {
     const data = {
         message: err.message,
-        time: moment(),
+        time: moment().format('x'),
         code: err.code,
         stackTrace: err.stack
     };

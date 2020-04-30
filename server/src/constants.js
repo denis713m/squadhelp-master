@@ -28,5 +28,7 @@ module.exports = {
   NOTIFICATION_CHANGE_OFFER_STATUS: 'changeOfferStatus',
   NEW_MESSAGE: 'newMessage',
   CHANGE_BLOCK_STATUS: 'CHANGE_BLOCK_STATUS',
-  ERROR_LOG_FILE: 'ErrorLogs.txt'
+  ERROR_LOG_FILE: 'ErrorLogs.txt',
+  WRITE_TIME: ['23:43', 'HH-mm'],
+  ARCHIVE_DIRECTORY: '../'
 };
