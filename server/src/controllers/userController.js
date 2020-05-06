@@ -212,7 +212,7 @@ module.exports.cashout = async (req, res, next) => {
     transaction.commit();
     res.send({ balance: updatedUser.balance });
   } catch (err) {
-    transaction.rollback();
+    await transaction.rollback();
     next(err);
   }
 };

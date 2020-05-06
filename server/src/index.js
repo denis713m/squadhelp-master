@@ -1,4 +1,4 @@
-//require('./dbMongo/mongoose');
+require('./dbMongo/mongoose');
 require('./boot/configureSocketIO');
 require('./boot/ErrorArchive');
 

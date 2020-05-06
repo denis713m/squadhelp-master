@@ -12,11 +12,9 @@ const chatController = new ChatController();
 notificationController.connect('/notifications', io);
 chatController.connect('/chat', io);
 
-module.exports = {
-    getChatController: () => {
+module.exports.getChatController = () => {
         return chatController;
-    },
-    getNotificationController: () => {
+    };
+module.exports.getNotificationController = () => {
         return notificationController;
-    },
-};
+    };

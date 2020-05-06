@@ -2,7 +2,6 @@ import React from 'react';
 import {selectBundle} from '../../actions/actionCreator';
 import {connect} from 'react-redux';
 import BundleBox from '../../components/BundleBox/BundleBox';
-import {Route} from 'react-router-dom';
 import CONSTANTS from '../../constants';
 import styles from './StartContestPage.module.sass';
 import Footer from '../../components/Footer/Footer';

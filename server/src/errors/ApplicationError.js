@@ -7,6 +7,8 @@ class ApplicationError extends Error{
     this.message = message || 'Something went wrong. Please try again';
     this.code = status || 500;
   }
+
+
 }
 
 module.exports = ApplicationError;

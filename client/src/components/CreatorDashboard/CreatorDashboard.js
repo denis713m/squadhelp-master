@@ -95,7 +95,7 @@ class CreatorDashboard extends React.Component {
 
 
     render() {
-        const {error, haveMore, creatorFilter} = this.props;
+        const {error, haveMore} = this.props;
         return (
             <div className={styles.mainContainer}>
                 <MultiFilter history={this.props.history}/>

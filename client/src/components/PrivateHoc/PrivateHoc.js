@@ -1,7 +1,6 @@
 import React from 'react';
 import {getUserAction} from '../../actions/actionCreator';
 import {connect} from 'react-redux';
-import {Redirect} from 'react-router-dom';
 import Spinner from '../Spinner/Spinner';
 
 

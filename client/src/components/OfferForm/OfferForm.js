@@ -2,7 +2,6 @@ import React from 'react';
 import CONTANTS from '../../constants';
 import {connect} from 'react-redux';
 import {setOffer, clearAddOfferError} from '../../actions/actionCreator';
-import {withRouter} from 'react-router-dom';
 import styles from './OfferForm.module.sass';
 import {reduxForm, Field} from 'redux-form';
 import ImageUpload from '../InputComponents/ImageUpload/ImageUpload';

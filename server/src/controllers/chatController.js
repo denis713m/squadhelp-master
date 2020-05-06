@@ -29,13 +29,13 @@ module.exports.addMessage = async (req, res, next) => {
     await message.save();
     message._doc.participants = participants;
     const interlocutorId = participants.filter(
-      (participant) => participant !== req.tokenData.userId)[ 0 ];
+      (participant) => participant !== req.tokenData.userId)[ 0 ];//req.body.recipient
     const preview = {
       _id: newConversation._id,
       sender: req.tokenData.userId,
       text: req.body.messageBody,
       createAt: message.createdAt,
-      participants,
+      participants,// destruction???
       blackList: newConversation.blackList,
       favoriteList: newConversation.favoriteList,
     };

@@ -2,16 +2,16 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Banks', [
       {
-        cardNumber: '4564654564564564',
+        cardNumber: '5169654564564564',
         name: 'SquadHelp',
         expiry: '11/20',
         cvc: '453',
         balance: 0,
       },
       {
-        cardNumber: '4111111111111111',
+        cardNumber: '5169111111111111',
         name: 'yriy',
-        expiry: '09/19',
+        expiry: '11/21',
         cvc: '043',
         balance: 5000,
       },
