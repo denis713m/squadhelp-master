@@ -20,9 +20,7 @@ class HowItWorks extends React.Component {
 
     updateDimensions = () => {
         const headerHeight = window.scrollY;
-        console.log(headerHeight)
         const windowWidth = window.innerWidth;
-        console.log(windowWidth)
         if ( ((windowWidth >= 768) && (headerHeight > 115)) || ((windowWidth < 768) && (headerHeight > 70)) ) {
             this.setState({isScrollShow: true});
         }
