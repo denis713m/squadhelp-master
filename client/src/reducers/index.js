@@ -12,6 +12,7 @@ import updateContestReducer from './updateContestReducer';
 import chatReducer from './chatReducer';
 import userProfileReducer from './userProfileReducer';
 import getTransactions from './getTransactions';
+import getEvents from './eventReducer';
 
 
 
@@ -29,6 +30,7 @@ const appReducer=combineReducers({
    chatStore: chatReducer,
    userProfile: userProfileReducer,
    transactions: getTransactions,
+   events: getEvents,
 });
 
 export default appReducer;

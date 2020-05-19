@@ -455,3 +455,17 @@ export const makeTransaction = (data) => {
         data: data
     }
 };
+
+export const delEvent = (data) => {
+    return {
+        type: ACTION.DELETE_EVENT,
+        data: data
+    }
+};
+export const addEvent = (data) => {
+    return {
+        type: ACTION.ADD_EVENT,
+        data: data
+    }
+};
+
