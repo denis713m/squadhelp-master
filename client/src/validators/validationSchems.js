@@ -1,8 +1,6 @@
 import * as yup from 'yup';
 import valid from 'card-validator';
 
-
-
 export default {
     LoginSchem: yup.object().shape({
         email: yup.string().email('check email').required('required'),
@@ -61,5 +59,10 @@ export default {
         lastName: yup.string().test('test-lastName','required',value => (value && value.trim().length>=1)).required('required'),
         displayName: yup.string().test('test-displayName','required',value => (value && value.trim().length>=1)).required('required'),
         file: yup.mixed()
+    }),
+    EventForm: yup.object().shape({
+        name: yup.string().test('test-eventName','should be more then 5 letters',value => (value && value.trim().length>=5)).required('required'),
+        remind: yup.number().integer().min(5).required(),
+        date: yup.date().min(new Date(), `Date should be greater then ${(new Date()).toISOString().slice(0,10)}`).required()
     })
 }
