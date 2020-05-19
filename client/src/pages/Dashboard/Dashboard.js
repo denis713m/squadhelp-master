@@ -19,9 +19,17 @@ const Dashboard = (props) => {
                     :
                     <CreatorDashboard history={history} match={props.match}/>
             }
+            <div className={styles.btnContainer}>
             <Link to='/Transactions' style={{ textDecoration: 'none' }}>
                 <div className={styles.button}>Go to my transactions</div>
             </Link>
+            {
+                role === CONSTANTS.CUSTOMER &&
+                <Link to='/EventsTimer' style={{ textDecoration: 'none' }} target={'blank'}>
+                    <div className={styles.button}>Events</div>
+                </Link>
+            }
+            </div>
         </div>
     );
 };

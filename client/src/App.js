@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Router, Route, Switch} from 'react-router-dom';
 import './App.css';
+import './reset.css';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
 import Payment from './pages/Payment/Payment';
@@ -20,6 +21,7 @@ import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
 import TransactionsPage from './pages/TransactionsPage/TransactionsPage';
 import HowItWorks from './pages/HowItWorks/HowItWorks';
+import EventsPage from './pages/EventsPage/EventsPage';
 
 
 
@@ -63,6 +65,7 @@ class App extends Component {
                     <Route exact path='/contest/:id' component={PrivateHoc(ContestPage)}/>
                     <Route exact path='/account' component={PrivateHoc(UserProfile)}/>
                     <Route exact path='/Transactions' component={PrivateHoc(TransactionsPage)}/>
+                    <Route exact path='/EventsTimer'  component={PrivateHoc(EventsPage)}/>
                     <Route exact path='/howitworks.php' component={HowItWorks}/>
                     <Route component={NotFound}/>
 
