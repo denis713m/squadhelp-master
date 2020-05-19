@@ -98,15 +98,15 @@ class HowItworksHeader extends React.Component {
                                     <div className={styles.navToggle}>NAME IDEAS
                                         <FontAwesomeIcon icon={faAngleDown} className={styles.fafIcon}/>
                                         <ul className={styles.dropDownMenu}>
-                                            <li className={styles.dropDownItem}><a href="#">Beauty</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">Consulting</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">E-Commerce</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">Fashion & Clothing</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">Finance</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">Real Estate</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">Tech</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">Beauty</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">Consulting</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">E-Commerce</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">Fashion & Clothing</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">Finance</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">Real Estate</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">Tech</a></li>
                                             <li className={styles.divider}></li>
-                                            <li className={styles.dropDownItem}><a href="#">More Categories</a>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">More Categories</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -119,14 +119,14 @@ class HowItworksHeader extends React.Component {
                                         <ul className={styles.dropDownMenu}>
                                             <li className={styles.dropDownItem}><Link to='/howitworks.php'>HOW IT
                                                 WORKS</Link></li>
-                                            <li className={styles.dropDownItem}><a href="#">PRICING</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">AGENCY SERVICE</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">PRICING</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">AGENCY SERVICE</a></li>
                                             <li className={styles.divider}></li>
-                                            <li className={styles.dropDownItem}><a href="#">ACTIVE CONTESTS</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">WINNERS</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">LEADERBOARD</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">ACTIVE CONTESTS</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">WINNERS</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">LEADERBOARD</a></li>
                                             <li className={styles.divider}></li>
-                                            <li className={styles.dropDownItem}><a href="#">BECOME A
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">BECOME A
                                                 CREATIVE</a></li>
                                         </ul>
                                     </div>
@@ -135,11 +135,11 @@ class HowItworksHeader extends React.Component {
                                     <div className={styles.navToggle}>Our Work
                                         <FontAwesomeIcon icon={faAngleDown} className={styles.fafIcon}/>
                                         <ul className={styles.dropDownMenu}>
-                                            <li className={styles.dropDownItem}><a href="#">NAMES</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">TAGLINES</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">LOGOS</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">NAMES</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">TAGLINES</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">LOGOS</a></li>
                                             <li className={styles.divider}></li>
-                                            <li className={styles.dropDownItem}><a href="#">TESTIMONIALS</a>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">TESTIMONIALS</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -150,14 +150,14 @@ class HowItworksHeader extends React.Component {
                                         Names For Sale
                                         <FontAwesomeIcon icon={faAngleDown} className={styles.fafIcon}/>
                                         <ul className={styles.dropDownMenu}>
-                                            <li className={styles.dropDownItem}><a href="#">POPULAR NAMES</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">SHORT NAMES</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">INTRIGUING NAMES</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">NAMES BY CATEGORY</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">VISUAL NAME GENERATOR</a>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">POPULAR NAMES</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">SHORT NAMES</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">INTRIGUING NAMES</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">NAMES BY CATEGORY</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">VISUAL NAME GENERATOR</a>
                                             </li>
                                             <li className={styles.divider}></li>
-                                            <li className={styles.dropDownItem}><a href="#">SELL YOUR
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">SELL YOUR
                                                 DOMAINS</a></li>
                                         </ul>
                                     </div>
@@ -167,13 +167,13 @@ class HowItworksHeader extends React.Component {
                                     <div className={styles.navToggle}>Blog
                                         <FontAwesomeIcon icon={faAngleDown} className={styles.fafIcon}/>
                                         <ul className={styles.dropDownMenu}>
-                                            <li className={styles.dropDownItem}><a href="#">ULTIMATE NAMING GUIDE</a>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">ULTIMATE NAMING GUIDE</a>
                                             </li>
-                                            <li className={styles.dropDownItem}><a href="#">POETIC DEVICES IN BUSINESS
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">POETIC DEVICES IN BUSINESS
                                                 NAMING</a></li>
-                                            <li className={styles.dropDownItem}><a href="#">CROWDED BAR THEORY</a></li>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">CROWDED BAR THEORY</a></li>
                                             <li className={styles.divider}></li>
-                                            <li className={styles.dropDownItem}><a href="#">ALL ARTICLES</a>
+                                            <li className={styles.dropDownItem}><a href="http://localhost:3000/howitworks.php">ALL ARTICLES</a>
                                             </li>
                                         </ul>
                                     </div>

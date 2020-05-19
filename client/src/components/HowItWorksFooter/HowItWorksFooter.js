@@ -9,7 +9,7 @@ import bxlFacebook from '@iconify/icons-bx/bxl-facebook';
 const HowItWorksFooter = () => {
     const getHrefs = (hrefs) =>{
         const hrefsArray = [];
-        hrefs.forEach((href, index) => hrefsArray.push(<a key={`${href}+${index}`} href={'#'} className={styles.mainCategorHref}>{href}</a>));
+        hrefs.forEach((href, index) => hrefsArray.push(<a key={`${href}+${index}`} href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}>{href}</a>));
         return hrefsArray
     };
 
@@ -23,10 +23,10 @@ const HowItWorksFooter = () => {
                                 SQUADHELP
                             </div>
                             <div className={styles.mainCategoryCategories}>
-                                <a href={'#'} className={styles.mainCategorHref}>About</a>
-                                <a href={'#'} className={styles.mainCategorHref}>Contact</a>
-                                <a href={'#'} className={styles.mainCategorHref}>Testimonials</a>
-                                <a href={'#'} className={styles.mainCategorHref}>Our Work</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}>About</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}>Contact</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}>Testimonials</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}>Our Work</a>
                             </div>
                         </div>
                         <div className={styles.mainCategoryConteiner}>
@@ -34,13 +34,13 @@ const HowItWorksFooter = () => {
                                 OUR SERVICES
                             </div>
                             <div className={styles.mainCategoryCategories}>
-                                <a href={'#'} className={styles.mainCategorHref}> Naming</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Logo Design</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Taglines</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Business Names For Sale</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Audience Testing</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Trademark Research & Filing</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Managed Agency Service</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Naming</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Logo Design</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Taglines</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Business Names For Sale</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Audience Testing</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Trademark Research & Filing</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Managed Agency Service</a>
                             </div>
                         </div>
                         <div className={styles.mainCategoryConteiner}>
@@ -48,13 +48,13 @@ const HowItWorksFooter = () => {
                                 RESOURCES
                             </div>
                             <div className={styles.mainCategoryCategories}>
-                                <a href={'#'} className={styles.mainCategorHref}> How It Works</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Become a Creative</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Discussion Forum</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Blog</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Download eBook</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Pricing</a>
-                                <a href={'#'} className={styles.mainCategorHref}> Help & FAQs</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> How It Works</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Become a Creative</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Discussion Forum</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Blog</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Download eBook</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Pricing</a>
+                                <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Help & FAQs</a>
                             </div>
                         </div>
                         <div className={styles.mainCategoryConteiner}>
@@ -63,8 +63,8 @@ const HowItWorksFooter = () => {
                                     IMPORTANT GUIDELINES
                                 </div>
                                 <div className={styles.mainCategoryCategories}>
-                                    <a href={'#'} className={styles.mainCategorHref}> Tips For Contest Holders</a>
-                                    <a href={'#'} className={styles.mainCategorHref}> Tips For Contestants</a>
+                                    <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Tips For Contest Holders</a>
+                                    <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Tips For Contestants</a>
                                 </div>
                             </div>
                             <div className={styles.mainCategorySubConteiner}>
@@ -72,9 +72,9 @@ const HowItWorksFooter = () => {
                                     LEGAL
                                 </div>
                                 <div className={styles.mainCategoryCategories}>
-                                    <a href={'#'} className={styles.mainCategorHref}> Terms of Service</a>
-                                    <a href={'#'} className={styles.mainCategorHref}> Privacy Policy</a>
-                                    <a href={'#'} className={styles.mainCategorHref}> Cookie Policy</a>
+                                    <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Terms of Service</a>
+                                    <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Privacy Policy</a>
+                                    <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}> Cookie Policy</a>
                                 </div>
                             </div>
                         </div>
@@ -100,7 +100,7 @@ const HowItWorksFooter = () => {
                                 {getHrefs(CONSTANTS.featuredCategories[3])}
                             </div>
                         </div>
-                        <a href={'#'} className={styles.mainCategorHref}>squadhelp.com has a Shopper Approved rating of 4.9/5 based on 2684 ratings and reviews.</a>
+                        <a href={'http://localhost:3000/howitworks.php'} className={styles.mainCategorHref}>squadhelp.com has a Shopper Approved rating of 4.9/5 based on 2684 ratings and reviews.</a>
 
                     </div>
 
@@ -115,10 +115,10 @@ const HowItWorksFooter = () => {
                          <span className={styles.copyright}>Copyright © 2017 Squadhelp Inc</span>
                 </div>
                 <div className={styles.bottomContacts}>
-                    <a className={styles.contactContainer}>
+                    <a href='http://localhost:3000/howitworks.php' className={styles.contactContainer}>
                         <Icon icon={bxlFacebook} className={styles.fafIcon}/>
                     </a>
-                    <a className={styles.contactContainer}>
+                    <a href='http://localhost:3000/howitworks.php' className={styles.contactContainer}>
                         <Icon icon={bxlTwitter} className={styles.fafIcon}/>
                     </a>
                 </div>

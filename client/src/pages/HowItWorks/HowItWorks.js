@@ -438,10 +438,10 @@ class HowItWorks extends React.Component {
                                     FAQs
                                 </a>&nbsp;
                                 or send us a&nbsp;
-                                <a href="#" className={styles.getIntouchHref}>message</a>
+                                <a href="http://localhost:3000/howitworks.php" className={styles.getIntouchHref}>message</a>
                                 . For assistance with launching a contest, you can also call
                                 us at (877) 355-3585 or schedule a&nbsp;
-                                <a href="#" className={styles.getIntouchHref}
+                                <a href="http://localhost:3000/howitworks.php" className={styles.getIntouchHref}
                                 >Branding
                                     Consultation</a>
                             </div>

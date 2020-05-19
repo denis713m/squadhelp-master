@@ -44,7 +44,7 @@ const MultiFilter = (props) => {
         );
     };
 
-    const     renderSelectType = () => {
+    const renderSelectType = () => {
         const array = [];
         const {creatorFilter} = props;
         CONSTANTS.types.forEach((el, i) => !i || array.push(<option key={i - 1} value={el}>{el}</option>));
@@ -83,7 +83,8 @@ const MultiFilter = (props) => {
                     })} name='contestId'
                            value={creatorFilter.contestId} className={styles.input}/>
                 </div>
-                {!isFetching && <div className={styles.inputContainer}>
+                {!isFetching && props.dataForContest.data &&
+                <div className={styles.inputContainer}>
                     <span>By industry</span>
                     {renderIndustryType()}
                 </div>}
