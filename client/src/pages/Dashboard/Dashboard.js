@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
 import styles from './Dashboard.module.sass';
+import EventBadgeTimer from '../../components/EventBadgeTimer/EventBadgeTimer';
 
 
 const Dashboard = (props) => {
@@ -15,7 +16,10 @@ const Dashboard = (props) => {
             <Header/>
             {
                 role === CONSTANTS.CUSTOMER ?
-                    <CustomerDashboard history={history} match={props.match}/>
+                    [
+                        <EventBadgeTimer key={'eventBadge'} />,
+                        <CustomerDashboard key={'dashboard'} history={history} match={props.match}/>
+                    ]
                     :
                     <CreatorDashboard history={history} match={props.match}/>
             }

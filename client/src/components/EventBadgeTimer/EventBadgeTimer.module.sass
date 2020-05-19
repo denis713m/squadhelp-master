@@ -1,0 +1,32 @@
+@import '../../styles/flex'
+@import '../../styles/colors'
+
+.badgeContainer
+  max-width: 1200px
+  margin: 0 auto
+
+
+.badge
+  margin: 10px 10px -50px auto
+  width: 40px
+  height: 40px
+  border-radius: 50%
+  background-color: red
+  color: white
+  @extend .flexCenter
+  position: relative
+  &:hover
+    .tooltiptext
+      visibility: visible
+
+.tooltiptext
+  visibility: hidden
+  width: 200px
+  background-color: $redTimer
+  color: #fff
+  text-align: center
+  border-radius: 6px
+  padding: 5px 0
+  position: absolute
+  right: 40px
+  z-index: 1
