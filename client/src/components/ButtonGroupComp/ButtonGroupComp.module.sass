@@ -1,0 +1,85 @@
+@import './src/styles/colors'
+@import './src/styles/flex'
+@import './src/styles/fonts'
+@import './src/styles/breakPoints'
+
+.groupContainer
+  @extend .poppins
+  padding: 0 31px
+  @media (min-width: $md)
+    padding: 0 32px
+  @media (min-width: $xl)
+    width: 1200px
+    padding: 0 32px
+    margin: 0 auto
+
+.groupHeader
+  padding: 24px 0 16px
+  align-self: flex-start
+
+.groupHeaderTitle
+  margin-bottom: 8px
+  font-weight: 500
+  font-size: 16px
+  line-height: 24px
+  color: #1e2022
+
+.groupHeaderDescrip
+  color: $lightGray
+  line-height: 24px
+
+.btnWraper
+  width: 100%
+  @extend .flexCenterColumn
+  @media (min-width: $w992)
+    flex-direction: row
+    margin: 0 -15px 0 -15px
+
+.container
+  box-sizing: border-box
+  width: 100%
+  margin-bottom: 32px
+  border: 1px solid $dirtyWhite
+  padding: 16px
+  border-radius: 5px
+  transition: 0.3s
+  @extend .flexCenter
+  justify-content: right
+  @media (min-width: $md)
+    justify-content: center
+    flex-direction: column
+  @media (min-width: $w992)
+    width: 33%
+    margin: 0 15px 32px
+    padding-left: 17px
+    padding-right: 17px
+    justify-content: flex-start
+
+.yesNo
+  margin-right: 20px
+  height: 26px
+  width: fit-content
+  border-radius: 160px
+  padding: 7px 15px
+  text-align: center
+  background-color: $lightGray
+  color: #ffffff
+  @media (min-width: $md)
+    margin: 0 0 16px
+
+.description
+  margin-bottom: 4px
+  color: $lightGray
+  text-align: left
+  line-height: 18px
+
+.selectedContainer
+  border: 3px solid rgba($selectContButtonGroup, 0.5)
+  padding: 18px 17px
+  transition: 0.5s
+  @media (min-width: $w992)
+    padding: 16px 17px
+
+.selectedYesNo
+  background-color: $selectContButtonGroup
+

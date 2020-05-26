@@ -7,7 +7,7 @@ import styles from './StartContestPage.module.sass';
 import Footer from '../../components/Footer/Footer';
 import ProgressBar from '../../components/ProgressBar/ProgressBar';
 import Header from "../../components/Header/Header";
-
+import ButtonGroupComp from '../../components/ButtonGroupComp/ButtonGroupComp';
 
 const StartContestPage = (props) => {
 
@@ -81,6 +81,7 @@ const StartContestPage = (props) => {
                                setBundle={setBundle}/>
                 </div>
             </div>
+            <ButtonGroupComp/>
             <Footer/>
         </div>
     )
