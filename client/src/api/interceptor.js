@@ -24,7 +24,10 @@ instance.interceptors.response.use(response => {
     if (err.response.status === 408 && history.location.pathname !== '/login'
         && history.location.pathname !== '/registration' &&
         history.location.pathname !== '/' &&
-        history.location.pathname !== '/howitworks.php') {
+        history.location.pathname !== '/howitworks.php' &&
+        history.location.pathname !== '/recoverpassword' &&
+        history.location.pathname.includes('/recover?=')
+    ) {
         history.replace('/login');
     }
     return Promise.reject(err);

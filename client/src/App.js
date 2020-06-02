@@ -22,6 +22,8 @@ import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatCo
 import TransactionsPage from './pages/TransactionsPage/TransactionsPage';
 import HowItWorks from './pages/HowItWorks/HowItWorks';
 import EventsPage from './pages/EventsPage/EventsPage';
+import RecoverPasswordPage from './pages/RecoverPasswordPage/RecoverPasswordPage';
+import RecoverPage from './pages/RecoverPage/RecoverPage';
 
 
 
@@ -67,6 +69,8 @@ class App extends Component {
                     <Route exact path='/Transactions' component={PrivateHoc(TransactionsPage)}/>
                     <Route exact path='/EventsTimer'  component={PrivateHoc(EventsPage)}/>
                     <Route exact path='/howitworks.php' component={HowItWorks}/>
+                    <Route exact path='/recoverpassword' component={OnlyNotAuthorizedUserHoc(RecoverPasswordPage)}/>
+                    <Route path='/recover' component={(RecoverPage)}/>
                     <Route component={NotFound}/>
 
                 </Switch>
