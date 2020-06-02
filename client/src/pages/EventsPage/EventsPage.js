@@ -34,7 +34,7 @@ function EventsPage(props) {
             return res;
         }, 0);
         events.forEach((event, index) => {
-            const remindDays = event.date.diff(now, 'd');
+            const remindDays = event.date.diff(now, 'd') < 0 ? 0 : event.date.diff(now, 'd');
             const bacWidth = 100 - remindDays * 100 / maxRemind;
             const className = classNames(styles.timerState, {[styles.timerStateRemind]:  remindDays < event.remind});
             eventsArray.push(
