@@ -1,6 +1,6 @@
 import {takeLatest, takeLeading, takeEvery} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
-import {registerSaga, loginSaga} from './authSagas';
+import { registerSaga, loginSaga, updatePasswordSaga } from './authSagas';
 import {privateSaga, updateUserData, notAuthorizeSaga, headerRequest} from './userSaga';
 import {paymentSaga, cashoutSaga} from './paymentSaga';
 import {
@@ -26,6 +26,7 @@ import {
     changeCatalogName
 } from './chatSagas';
 import { getTransaction, getTotalTransaction, makeTransaction } from './transactionSaga';
+
 
 function* rootSaga() {
     yield  takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -59,6 +60,7 @@ function* rootSaga() {
     yield takeLatest(ACTION.GET_TRANSACTIONS, getTransaction);
     yield takeLatest(ACTION.GET_TOTAL_TRANSACTIONS, getTotalTransaction);
     yield takeLatest(ACTION.MAKE_TRANSACTION, makeTransaction);
+    yield takeLatest(ACTION.AUTH_ACTION_UPDATE_PASSWORD, updatePasswordSaga);
 }
 
 export default rootSaga;

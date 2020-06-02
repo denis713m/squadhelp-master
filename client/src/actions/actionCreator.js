@@ -469,3 +469,9 @@ export const addEvent = (data) => {
     }
 };
 
+export const updatePassword = (data) => {
+    return {
+        type: ACTION.AUTH_ACTION_UPDATE_PASSWORD,
+        data: data
+    }
+};

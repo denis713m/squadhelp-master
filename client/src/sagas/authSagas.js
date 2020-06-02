@@ -29,3 +29,14 @@ export  function* registerSaga(action){
         yield put({type: ACTION.AUTH_ACTION_ERROR, error: e.response});
     }
 }
+
+export  function* updatePasswordSaga(action){
+    yield put({type: ACTION.AUTH_ACTION_REQUEST});
+    try{
+        const res = yield  restController.updatePasswordRequest(action.data);
+        yield  put({type: ACTION.AUTH_ACTION_SUCCESS});
+    }
+    catch (err) {
+        yield  put({type: ACTION.AUTH_ACTION_ERROR, error: err.response});
+    }
+}
