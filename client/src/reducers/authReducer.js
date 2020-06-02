@@ -3,7 +3,8 @@ import ACTION from '../actions/actionTypes';
 
 const initialState = {
     isFetching: false,
-    error: null
+    error: null,
+    validPass: false
 };
 
 export default function (state = initialState, action) {
@@ -11,19 +12,22 @@ export default function (state = initialState, action) {
         case ACTION.AUTH_ACTION_REQUEST: {
             return {
                 isFetching: true,
-                error: null
+                error: null,
+                validPass: false
             }
         }
         case ACTION.AUTH_ACTION_SUCCESS: {
             return {
                 isFetching: false,
-                error: null
+                error: null,
+                validPass: true
             }
         }
         case ACTION.AUTH_ACTION_ERROR: {
             return {
                 isFetching: false,
-                error: action.error
+                error: action.error,
+                validPass: false
             }
         }
         case ACTION.AUTH_ACTION_CLEAR_ERROR:{
@@ -36,6 +40,8 @@ export default function (state = initialState, action) {
             return initialState;
         }
         default:
-            return state;
+            return {
+                ...state,
+                validPass: false};
     }
 }
