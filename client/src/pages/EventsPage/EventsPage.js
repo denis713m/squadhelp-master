@@ -28,11 +28,7 @@ function EventsPage(props) {
 
     const getTimers = () => {
         const eventsArray = [];
-        const maxRemind = events.reduce((res, event) =>
-        {
-            if ( event.remind > res ) res = event.remind;
-            return res;
-        }, 0);
+        const maxRemind = 360;
         events.forEach((event, index) => {
             const remindDays = event.date.diff(now, 'd') < 0 ? 0 : event.date.diff(now, 'd');
             const bacWidth = 100 - remindDays * 100 / maxRemind;
