@@ -3,20 +3,8 @@ import { last } from 'lodash';
 import CONTANTS from '../../constants';
 import { onlyForNotAuthorize } from '../../actions/actionCreator';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
 
 const RecoverPage = (props) => {
-    const notify = () => {
-        toast.success('Your password have already updated!', {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    };
     useEffect(() => {
         props.checkAuth(props.history.replace);
     },[]);
