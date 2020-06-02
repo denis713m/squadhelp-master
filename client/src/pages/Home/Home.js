@@ -1,14 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import CONSTANTS from '../../constants';
 import SlideBar from '../../components/SlideBar/SlideBar';
 import Footer from '../../components/Footer/Footer';
 import styles from './Home.module.sass';
 import carouselConstants from '../../carouselConstants';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Spinner from '../../components/Spinner/Spinner';
 import StartContestBar from "../../components/StartContestBar/StartContestBar";
+import { toast } from 'react-toastify';
 
 
 const Home = (props) => {
@@ -28,7 +29,7 @@ const Home = (props) => {
     });
 
 
-    const {isFetching} = props;
+    const {isFetching, data} = props;
     const text = CONSTANTS.HEADER_ANIMATION_TEXT[index % CONSTANTS.HEADER_ANIMATION_TEXT.length];
     return (
         <>
@@ -190,14 +191,25 @@ const Home = (props) => {
                     </div>
                 </div>
                 <Footer/>
+                {data && data.token &&
+                toast.success('Your password have already updated!', {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                })
+                }
             </>)}
         </>
     )
 };
 
 const mapStateToProps = (state) => {
-    const {isFetching} = state.userStore;
-    return {isFetching};
+    const {isFetching, data} = state.userStore;
+    return {isFetching, data};
 };
 
 export default connect(mapStateToProps, null)(Home);
