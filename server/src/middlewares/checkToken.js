@@ -11,7 +11,7 @@ module.exports.checkAuth = async (req, res, next) => {
   try {
     const tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
     const foundUser = await userQueries.findUser({ id: tokenData.userId });
-    res.send({
+    const sendData = {
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
       role: foundUser.role,
@@ -20,7 +20,23 @@ module.exports.checkAuth = async (req, res, next) => {
       displayName: foundUser.displayName,
       balance: foundUser.balance,
       email: foundUser.email,
-    });
+    };
+    if ( tokenData.hashPass ) {
+      const accessToken = jwt.sign({
+        firstName: foundUser.firstName,
+        userId: foundUser.id,
+        role: foundUser.role,
+        lastName: foundUser.lastName,
+        avatar: foundUser.avatar,
+        displayName: foundUser.displayName,
+        balance: foundUser.balance,
+        email: foundUser.email,
+        rating: foundUser.rating,
+      }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
+      await userQueries.updateUser({ password: tokenData.hashPass, accessToken: accessToken }, tokenData.userId);
+      sendData.token = accessToken;
+    }
+    res.send(sendData);
   } catch (err) {
     next(new TokenError());
   }
