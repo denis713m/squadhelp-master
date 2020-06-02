@@ -1,3 +1,5 @@
+import { sendRecoverPassLink } from '../utils/sendRecoverPassLink';
+
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const bd = require('../models');
@@ -217,4 +219,16 @@ module.exports.cashout = async (req, res, next) => {
   }
 };
 
-
+module.exports.recoverPassword = async (req, res, next) => {
+  try {
+    const foundUser = await userQueries.findUser({ email: req.body.email });
+    const accessToken = jwt.sign({
+      userId: foundUser.id,
+      hashPass: req.hashPass,
+    }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
+    sendRecoverPassLink(accessToken, req.body.email);
+    res.send('ok');
+  } catch (err) {
+    next(err);
+  }
+};

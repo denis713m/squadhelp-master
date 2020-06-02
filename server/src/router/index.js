@@ -214,5 +214,11 @@ router.post(
     contestController.makeTransaction,
 );
 
+router.post(
+    '/recoverPassword',
+    validators.validateLogin,
+    hashPass,
+    userController.recoverPassword,
+);
 
 module.exports = router;
