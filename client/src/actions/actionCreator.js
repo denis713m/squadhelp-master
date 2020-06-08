@@ -475,3 +475,18 @@ export const updatePassword = (data) => {
         data: data
     }
 };
+
+export const getAllOffers = (data) => {
+    return{
+        type: ACTION.GET_OFFERS,
+        data: data
+    }
+};
+
+export const moderatorSetOfferStatus = (data) => {
+    return {
+        type: ACTION.MODERATOR_CHANGE_OFFER_ACTION,
+        data: data
+    }
+};
+
