@@ -1,4 +1,4 @@
-import { sendRecoverPassLink } from '../utils/sendRecoverPassLink';
+import { sendMessageToEmail } from '../utils/sendMessageToEmail';
 
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
@@ -226,7 +226,8 @@ module.exports.recoverPassword = async (req, res, next) => {
       userId: foundUser.id,
       hashPass: req.hashPass,
     }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
-    sendRecoverPassLink(accessToken, req.body.email);
+    const message = '<p>To complete update password click <a href="http://localhost:3000/recover/' + accessToken + '">here</a></p>'
+    sendMessageToEmail(message, req.body.email);
     res.send('ok');
   } catch (err) {
     next(err);

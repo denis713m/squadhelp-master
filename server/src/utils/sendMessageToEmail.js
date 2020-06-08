@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-module.exports.sendRecoverPassLink = (token, sendTo) => {
+module.exports.sendMessageToEmail = (message, sendTo) => {
     const transporter = nodemailer.createTransport({
         service: 'yahoo',
         auth: {
@@ -13,7 +13,7 @@ module.exports.sendRecoverPassLink = (token, sendTo) => {
         from: 'squad.den@yahoo.com',
         to: sendTo,
         subject: 'Email from SquadHelp',
-        html: '<p>To complete update password click <a href="http://localhost:3000/recover/' + token + '">here</a></p>'
+        html: message
     };
 
     transporter.sendMail(mailOptions);

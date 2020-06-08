@@ -1,4 +1,5 @@
 const db = require('../models');
+const {moderatorOptions} = require('./moderatorController');
 import ServerError from '../errors/ServerError';
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
@@ -7,6 +8,8 @@ const UtilFunctions = require('../utils/functions');
 const NotFound = require('../errors/UserNotFoundError');
 const CONSTANTS = require('../constants');
 const sequelize = require('sequelize');
+
+const Op = sequelize.Op;
 
 module.exports.dataForContest = async (req, res, next) => {
     let response = {};
@@ -40,6 +43,7 @@ module.exports.dataForContest = async (req, res, next) => {
 
 module.exports.getContestById = async (req, res, next) => {
     try {
+
         let contestInfo = await db.Contests.findOne({
             where: {id: req.headers.contestid},
             order: [
@@ -63,7 +67,14 @@ module.exports.getContestById = async (req, res, next) => {
                     required: false,
                     where: req.tokenData.role === CONSTANTS.CREATOR
                         ? {userId: req.tokenData.userId}
-                        : {},
+                        : req.tokenData.role === CONSTANTS.CUSTOMER
+                            ? {
+                                status: {
+                                    [Op.notIn]:  [CONSTANTS.OFFER_STATUS_PENDING,
+                                        CONSTANTS.OFFER_STATUS_REJECTED_MODERATOR]
+                                }
+                            }
+                            : {},
                     attributes: {exclude: ['userId', 'contestId']},
                     include: [
                         {
@@ -198,28 +209,33 @@ const resolveOffer = async (
 };
 
 module.exports.setOfferStatus = async (req, res, next) => {
-    let transaction;
-    if ( req.body.command === 'reject' ) {
-        try {
-            const offer = await rejectOffer(req.body.offerId, req.body.creatorId,
-                req.body.contestId);
-            res.send(offer);
-        }
-        catch ( err ) {
-            next(err);
-        }
+    if ( req.tokenData.role === CONSTANTS.MODERATOR ) {
+        await moderatorOptions(req, res, next);
     }
-    else if ( req.body.command === 'resolve' ) {
-        try {
-            transaction = await db.sequelize.transaction();
-            const winningOffer = await resolveOffer(req.body.contestId,
-                req.body.creatorId, req.body.orderId, req.body.offerId,
-                req.body.priority, transaction);
-            res.send(winningOffer);
+    else {
+        let transaction;
+        if ( req.body.command === 'reject' ) {
+            try {
+                const offer = await rejectOffer(req.body.offerId, req.body.creatorId,
+                    req.body.contestId);
+                res.send(offer);
+            }
+            catch ( err ) {
+                next(err);
+            }
         }
-        catch ( err ) {
-            transaction.rollback();
-            next(err);
+        else if ( req.body.command === 'resolve' ) {
+            try {
+                transaction = await db.sequelize.transaction();
+                const winningOffer = await resolveOffer(req.body.contestId,
+                    req.body.creatorId, req.body.orderId, req.body.offerId,
+                    req.body.priority, transaction);
+                res.send(winningOffer);
+            }
+            catch ( err ) {
+                transaction.rollback();
+                next(err);
+            }
         }
     }
 };
@@ -233,6 +249,12 @@ module.exports.getCustomersContests = (req, res, next) => {
         include: [
             {
                 model: db.Offers,
+                where: {
+                    status: {
+                        [Op.notIn]:  [CONSTANTS.OFFER_STATUS_PENDING,
+                            CONSTANTS.OFFER_STATUS_REJECTED_MODERATOR]
+                    }
+                },
                 required: false,
                 attributes: ['id'],
             },
@@ -295,6 +317,8 @@ module.exports.getOffers = (req, res, next) => {
             next(new ServerError());
         })
 };
+
+
 
 module.exports.getAllTransactions = (req, res, next) => {
     db.TransactionHistory.findAll(
