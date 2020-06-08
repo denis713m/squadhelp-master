@@ -13,6 +13,7 @@ import chatReducer from './chatReducer';
 import userProfileReducer from './userProfileReducer';
 import getTransactions from './getTransactions';
 import getEvents from './eventReducer';
+import offerReducer from './offerReducer';
 
 
 
@@ -31,6 +32,7 @@ const appReducer=combineReducers({
    userProfile: userProfileReducer,
    transactions: getTransactions,
    events: getEvents,
+   offers: offerReducer,
 });
 
 export default appReducer;
