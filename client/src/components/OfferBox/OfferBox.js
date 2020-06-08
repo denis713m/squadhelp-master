@@ -8,7 +8,6 @@ import {
     clearChangeMarkError,
     goToExpandedDialog,
     changeShowImage,
-    changeModalShow
 } from '../../actions/actionCreator';
 import {withRouter} from 'react-router-dom';
 import isEqual from 'lodash/isEqual';
@@ -83,10 +82,13 @@ const OfferBox = (props) => {
 
     const offerStatus = () => {
         const {status} = props.data;
-        if (status === CONSTANTS.OFFER_STATUS_REJECTED) {
-            return <i className={classNames("fas fa-times-circle reject", styles.reject)}/>
+        if (status === CONSTANTS.OFFER_STATUS_REJECTED || status === CONSTANTS.OFFER_STATUS_REJECTED_MODERATOR) {
+            return <i className={classNames("fas fa-times-circle", styles.reject)}/>
         } else if (status === CONSTANTS.OFFER_STATUS_WON) {
-            return <i className={classNames("fas fa-check-circle resolve", styles.resolve)}/>
+            return <i className={classNames("fas fa-check-circle", styles.resolve)}/>
+        }
+        else if (status === CONSTANTS.OFFER_STATUS_APPROVED) {
+            return <i className={classNames("fas fa-spinner", styles.approve)}/>
         }
         return null;
     };
@@ -147,8 +149,8 @@ const OfferBox = (props) => {
                 {role !== CONSTANTS.CREATOR && <i onClick={goChat} className="fas fa-comments"/>}
             </div>
             {props.needButtons(data.status) && <div className={styles.btnsContainer}>
-                <div onClick={resolveOffer} className={styles.resolveBtn}>Resolve</div>
-                <div onClick={rejectOffer} className={styles.rejectBtn}>Reject</div>
+                {props.data.status !== CONSTANTS.OFFER_STATUS_APPROVED && <div onClick={resolveOffer} className={styles.resolveBtn}>{(props.btnNames&&props.btnNames[0]) || 'Resolve'}</div>}
+                {props.data.status !== CONSTANTS.OFFER_STATUS_REJECTED_MODERATOR && <div onClick={rejectOffer} className={styles.rejectBtn}>{(props.btnNames&&props.btnNames[1]) || 'Reject'}</div>}
             </div>}
         </div>
     )
