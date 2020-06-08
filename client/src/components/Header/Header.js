@@ -1,16 +1,14 @@
 import React from 'react';
 import styles from './Header.module.sass';
-import {connect} from 'react-redux';
-import {Link, withRouter} from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
 import CONSTANTS from '../../constants';
-import {getUserAction, clearUserStore, headerRequest} from '../../actions/actionCreator';
-
-
+import { getUserAction, clearUserStore, headerRequest } from '../../actions/actionCreator';
 
 
 class Header extends React.Component {
     componentDidMount() {
-        if (!this.props.data) {
+        if ( !this.props.data ) {
             this.props.getUser();
         }
     }
@@ -25,7 +23,7 @@ class Header extends React.Component {
         this.props.history.push('/startContest');
     };
     renderLoginButtons = () => {
-        if (this.props.data) {
+        if ( this.props.data ) {
             return (
                 <>
                     <div className={styles.userInfo}>
@@ -48,7 +46,8 @@ class Header extends React.Component {
                     <img src={`${CONSTANTS.STATIC_IMAGES_PATH}email.png`} className={styles.emailIcon} alt='email'/>
                 </>
             )
-        } else {
+        }
+        else {
             return (
                 <>
                     <Link to='/login' style={{textDecoration: 'none'}}><span className={styles.btn}>LOGIN</span></Link>
@@ -60,7 +59,7 @@ class Header extends React.Component {
     };
 
     render() {
-        if (this.props.isFetching) {
+        if ( this.props.isFetching ) {
             return null;
         }
         return (
@@ -79,8 +78,12 @@ class Header extends React.Component {
                     </div>
                 </div>
                 <div className={styles.navContainer}>
-
-                    <img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo} alt='blue_logo' />
+                    <Link to='/'>
+                        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo}
+                             alt='blue_logo'/>
+                    </Link>
+                    {this.props.data && this.props.data.role !== CONSTANTS.MODERATOR
+                    &&
                     <div className={styles.leftNav}>
                         <div className={styles.nav}>
                             <ul>
@@ -153,6 +156,8 @@ class Header extends React.Component {
                         {this.props.data && this.props.data.role !== CONSTANTS.CREATOR &&
                         <div className={styles.startContestBtn} onClick={this.startContests}>START CONTEST</div>}
                     </div>
+                    }
+
                 </div>
             </div>
         )
