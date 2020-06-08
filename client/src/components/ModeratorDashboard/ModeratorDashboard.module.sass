@@ -1,0 +1,73 @@
+@import './src/styles/flex'
+@import './src/styles/breakPoints'
+@import './src/styles/colors'
+
+.mainContainer
+  width: 1200px
+  @extend .baseFlex
+  margin: 50px auto 0 auto
+  padding-left: 10px
+  @media(max-width: $xxl)
+    width: auto
+  @media(max-width: $lg)
+    flex-direction: column
+
+.offersContainer
+  width: 100%
+  @extend .flexCenterColumn
+  justify-content: flex-start
+  border-top: 1px solid #f3f3f3
+  padding: 15px 25px 15px 15px
+  .offers
+    width: 100%
+    margin-top: -55px
+    padding-top: 10px
+    align-self: stretch
+    @media (max-width: $lg)
+      margin-top: -10px
+
+.btnContainer
+  @extend .flexCenterColumn
+  @media(max-width: $lg)
+    flex-direction: row
+
+.filter
+  text-align: center
+  color: $moderFilterColor
+  font-size: 18px
+  border-radius: 10px
+  padding: 10px
+  @media(max-width: $lg)
+    margin: 0 5px
+    width: 100%
+  &:hover
+    background-color: $moderFilterHover
+.activeFilter
+  background-color: $moderFilterActiveBackgr
+  color: $dirtyWhite
+  &:hover
+    background-color: $moderFilterActiveBackgr
+
+.navBtnContainer
+  position: relative
+
+.navBtnPrev
+  position: absolute
+  left: calc(50% - 20px)
+  top: -25px
+  font-size: 27px
+  color: $moderNavBtn
+  z-index: 10
+  cursor: pointer
+
+.notActive
+  opacity: 0.5
+
+.navBtnNext
+  left: calc(50% + 20px)
+  transform: scaleX(-1)
+
+.notFound
+  color: $moderFilterColor
+  font-size: 18px
+
