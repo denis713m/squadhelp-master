@@ -1,6 +1,7 @@
 import * as offersMiddleware from '../middlewares/offersMiddleware';
 
 const express = require('express');
+const moderatorController = require('../controllers/moderatorController');
 const basicMiddlewares = require('../middlewares/basicMiddlewares');
 const hashPass = require('../middlewares/hashPassMiddle');
 const userController = require('../controllers/userController');
@@ -93,11 +94,17 @@ router.get(
     contestController.getOffers,
 );
 
+router.post(
+    '/getAllOffers/',
+    checkToken.checkToken,
+    basicMiddlewares.onlyForModerator,
+    moderatorController.getAllOffers,
+);
+
 
 router.post(
   '/setOfferStatus',
   checkToken.checkToken,
-  basicMiddlewares.onlyForCustomerWhoCreateContest,
   contestController.setOfferStatus,
 );
 
