@@ -11,7 +11,13 @@ import {
     getContestByIdSaga,
     downloadContestFileSaga
 } from './contestsSagas'
-import {changeMarkSaga, setOfferStatusSaga, addOfferSaga} from './offerSagas';
+import {
+    changeMarkSaga,
+    setOfferStatusSaga,
+    addOfferSaga,
+    getAllOffersSaga,
+    moderatorSetOfferStatusSaga
+} from './offerSagas';
 import {
     previewSaga,
     getDialog,
@@ -61,6 +67,8 @@ function* rootSaga() {
     yield takeLatest(ACTION.GET_TOTAL_TRANSACTIONS, getTotalTransaction);
     yield takeLatest(ACTION.MAKE_TRANSACTION, makeTransaction);
     yield takeLatest(ACTION.AUTH_ACTION_UPDATE_PASSWORD, updatePasswordSaga);
+    yield takeLatest(ACTION.GET_OFFERS, getAllOffersSaga);
+    yield takeLatest(ACTION.MODERATOR_CHANGE_OFFER_ACTION, moderatorSetOfferStatusSaga);
 }
 
 export default rootSaga;

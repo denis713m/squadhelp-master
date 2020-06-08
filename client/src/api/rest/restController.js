@@ -57,6 +57,9 @@ export const makeTransaction = (data) => {
 
 export const updatePasswordRequest = (data) => http.post('recoverPassword', data);
 
+export const getAllOffers = (data) => {
+    return http.post('getAllOffers/', data);};
+
 
 
 

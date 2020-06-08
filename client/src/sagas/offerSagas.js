@@ -45,7 +45,7 @@ export function* setOfferStatusSaga(action) {
             if (data.status === CONSTANTS.OFFER_STATUS_WON) {
                 offer.status = data.id === offer.id ? CONSTANTS.OFFER_STATUS_WON : CONSTANTS.OFFER_STATUS_REJECTED;
             } else if (data.id === offer.id) {
-                offer.status = CONSTANTS.OFFER_STATUS_REJECTED;
+                offer.status = data.status;
             }
         });
         yield  put({type: ACTION.CHANGE_STORE_FOR_STATUS, data: offers});
@@ -54,4 +54,28 @@ export function* setOfferStatusSaga(action) {
     }
 }
 
+export function* getAllOffersSaga(action) {
+    yield put({type: ACTION.GET_OFFERS_REQUEST});
+    try{
+        const {data}=yield  restController.getAllOffers(action.data);
+        yield  put({type: ACTION.GET_OFFERS_SUCCESS, data: data,});
+    }
+    catch (e) {
+        yield put({type: ACTION.GET_OFFERS_ERROR, error: e.response});
+    }
+}
 
+export function* moderatorSetOfferStatusSaga(action) {
+    try {
+        const {data} = yield  restController.setOfferStatus(action.data);
+        const offers =  yield  select(state => state.offers.offers);
+        offers.forEach(offer => {
+            if (data.id === offer.id) {
+                offer.status = data.status;
+            }
+        });
+        yield  put({type: ACTION.MODERATOR_CHANGE_OFFER_SUCCESS, data: offers});
+    } catch (e) {
+        yield  put({type: ACTION.MODERATOR_CHANGE_OFFER_ERROR, error: e.response});
+    }
+};
