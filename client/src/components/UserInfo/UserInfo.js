@@ -5,6 +5,7 @@ import UpdateUserInfoForm from '../../components/UpdateUserInfoForm/UpdateUserIn
 import {updateUserData, changeEditModeOnUserProfile} from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 import styles from './UserInfo.module.sass';
+import { addDefaultSrc } from '../../api/utils';
 
 const UserInfo = (props) => {
 
@@ -25,7 +26,9 @@ const UserInfo = (props) => {
             {isEdit ? <UpdateUserInfoForm onSubmit={updateUserData}/>
                 :
                 <div className={styles.infoContainer}>
-                    <img src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`} className={styles.avatar} alt='user'/>
+                    <img src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`} className={styles.avatar}
+                         onError={(e) => addDefaultSrc(e)}
+                         alt='user'/>
                     <div className={styles.infoContainer}>
                         <div className={styles.infoBlock}>
                             <span className={styles.label}>First Name</span>

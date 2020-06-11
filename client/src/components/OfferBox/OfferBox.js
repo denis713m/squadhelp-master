@@ -15,6 +15,7 @@ import classNames from 'classnames';
 import {confirmAlert} from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import './confirmStyle.css';
+import { addDefaultSrc } from '../../api/utils';
 
 
 const OfferBox = (props) => {
@@ -109,6 +110,7 @@ const OfferBox = (props) => {
                     <div className={styles.creativeInfoContainer}>
                         <img
                             src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`}
+                            onError={(e) => addDefaultSrc(e)}
                             alt='user'/>
                         <div className={styles.nameAndEmail}>
                             <span>{firstName + ' ' + lastName}</span>

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import CONSTANTS from '../../constants';
 import { getUserAction, clearUserStore, headerRequest } from '../../actions/actionCreator';
+import {addDefaultSrc} from '../../api/utils';
 
 
 class Header extends React.Component {
@@ -28,7 +29,8 @@ class Header extends React.Component {
                 <>
                     <div className={styles.userInfo}>
                         <img
-                            src={this.props.data.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${this.props.data.avatar}`}
+                            src = {this.props.data.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${this.props.data.avatar}`}
+                            onError={(e) => addDefaultSrc(e)}
                             alt='user'/>
                         <span>{`Hi, ${this.props.data.displayName}`}</span>
                         <img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
