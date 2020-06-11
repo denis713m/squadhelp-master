@@ -194,9 +194,9 @@ class HowItworksHeader extends React.Component {
                             </ul>
                         </div>
                         <div className={styles.btnStartContest}>
-                            <a href={'https://www.squadhelp.com/contesttype'}>
+                            <div className={styles.divBtn} onClick={this.startContests} >
                                 Start Contest
-                            </a>
+                            </div>
 
                         </div>
                     </div>
