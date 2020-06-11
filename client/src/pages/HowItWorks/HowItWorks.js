@@ -8,6 +8,7 @@ import envelopeO from '@iconify/icons-fa/envelope-o';
 import HowItWorksFooter from '../../components/HowItWorksFooter/HowItWorksFooter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowCircleUp } from '@fortawesome/free-solid-svg-icons'
+import browserHistory from '../../browserHistory';
 
 
 class HowItWorks extends React.Component {
@@ -42,11 +43,11 @@ class HowItWorks extends React.Component {
         return (
             <>
                 <div id={'header'}></div>
-                <HowItworksHeader/>
+                <HowItworksHeader history={browserHistory}/>
                 <section className={styles.mainContainer}>
                     <div className={styles.howItWorkHeader}>
                         <div className={styles.video}>
-                            <WistiaEmbed hashedId="vfxvect60o"/>
+                            <WistiaEmbed hashedId='vfxvect60o'/>
                         </div>
                         <div className={styles.headerLabel}>
                             <h2 className={styles.howItWorkHeaderH2}>
@@ -294,17 +295,17 @@ class HowItWorks extends React.Component {
                                 </div>
                                 <ul className={styles.questionUl}>
                                     <li className={styles.questionLi}>
-                                        - &nbsp;<a to='https://www.squadhelp.com/Name-Ideas'
+                                        - &nbsp;<a href='https://www.squadhelp.com/Name-Ideas'
                                                    className={styles.questionHref}>Name
                                         Examples</a>
                                     </li>
                                     <li className={styles.questionLi}>
-                                        - &nbsp;<a to='https://www.squadhelp.com/tagline-slogan-ideas'
+                                        - &nbsp;<a href='https://www.squadhelp.com/tagline-slogan-ideas'
                                                    className={styles.questionHref}>Tagline
                                         Examples</a>
                                     </li>
                                     <li className={styles.questionLi}>
-                                        - &nbsp;<a to='https://www.squadhelp.com/logo-design-examples'
+                                        - &nbsp;<a href='https://www.squadhelp.com/logo-design-examples'
                                                    className={styles.questionHref}>Logo
                                         Examples</a>
                                     </li>
