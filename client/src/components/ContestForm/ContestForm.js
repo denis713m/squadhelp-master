@@ -42,7 +42,7 @@ class ContestForm extends React.Component {
                 this.props.getData({characteristic1: 'typeOfTagline'});
                 break;
             }
-            case CONSTANTS.LOGO_CONTEST: {
+            default: {
                 this.props.getData({characteristic1: 'brandStyle'});
                 break;
             }

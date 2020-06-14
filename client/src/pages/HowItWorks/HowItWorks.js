@@ -447,9 +447,9 @@ class HowItWorks extends React.Component {
                                     Consultation</a>
                             </div>
                         </div>
-                        <a className={styles.getIntouchBtn}>
+                        <div className={styles.getIntouchBtn}>
                             GET IN TOUCH
-                        </a>
+                        </div>
                     </div>
                 </section>
                 {this.state.isScrollShow &&
