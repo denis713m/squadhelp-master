@@ -47,16 +47,16 @@ const ChatHeader = (props) => {
                         favoriteFlag: !isFavorite(chatData, userId)
                     }, event)}
                        className={classNames({
-                           ['far fa-heart']: !isFavorite(chatData, userId),
-                           ['fas fa-heart']: isFavorite(chatData, userId)
+                           'far fa-heart': !isFavorite(chatData, userId),
+                           'fas fa-heart': isFavorite(chatData, userId)
                        })}/>
                     <i onClick={(event) => changeBlackList({
                         participants: chatData.participants,
                         blackListFlag: !isBlocked(chatData, userId)
                     }, event)}
                        className={classNames({
-                           ['fas fa-user-lock']: !isBlocked(chatData, userId),
-                           ['fas fa-unlock']: isBlocked(chatData, userId)
+                           'fas fa-user-lock': !isBlocked(chatData, userId),
+                           'fas fa-unlock': isBlocked(chatData, userId)
                        })}/>
                 </div>
                 }

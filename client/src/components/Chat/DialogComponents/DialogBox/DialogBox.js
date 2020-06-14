@@ -30,15 +30,15 @@ const DialogBox = (props) => {
                     <i onClick={(event) => changeFavorite({
                         participants,
                         favoriteFlag: !isFavorite
-                    }, event)} className={classNames({['far fa-heart']: !isFavorite, ['fas fa-heart']: isFavorite})}/>
+                    }, event)} className={classNames({'far fa-heart': !isFavorite, 'fas fa-heart': isFavorite})}/>
                     <i onClick={(event) => changeBlackList({
                         participants,
                         blackListFlag: !isBlocked
                     }, event)}
-                       className={classNames({['fas fa-user-lock']: !isBlocked, ['fas fa-unlock']: isBlocked})}/>
+                       className={classNames({'fas fa-user-lock': !isBlocked, 'fas fa-unlock': isBlocked})}/>
                     <i onClick={(event) => catalogOperation(event, _id)} className={classNames({
-                        ['far fa-plus-square']: chatMode !== CONSTANTS.CATALOG_PREVIEW_CHAT_MODE,
-                        ['fas fa-minus-circle']: chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE
+                        'far fa-plus-square': chatMode !== CONSTANTS.CATALOG_PREVIEW_CHAT_MODE,
+                        'fas fa-minus-circle': chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE
                     })}/>
                 </div>
             </div>

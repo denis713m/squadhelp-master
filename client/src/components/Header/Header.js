@@ -3,7 +3,7 @@ import styles from './Header.module.sass';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import CONSTANTS from '../../constants';
-import { getUserAction, clearUserStore, headerRequest } from '../../actions/actionCreator';
+import { clearUserStore, headerRequest } from '../../actions/actionCreator';
 import {addDefaultSrc} from '../../api/utils';
 
 
@@ -52,9 +52,9 @@ class Header extends React.Component {
         else {
             return (
                 <>
-                    <Link to='/login' style={{textDecoration: 'none'}}><span className={styles.btn}>LOGIN</span></Link>
+                    <Link to='/login' style={{textDecoration: 'none'}}><span >LOGIN</span></Link>
                     <Link to='/registration' style={{textDecoration: 'none'}}><span
-                        className={styles.btn}>SIGN UP</span></Link>
+                        >SIGN UP</span></Link>
                 </>
             )
         }
@@ -73,7 +73,7 @@ class Header extends React.Component {
                 <div className={styles.loginSignnUpHeaders}>
                     <div className={styles.numberContainer}>
                         <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
-                        <a href={`tel:${CONSTANTS.PHONE_NUMBER_TEL}`}> {CONSTANTS.PHONE_NUMBER} </ a>
+                        <a href={`tel:${CONSTANTS.PHONE_NUMBER_TEL}`} className={styles.phoneNumber}> {CONSTANTS.PHONE_NUMBER} </ a>
                     </div>
                     <div className={styles.userButtonsContainer}>
                         {this.renderLoginButtons()}
