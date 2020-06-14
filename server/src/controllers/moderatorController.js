@@ -17,7 +17,7 @@ module.exports.getAllOffers = (req, res, next) => {
             attributes: {exclude: ['userId', 'contestId']},
             limit: req.body.limit,
             offset: req.body.offset ? req.body.offset : 0,
-            order: [['text', 'ASC']],
+            order: [['timestamp', 'DESC']],
             include: [
                 {
                     model: db.Users,

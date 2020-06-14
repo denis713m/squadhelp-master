@@ -63,7 +63,7 @@ class ContestPage extends React.Component {
         const contestCreatorId = this.props.contestByIdStore.contestData.User.id;
         const userId = this.props.userStore.data.id;
         const contestStatus = this.props.contestByIdStore.contestData.status;
-        return (contestCreatorId === userId && contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE && offerStatus === CONSTANTS.OFFER_STATUS_PENDING);
+        return (contestCreatorId === userId && contestStatus === CONSTANTS.CONTEST_STATUS_ACTIVE && offerStatus === CONSTANTS.OFFER_STATUS_APPROVED);
     };
 
 

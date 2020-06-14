@@ -151,7 +151,7 @@ const OfferBox = (props) => {
                 {role !== CONSTANTS.CREATOR && <i onClick={goChat} className="fas fa-comments"/>}
             </div>
             {props.needButtons(data.status) && <div className={styles.btnsContainer}>
-                {props.data.status !== CONSTANTS.OFFER_STATUS_APPROVED && <div onClick={resolveOffer} className={styles.resolveBtn}>{(props.btnNames&&props.btnNames[0]) || 'Resolve'}</div>}
+                {(props.data.status !== CONSTANTS.OFFER_STATUS_APPROVED || props.role === CONSTANTS.CUSTOMER )&& <div onClick={resolveOffer} className={styles.resolveBtn}>{(props.btnNames&&props.btnNames[0]) || 'Resolve'}</div>}
                 {props.data.status !== CONSTANTS.OFFER_STATUS_REJECTED_MODERATOR && <div onClick={rejectOffer} className={styles.rejectBtn}>{(props.btnNames&&props.btnNames[1]) || 'Reject'}</div>}
             </div>}
         </div>
