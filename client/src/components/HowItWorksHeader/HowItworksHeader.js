@@ -70,7 +70,7 @@ class HowItworksHeader extends React.Component {
                     <div className={styles.contactWraper}>
                         <div className={styles.contactDetails}>
                             <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone-call.png`} alt='phone'/>
-                            <a href={`tel:${CONSTANTS.PHONE_NUMBER_TEL}`}> {CONSTANTS.PHONE_NUMBER} </ a>
+                            <a href={`tel:${CONSTANTS.PHONE_NUMBER_TEL}`} className={styles.phoneNumber}> {CONSTANTS.PHONE_NUMBER} </ a>
                         </div>
                     </div>
                     <div className={styles.userButtonsWraper}>

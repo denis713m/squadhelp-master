@@ -2,7 +2,7 @@ const env = process.env.NODE_ENV || 'development';
 const serverIP = 'localhost';
 const serverPort = env === 'production' ? 3000 : 9632;
 export default {
-    PHONE_NUMBER:  '(877)&nbsp;355-3585',
+    PHONE_NUMBER:  '(877)  355-3585',
     PHONE_NUMBER_TEL: '+8773553585',
     CUSTOMER: 'customer',
     CREATOR: 'creator',
