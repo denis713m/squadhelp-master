@@ -1,5 +1,4 @@
 import React from 'react';
-import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
 import UpdateUserInfoForm from '../../components/UpdateUserInfoForm/UpdateUserInfoForm';
 import {updateUserData, changeEditModeOnUserProfile} from '../../actions/actionCreator';

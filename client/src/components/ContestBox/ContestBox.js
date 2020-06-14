@@ -32,7 +32,7 @@ const ContestBox = (props) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
-    const {id, title, contestType, prize, count, goToExtended} = props.data;
+    const {id, title, contestType, prize, count} = props.data;
     return (
         <div className={styles.contestBoxContainer} onClick={() => props.goToExtended(id)}>
             <div className={styles.mainContestInfo}>

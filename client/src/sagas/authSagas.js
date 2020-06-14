@@ -1,7 +1,6 @@
 import {put} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import history from '../browserHistory';
-import React from 'react';
 import * as restController from '../api/rest/restController';
 
 
@@ -33,7 +32,7 @@ export  function* registerSaga(action){
 export  function* updatePasswordSaga(action){
     yield put({type: ACTION.AUTH_ACTION_REQUEST});
     try{
-        const res = yield  restController.updatePasswordRequest(action.data);
+        yield  restController.updatePasswordRequest(action.data);
         yield  put({type: ACTION.AUTH_ACTION_SUCCESS});
     }
     catch (err) {

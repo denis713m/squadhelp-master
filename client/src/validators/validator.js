@@ -1,6 +1,3 @@
-import {Schema} from 'yup';
-
-
 const validator = schema => {
     return  values => {
         const errors = {};
