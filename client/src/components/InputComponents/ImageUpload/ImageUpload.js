@@ -32,7 +32,7 @@ const ImageUpload = (props) => {
                 />
                 <label htmlFor="fileInput">Chose file</label>
             </div>
-            <img id='imagePreview' className={classNames({[imgStyle]: !!value})}/>
+            <img id='imagePreview' className={classNames({[imgStyle]: !!value})} alt=''/>
         </div>
     )
 };
