@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './HowItWorksHeader.module.sass';
 import CONSTANTS from '../../constants';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { clearUserStore, headerRequest } from '../../actions/actionCreator';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -227,4 +227,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(HowItworksHeader);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(HowItworksHeader));

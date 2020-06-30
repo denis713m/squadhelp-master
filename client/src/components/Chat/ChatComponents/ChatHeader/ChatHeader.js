@@ -4,6 +4,7 @@ import {backToDialogList, changeChatFavorite, changeChatBlock} from "../../../..
 import styles from './ChatHeader.module.sass';
 import CONSTANTS from '../../../../constants';
 import classNames from 'classnames';
+import { addDefaultSrc } from '../../../../api/utils';
 
 const ChatHeader = (props) => {
     const changeFavorite = (data, event) => {
@@ -37,7 +38,9 @@ const ChatHeader = (props) => {
             </div>
             <div className={styles.infoContainer}>
                 <div>
-                    <img src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`} alt='user'/>
+                    <img src={avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${avatar}`}
+                         onError={(e) => addDefaultSrc(e)}
+                         alt='user'/>
                     <span>{firstName}</span>
                 </div>
                 {chatData &&
