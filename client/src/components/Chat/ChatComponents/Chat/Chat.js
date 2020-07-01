@@ -6,6 +6,7 @@ import Dialog from '../../DialogComponents/Dialog/Dialog';
 import classNames from 'classnames';
 import {changeChatShow, setPreviewChatMode, changeShowModeCatalog,clearChatError,getPreviewChat} from "../../../../actions/actionCreator";
 import {chatController} from '../../../../api/ws/socketController';
+import {controller} from '../../../../api/ws/socketController';
 import CONSTANTS from "../../../../constants";
 import CatalogListContainer from '../../CatalogComponents/CatalogListContainer/CatalogListContainer';
 import CatalogCreation from '../../CatalogComponents/CatalogCreation/CatalogCreation';
@@ -20,6 +21,7 @@ class Chat extends React.Component {
     }
 
     componentWillUnmount() {
+        controller.unsubscribe(this.props.userStore.data.id);
         chatController.unsubscribeChat(this.props.userStore.data.id);
     }
 

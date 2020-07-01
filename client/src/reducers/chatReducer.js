@@ -27,6 +27,7 @@ export default function (state = initialState, action) {
         case ACTION.GET_PREVIEW_CHAT: {
             return {
                 ...state,
+                isExpanded: false,
                 messagesPreview: action.data,
                 error: null,
             }
