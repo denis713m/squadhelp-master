@@ -21,11 +21,7 @@ instance.interceptors.response.use(response => {
     }
     return response;
 }, err => {
-    if (err.response.status === 408 && history.location.pathname !== '/login'
-        && history.location.pathname !== '/registration' &&
-        history.location.pathname !== '/' &&
-        history.location.pathname !== '/howitworks.php' &&
-        history.location.pathname !== '/recoverpassword'
+    if (err.response.status === 408 && !CONTANTS.pagesWithout.includes(history.location.pathname)
     ) {
         history.replace('/login');
     }
