@@ -44,7 +44,7 @@ const ChatInput = (props) => {
                     }}
                 />
                 {valid &&
-                <button type='submit'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}send.png`} alt="send Message"/>
+                <button type='submit' className={styles.btnInput}><img src={`${CONSTANTS.STATIC_IMAGES_PATH}send.png`} alt="send Message"/>
                 </button>}
             </form>
         </div>
