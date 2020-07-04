@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Error.module.sass';
+import classNames from 'classnames';
 
 const Error=props=>{
     const getMessage=()=>{
@@ -20,12 +21,9 @@ const Error=props=>{
         }
     };
 
-    const {clearError}=props;
+    const {clearError, classes}=props;
     return(
-        <div className={styles.errorContainer}>
-            <span>{getMessage()}</span>
-            <i className="far fa-times-circle" onClick={()=>clearError()}/>
-        </div>
+             <span className={classNames(styles.errorField, classes)} onClick={()=>clearError()}>{getMessage()}</span>
     )
 };
 

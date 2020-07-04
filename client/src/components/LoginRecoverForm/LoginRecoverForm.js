@@ -11,6 +11,8 @@ const LoginRecoverForm = props => {
         container: styles.inputContainer,
         input: styles.input,
         warning: styles.fieldWarning,
+        notValid: styles.notValid,
+        valid: styles.valid,
     };
 
     {
