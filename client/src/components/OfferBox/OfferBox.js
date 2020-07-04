@@ -117,6 +117,7 @@ const OfferBox = (props) => {
                             <span>{email}</span>
                         </div>
                     </div>
+                    {props.role !== CONSTANTS.MODERATOR &&
                     <div className={styles.creativeRating}>
                         <span className={styles.userScoreLabel}>Creative Rating </span>
                         <Rating
@@ -129,6 +130,7 @@ const OfferBox = (props) => {
                             readonly={true}
                         />
                     </div>
+                    }
                 </div>
                 <div className={styles.responseConainer}>
                     {
@@ -139,7 +141,7 @@ const OfferBox = (props) => {
                             :
                             <span className={styles.response}>{data.text}</span>
                     }
-                    {data.User.id !== id && <Rating
+                    {props.role !== CONSTANTS.MODERATOR && data.User.id !== id && <Rating
                         fractions={2}
                         fullSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt='star'/>}
                         placeholderSymbol={<img src={`${CONSTANTS.STATIC_IMAGES_PATH}star.png`} alt='star'/>}

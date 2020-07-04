@@ -68,7 +68,7 @@ class App extends Component {
                     <Route exact path='/account' component={PrivateHoc(UserProfile)}/>
                     <Route exact path='/Transactions' component={PrivateHoc(TransactionsPage)}/>
                     <Route exact path='/EventsTimer'  component={PrivateHoc(EventsPage)}/>
-                    <Route exact path='/howitworks.php' component={HowItWorks}/>
+                    <Route exact path='/howitworks' component={HowItWorks}/>
                     <Route exact path='/recoverpassword' component={OnlyNotAuthorizedUserHoc(RecoverPasswordPage)}/>
                     <Route exact path='/recover/:id' component={RecoverPage}/>
                     <Route component={NotFound}/>

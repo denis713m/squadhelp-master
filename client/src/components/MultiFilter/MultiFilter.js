@@ -33,7 +33,7 @@ const MultiFilter = (props) => {
         const {creatorFilter} = props;
         const {industry} = props.dataForContest.data;
         array.push(<option key={0} value={null}>Choose industry</option>);
-        industry.forEach((industry, i) => array.push(<option key={i + 1} value={industry}>{industry}</option>));
+        industry && industry.forEach((industry, i) => array.push(<option key={i + 1} value={industry}>{industry}</option>));
         return (
             <select onChange={({target}) => changePredicate({
                 name: 'industry',
