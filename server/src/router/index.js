@@ -1,4 +1,5 @@
 import * as offersMiddleware from '../middlewares/offersMiddleware';
+import * as eventsController from '../controllers/eventsController';
 
 const express = require('express');
 const moderatorController = require('../controllers/moderatorController');
