@@ -64,6 +64,7 @@ router.post(
 
 router.post(
   '/getUser',
+  checkToken.checkToken,
   checkToken.checkAuth,
 );
 

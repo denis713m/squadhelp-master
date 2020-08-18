@@ -4,13 +4,11 @@ const TokenError = require('../errors/TokenError');
 import userQueries from '../controllers/queries/userQueries';
 
 module.exports.checkAuth = async (req, res, next) => {
-  const accessToken = req.headers.authorization;
-  if ( !accessToken) {
-    return next(new TokenError('need token'));
-  }
   try {
-    const tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
-    const foundUser = await userQueries.findUser({ id: tokenData.userId });
+    const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
+    if (!foundUser.accessToken === req.headers.authorization){
+      next(new TokenError());
+    }
     const sendData = {
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
