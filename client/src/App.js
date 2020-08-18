@@ -24,6 +24,7 @@ import HowItWorks from './pages/HowItWorks/HowItWorks';
 import EventsPage from './pages/EventsPage/EventsPage';
 import RecoverPasswordPage from './pages/RecoverPasswordPage/RecoverPasswordPage';
 import RecoverPage from './pages/RecoverPage/RecoverPage';
+import AccessForbidden from './pages/AccessForbidden/AccessForbidden';
 
 
 
@@ -71,6 +72,7 @@ class App extends Component {
                     <Route exact path='/howitworks' component={HowItWorks}/>
                     <Route exact path='/recoverpassword' component={OnlyNotAuthorizedUserHoc(RecoverPasswordPage)}/>
                     <Route exact path='/recover/:id' component={RecoverPage}/>
+                    <Route exact path='/notFound' component={AccessForbidden}/>
                     <Route component={NotFound}/>
 
                 </Switch>

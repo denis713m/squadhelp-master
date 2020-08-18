@@ -25,6 +25,9 @@ instance.interceptors.response.use(response => {
     ) {
         history.replace('/login');
     }
+    if (err.response.status === 423){
+        history.replace('/notFound');
+    }
     return Promise.reject(err);
 });
 
