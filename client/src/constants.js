@@ -22,6 +22,7 @@ export default {
     ANONYM_IMAGE_PATH: '/staticImages/anonym.png',
     BASE_URL: `http://${serverIP}:${serverPort}/`,
     ACCESS_TOKEN: 'accessToken',
+    REFRESH_TOKEN: 'refreshToken',
     publicURL: env === 'production'
         ? `http://${serverIP}:80/images/`
         : `http://${serverIP}:${serverPort}/public/images/`,
@@ -111,5 +112,5 @@ export default {
             'Tech, Internet, Software', 'Transportation', 'Travel & Hotel', 'Tutoring & bTest Prep', 'Venture Capital & Investment',
             'Video, Books & Magazines', 'Virtual Reality(VR) and Augmented Reality(AR) Company', 'Vitamins and Supplements', 'Weddings & Bridal'],
     ],
-    pagesWithout: ['/login', '/registration', '/' , '/howitworks' , '/recoverpassword']
+    pagesWithout: ['/login', '/registration', '/' , '/howitworks' , '/recoverpassword',]
 };

@@ -9,7 +9,7 @@ import {addDefaultSrc} from '../../api/utils';
 
 class Header extends React.Component {
     componentDidMount() {
-        if ( !this.props.data ) {
+        if ( !this.props.data  ) {
             this.props.getUser();
         }
         if(this.props.data && this.props.data.role === CONSTANTS.CUSTOMER && this.props.events.isFetching)
@@ -35,7 +35,7 @@ class Header extends React.Component {
         this.props.history.push('/startContest');
     };
     renderLoginButtons = () => {
-        if ( this.props.data ) {
+        if ( this.props.data && !this.props.refresh ) {
             return (
                 <>
                     <div className={styles.userInfo}>

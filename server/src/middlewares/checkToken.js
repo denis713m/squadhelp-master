@@ -1,3 +1,5 @@
+import { generateTokens } from '../utils/generateTockens';
+
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const TokenError = require('../errors/TokenError');
@@ -39,6 +41,20 @@ module.exports.checkAuth = async (req, res, next) => {
     next(new TokenError());
   }
 };
+
+module.exports.checkRefreshToken = async (req, res, next) => {
+  const refreshToken = req.headers.authorization;
+  if ( !refreshToken) {
+    return next(new TokenError('need token'));
+  }
+  try {
+    req.tokenData = jwt.verify(refreshToken, CONSTANTS.REFRESH_JWT_SECRET);
+    next();
+  } catch (err) {
+    next(new TokenError());
+  }
+};
+
 
 module.exports.checkToken = async (req, res, next) => {
   const accessToken = req.headers.authorization;

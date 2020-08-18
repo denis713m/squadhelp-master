@@ -28,6 +28,13 @@ router.post(
 );
 
 router.post(
+    '/refreshTokens',
+    checkToken.checkRefreshToken,
+    userController.getTokens,
+);
+
+
+router.post(
   '/dataForContest',
   checkToken.checkToken,
   contestController.dataForContest,
