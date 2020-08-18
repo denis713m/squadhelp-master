@@ -228,4 +228,30 @@ router.post(
     userController.recoverPassword,
 );
 
+router.post(
+    '/getUserEvents',
+    checkToken.checkToken,
+    basicMiddlewares.onlyForCustomer,
+    eventsController.getUserEvents
+);
+
+router.post(
+    '/createEvent',
+    checkToken.checkToken,
+    basicMiddlewares.onlyForCustomer,
+    eventsController.createEvent
+);
+
+router.post(
+    '/deleteEvent',
+    checkToken.checkToken,
+    basicMiddlewares.onlyForCustomer,
+    eventsController.deleteEvent
+);
+
+
+
+
+
+
 module.exports = router;
