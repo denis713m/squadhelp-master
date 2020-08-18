@@ -2,22 +2,10 @@ import React from 'react';
 import {connect} from 'react-redux';
 import styles from './ContestSideBar.module.sass';
 import CONSTANTS from '../../constants';
-import moment from 'moment';
+import { getTimeStr } from '../../api/utils';
 
 
 const ContestSideBar = (props) => {
-    const getTimeStr = () => {
-        const diff = (moment.duration(moment().diff(moment(props.contestData.createdAt))));
-        let str = '';
-        if (diff._data.days !== 0)
-            str = `${diff._data.days} days `;
-        if (diff._data.hours !== 0)
-            str += `${diff._data.hours} hours`;
-        if (str.length === 0)
-            str = 'less than one hour';
-        return str;
-    };
-
 
     const renderContestInfo = () => {
         const {totalEntries} = props;
@@ -35,7 +23,7 @@ const ContestSideBar = (props) => {
                                 <img src={`${CONSTANTS.STATIC_IMAGES_PATH}clock.png`} alt='clock'/>
                                 <span>Going</span>
                             </div>
-                            <span className={styles.time}>{getTimeStr()}</span>
+                            <span className={styles.time}>{getTimeStr(props.contestData.createdAt, true)}</span>
                         </div>
                         <div className={styles.guaranteedPrize}>
                             <div>

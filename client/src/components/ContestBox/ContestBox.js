@@ -1,22 +1,10 @@
 import React from 'react';
 import styles from './ContestBox.module.sass';
-import moment from 'moment';
 import CONSTANTS from '../../constants';
+import { getTimeStr } from '../../api/utils';
 
 
 const ContestBox = (props) => {
-
-    const getTimeStr = () => {
-        const diff = (moment.duration(moment().diff(moment(props.data.createdAt, 'YYYY-MM-DDTHH:mm'))));
-        let str = '';
-        if (diff._data.days !== 0)
-            str = `${diff._data.days}d `;
-        if (diff._data.hours !== 0)
-            str += `${diff._data.hours}h`;
-        if (str.length === 0)
-            str = 'less than one hour';
-        return str;
-    };
 
     const getPreferenceContest = () => {
         const data = props.data;
@@ -68,7 +56,7 @@ const ContestBox = (props) => {
                     <span>Entries</span>
                 </div>
                 <div className={styles.timeContainer}>
-                    <span className={styles.timeContest}>{getTimeStr()}</span>
+                    <span className={styles.timeContest}>{getTimeStr(props.data.createdAt)}</span>
                     <span>Going</span>
                 </div>
             </div>
