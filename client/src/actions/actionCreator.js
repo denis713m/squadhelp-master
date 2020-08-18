@@ -489,6 +489,13 @@ export const getAllOffers = (data) => {
     }
 };
 
+export const updatePasswordAndGetUserAction = (data) => {
+    return {
+        type: ACTION.UPDATE_PASSWORD_AND_GET_USER,
+        replace: data
+    }
+};
+
 export const moderatorSetOfferStatus = (data) => {
     return {
         type: ACTION.MODERATOR_CHANGE_OFFER_ACTION,

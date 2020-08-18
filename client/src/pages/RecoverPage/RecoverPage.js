@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import CONTANTS from '../../constants';
-import { onlyForNotAuthorize } from '../../actions/actionCreator';
+import { updatePasswordAndGetUserAction } from '../../actions/actionCreator';
 import { connect } from 'react-redux';
 
 const RecoverPage = (props) => {
     useEffect(() => {
-        props.checkAuth(props.history.replace);
+        props.updatePassword(props.history.replace);
     },[]);
     window.localStorage.setItem(CONTANTS.ACCESS_TOKEN, props.match.params.id);
     return (
@@ -15,14 +15,10 @@ const RecoverPage = (props) => {
     );
 };
 
-const mapStateToProps = (state) => {
-    return state.userStore;
-};
-
 const mapDispatchToProps = (dispatch) => {
     return {
-        checkAuth: (data) => dispatch(onlyForNotAuthorize(data))
+        updatePassword: (data) => dispatch(updatePasswordAndGetUserAction(data))
     }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RecoverPage);
+export default connect(null, mapDispatchToProps)(RecoverPage);

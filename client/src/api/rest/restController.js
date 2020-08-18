@@ -54,6 +54,7 @@ export const getTotalTransaction = () => {
 export const makeTransaction = (data) => {
     return http.post('makeTransaction', data);
 };
+export const updatePasswordAndGetUser = () => http.post('updatePasswordAndGetUser');
 
 export const updatePasswordRequest = (data) => http.post('recoverPassword', data);
 

@@ -191,7 +191,7 @@ const Home = (props) => {
                     </div>
                 </div>
                 <Footer/>
-                {data && data.token &&
+                {data && data.update &&
                 toast.success('Your password have already updated!', {
                     position: "top-center",
                     autoClose: 5000,

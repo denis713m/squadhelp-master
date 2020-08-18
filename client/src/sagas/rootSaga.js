@@ -1,7 +1,8 @@
 import {takeLatest, takeLeading, takeEvery} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import { registerSaga, loginSaga, updatePasswordSaga } from './authSagas';
-import {privateSaga, updateUserData, notAuthorizeSaga, headerRequest} from './userSaga';
+import { privateSaga, updateUserData, notAuthorizeSaga, headerRequest,
+    updatePasswordAfterRecoverSaga } from './userSaga';
 import {paymentSaga, cashoutSaga} from './paymentSaga';
 import {
     activeContestsSaga,
@@ -67,6 +68,7 @@ function* rootSaga() {
     yield takeLatest(ACTION.GET_TOTAL_TRANSACTIONS, getTotalTransaction);
     yield takeLatest(ACTION.MAKE_TRANSACTION, makeTransaction);
     yield takeLatest(ACTION.AUTH_ACTION_UPDATE_PASSWORD, updatePasswordSaga);
+    yield takeLatest(ACTION.UPDATE_PASSWORD_AND_GET_USER, updatePasswordAfterRecoverSaga);
     yield takeLatest(ACTION.GET_OFFERS, getAllOffersSaga);
     yield takeLatest(ACTION.MODERATOR_CHANGE_OFFER_ACTION, moderatorSetOfferStatusSaga);
     yield takeLatest(ACTION.GET_EVENTS, getUserEvents);

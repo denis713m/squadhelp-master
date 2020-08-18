@@ -233,3 +233,27 @@ module.exports.getTokens = async (req, res, next) => {
     next(err);
   }
 };
+
+module.exports.updatePass = async (req, res, next) => {
+  try {
+    const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
+    const sendData = {
+      firstName: foundUser.firstName,
+      lastName: foundUser.lastName,
+      role: foundUser.role,
+      id: foundUser.id,
+      avatar: foundUser.avatar,
+      displayName: foundUser.displayName,
+      balance: foundUser.balance,
+      email: foundUser.email,
+    };
+    if ( !req.tokenData.hashPass ) {
+      next(new TokenError('absent password'))
+    }
+    const tokens = generateTokens(foundUser);
+    await userQueries.updateUser({ password: req.tokenData.hashPass, accessToken: tokens.token, refreshToken: tokens.refreshToken }, req.tokenData.userId);
+    res.send({...sendData, ...tokens, update: '1'});
+  } catch (err) {
+    next(new TokenError());
+  }
+};

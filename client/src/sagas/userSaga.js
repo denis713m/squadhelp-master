@@ -55,3 +55,17 @@ export function* headerRequest(){
         yield put({type: ACTION.GET_USER_ERROR, error: e.response});
     }
 }
+
+export function* updatePasswordAfterRecoverSaga(action){
+    yield put({type: ACTION.GET_USER_REQUEST});
+    try{
+        const {data}=yield  restController.updatePasswordAndGetUser();
+        action.replace('/');
+        yield  put({type: ACTION.GET_USER_SUCCESS, data: data});
+
+    }
+    catch (e) {
+        yield put({type: ACTION.GET_USER_ERROR,error: e});
+    }
+
+}

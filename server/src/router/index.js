@@ -238,6 +238,12 @@ router.post(
 );
 
 router.post(
+    '/updatePasswordAndGetUser',
+    checkToken.checkToken,
+    userController.updatePass,
+);
+
+router.post(
     '/getUserEvents',
     checkToken.checkToken,
     basicMiddlewares.onlyForCustomer,
