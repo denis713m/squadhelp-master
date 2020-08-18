@@ -180,7 +180,10 @@ const resolveOffer = async (
             ELSE '${CONSTANTS.CONTEST_STATUS_PENDING}'
             END
     `),
-    }, {orderId: orderId}, transaction);
+    }, {orderId: orderId, status:{
+                                [Op.ne]:CONSTANTS.CONTEST_STATUS_FINISHED
+                            }
+        }, transaction);
     await userQueries.updateUser(
         {balance: db.sequelize.literal('balance + ' + finishedContest.prize)},
         creatorId, transaction);

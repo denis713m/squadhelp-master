@@ -69,7 +69,7 @@ class ContestPage extends React.Component {
 
     setOfferStatus = (creatorId, offerId, command) => {
         this.props.clearSetOfferStatusError();
-        const {id, orderId, priority} = this.props.contestByIdStore.contestData;
+        const {id, orderId, priority, prize} = this.props.contestByIdStore.contestData;
         const obj = {
             command,
             offerId,
@@ -81,7 +81,7 @@ class ContestPage extends React.Component {
         this.props.setOfferStatus(obj);
         if (command === 'resolve'){
             this.props.makeTransaction({
-                sum: 100,
+                sum: prize,
                 userId: creatorId
             })
         }

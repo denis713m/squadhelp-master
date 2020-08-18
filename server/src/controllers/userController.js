@@ -6,11 +6,6 @@ const TokenError = require('../errors/TokenError');
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const bd = require('../models');
-const NotFound = require('../errors/UserNotFoundError');
-const ServerError = require('../errors/ServerError');
-const UtilFunctions = require('../utils/functions');
-const NotEnoughMoney = require('../errors/NotEnoughMoney');
-const bcrypt = require('bcrypt');
 const NotUniqueEmail = require('../errors/NotUniqueEmail');
 const moment = require('moment');
 const uuid = require('uuid/v1');
@@ -18,6 +13,7 @@ const controller = require('../boot/configureSocketIO');
 const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
+const Dinero = require('dinero.js');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -117,10 +113,13 @@ module.exports.payment = async (req, res, next) => {
       },
       transaction);
     const orderId = uuid();
+    const ratios = [];
+    for (let i = 0; i<req.body.contests.length; i++ ){
+      ratios[i]= 100/ req.body.contests.length;
+    }
+    const price = Dinero({amount:req.body.price*100}).allocate(ratios);
     req.body.contests.forEach((contest, index) => {
-      const prize = index === req.body.contests.length - 1 ? Math.ceil(
-        req.body.price / req.body.contests.length)
-        : Math.floor(req.body.price / req.body.contests.length);
+      const prize = price[index].getAmount() / 100;
       contest = Object.assign(contest, {
         status: index === 0 ? 'active' : 'pending',
         userId: req.tokenData.userId,
