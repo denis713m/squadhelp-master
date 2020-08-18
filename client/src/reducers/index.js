@@ -1,5 +1,6 @@
 import {combineReducers} from 'redux';
 import {reducer as formReducer} from 'redux-form';
+import ACTION from '../actions/actionTypes';
 import authReducer from './authReducer';
 import getUserReducer from './userReducer';
 import dataForContestReducer from './dataForContestReducer';
@@ -17,7 +18,7 @@ import offerReducer from './offerReducer';
 
 
 
-const appReducer=combineReducers({
+const rootReducer=combineReducers({
    form: formReducer,
    userStore: getUserReducer,
    auth: authReducer,
@@ -34,5 +35,12 @@ const appReducer=combineReducers({
    events: getEvents,
    offers: offerReducer,
 });
+
+const appReducer = (state, action) => {
+   if (action.type === ACTION.LOG_OUT) {
+      state = undefined
+   }
+   return rootReducer(state, action)
+};
 
 export default appReducer;

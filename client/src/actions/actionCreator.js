@@ -490,3 +490,8 @@ export const moderatorSetOfferStatus = (data) => {
     }
 };
 
+export const userLogOut = () => {
+    return {
+        type: ACTION.LOG_OUT
+    }
+};

@@ -3,7 +3,7 @@ import styles from './Header.module.sass';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import CONSTANTS from '../../constants';
-import { clearUserStore, headerRequest } from '../../actions/actionCreator';
+import { getEvents, headerRequest, userLogOut } from '../../actions/actionCreator';
 import {addDefaultSrc} from '../../api/utils';
 
 
@@ -172,7 +172,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         getUser: () => dispatch(headerRequest()),
-        clearUserStore: () => dispatch(clearUserStore())
+        clearUserStore: () => dispatch(userLogOut()),
     }
 };
 
