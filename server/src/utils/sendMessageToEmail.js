@@ -16,5 +16,11 @@ module.exports.sendMessageToEmail = (message, sendTo) => {
         html: message
     };
 
-    transporter.sendMail(mailOptions);
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            throw new Error("Can't send email");
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
 };
