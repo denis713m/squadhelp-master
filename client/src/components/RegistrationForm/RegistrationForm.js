@@ -11,14 +11,13 @@ import Schems from '../../validators/validationSchems';
 
 const RegistrationForm = (props) => {
 
-    const className = {
+    const formInputClassNames = {
         container: styles.inputContainer,
         input: styles.input,
         warning: styles.fieldWarning,
         notValid: styles.notValid,
         valid: styles.valid,
     };
-
     const {handleSubmit, submitting} = props;
 
     return (
@@ -27,14 +26,14 @@ const RegistrationForm = (props) => {
             <div className={styles.row}>
                 <Field
                     name='firstName'
-                    className={className}
+                    className={formInputClassNames}
                     component={FormInput}
                     type='text'
                     label='First name'
                 />
                 <Field
                     name='lastName'
-                    className={className}
+                    className={formInputClassNames}
                     component={FormInput}
                     type='text'
                     label='Last name'
@@ -43,14 +42,14 @@ const RegistrationForm = (props) => {
             <div className={styles.row}>
                 <Field
                     name='displayName'
-                    className={className}
+                    className={formInputClassNames}
                     component={FormInput}
                     type='text'
                     label='Display Name'
                 />
                 <Field
                     name='email'
-                    className={className}
+                    className={formInputClassNames}
                     component={FormInput}
                     type='text'
                     label='Email Address'
@@ -59,14 +58,14 @@ const RegistrationForm = (props) => {
             <div className={styles.row}>
                 <Field
                     name='password'
-                    className={className}
+                    className={formInputClassNames}
                     component={FormInput}
                     type='password'
                     label='Password'
                 />
                 <Field
                     name='confirmPassword'
-                    className={className}
+                    className={formInputClassNames}
                     component={FormInput}
                     type='password'
                     label='Password confirmation'
@@ -103,6 +102,6 @@ const RegistrationForm = (props) => {
 };
 
 export default reduxForm({
-    form: 'login',
+    form: 'signUp',
     validate: customValidator(Schems.RegistrationSchem)
 })(RegistrationForm);
