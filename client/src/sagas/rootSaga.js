@@ -32,7 +32,7 @@ import {
     changeCatalogName
 } from './chatSagas';
 import { getTransaction, getTotalTransaction, makeTransaction } from './transactionSaga';
-
+import { createEvent, getUserEvents, deleteEvent } from './eventSaga';
 
 function* rootSaga() {
     yield  takeLatest(ACTION.AUTH_ACTION_REGISTER, registerSaga);
@@ -69,6 +69,9 @@ function* rootSaga() {
     yield takeLatest(ACTION.AUTH_ACTION_UPDATE_PASSWORD, updatePasswordSaga);
     yield takeLatest(ACTION.GET_OFFERS, getAllOffersSaga);
     yield takeLatest(ACTION.MODERATOR_CHANGE_OFFER_ACTION, moderatorSetOfferStatusSaga);
+    yield takeLatest(ACTION.GET_EVENTS, getUserEvents);
+    yield takeLatest(ACTION.ADD_EVENT, createEvent);
+    yield takeLatest(ACTION.DELETE_EVENT, deleteEvent);
 }
 
 export default rootSaga;

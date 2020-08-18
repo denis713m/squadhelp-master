@@ -59,6 +59,10 @@ export const updatePasswordRequest = (data) => http.post('recoverPassword', data
 
 export const getAllOffers = (data) => {
     return http.post('getAllOffers/', data);};
+export const getUserEvents = () => http.post('getUserEvents');
+export const createEvent = (data) => http.post('createEvent', data);
+export const deleteEvent = (data) => http.post('deleteEvent', data);
+
 
 
 

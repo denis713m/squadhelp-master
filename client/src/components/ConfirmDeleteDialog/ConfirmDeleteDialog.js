@@ -11,7 +11,7 @@ const ConfirmDeleteDialog = props => {
             <button onClick={props.onClose}>No</button>
             <button
                 onClick={() => {
-                    props.deleteEvent(props.eventId);
+                    props.deleteEvent({id:props.eventId});
                     props.onClose();
                 }}
             >

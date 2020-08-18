@@ -6,20 +6,22 @@ import moment from 'moment';
 import { confirmAlert } from 'react-confirm-alert';
 import ConfirmDeleteDialog from '../../components/ConfirmDeleteDialog/ConfirmDeleteDialog';
 import {connect} from 'react-redux';
-import { addEvent, delEvent } from '../../actions/actionCreator';
+import { addEvent, delEvent} from '../../actions/actionCreator';
 import classNames from 'classnames';
+import Spinner from '../../components/Spinner/Spinner';
 
 function EventsPage(props) {
     const [modalIsOpen, setIsOpen] = React.useState(false);
-    const {events, delEvent, addEvent} = props;
+    const {events, delEvent, addEvent, isFetching} = props;
     const now = moment();
     const del = (e) => {
         confirmAlert({
             customUI: ({ onClose }) => {
+                const name = e.target.getAttribute('data-name');
+                const id = Number(e.target.getAttribute('data-id'));
                 return (
-                    <ConfirmDeleteDialog onClose={onClose} deleteEvent={delEvent} event={events[e.currentTarget.id].name}
-                                         eventId={Number(e.currentTarget.id)}
-                    />
+                    <ConfirmDeleteDialog onClose={onClose} deleteEvent={delEvent} event={name}
+                                         eventId={id} />
 
                 );
             }
@@ -34,11 +36,11 @@ function EventsPage(props) {
             const bacWidth = 100 - remindDays * 100 / maxRemind;
             const className = classNames(styles.timerState, {[styles.timerStateRemind]:  remindDays < event.remind});
             eventsArray.push(
-                <button className={styles.timerContainer} id ={index} key={index + event.date} onClick={del}>
-                    <div className={className} style={{width: `${bacWidth <= 0 ? 0 : bacWidth}%`}}>
+                <button className={styles.timerContainer} data-id ={event.id} data-name={event.name} key={index + event.date}  onClick={del}>
+                    <div className={className} style={{width: `${bacWidth <= 0 ? 0 : bacWidth}%`}} data-id ={event.id} data-name={event.name}>
                     </div>
-                    <span>{event.name}</span>
-                    <div >{`${remindDays} days`}</div>
+                    <span data-id ={event.id} data-name={event.name}>{event.name}</span>
+                    <div data-id ={event.id} data-name={event.name}>{`${remindDays} days`}</div>
                 </button>
             )});
         return eventsArray;
@@ -65,6 +67,7 @@ function EventsPage(props) {
     return (
         <>
             <Header/>
+            {props.events.isFetching ? <Spinner/> :
             <div className={styles.container}>
                 <h1>All events</h1>
 
@@ -79,7 +82,7 @@ function EventsPage(props) {
                     </button>
                 </section>
                 {modalIsOpen && <CreateEventSimple onRequestClose={closeModal} onSubmit={handleSubmit}/>}
-            </div>
+            </div>}
         </>
     );
 }
@@ -90,6 +93,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
+
         delEvent: (data) => {dispatch(delEvent(data))},
         addEvent: (data) => dispatch(addEvent(data))
     }

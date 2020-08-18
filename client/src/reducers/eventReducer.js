@@ -2,33 +2,10 @@ import ACTION from '../actions/actionTypes';
 import moment from 'moment';
 
 const initialState = {
-    events: [
-        {
-            name: 'New Year',
-            date: moment('31.12.2021','DD.MM.YYYY'),
-            remind: 30
-        },
-        {
-            name: 'Christmas',
-            date: moment('07.01.2021', 'DD.MM.YYYY'),
-            remind: 7
-        },
-        {
-            name: 'Holy trinity',
-            date: moment('08.06.2020', 'DD.MM.YYYY'),
-            remind: 60
-        },
-        {
-            name: 'Birthday',
-            date: moment('15.06.2020', 'DD.MM.YYYY'),
-            remind: 15
-        },
-        {
-            name: 'Quarantine End',
-            date: moment('22.05.2020', 'DD.MM.YYYY'),
-            remind: 5
-        },
-    ]
+    events: [],
+    isFetching: true,
+    isUpload: false,
+    error: null,
 };
 
 const sort = (array) => array.sort(function(item1, item2) {
@@ -39,19 +16,48 @@ const sort = (array) => array.sort(function(item1, item2) {
         else return 0;
     }
 );
-
+const decodeTime = (array) => array.forEach( (item) => {
+   item.date = moment(item.date, 'YYYY-MM-DDTHH:mm');
+});
 sort(initialState.events);
 
 export default function (state = initialState, action) {
     switch (action.type) {
-        case ACTION.ADD_EVENT: {
-            state.events.push(action.data);
-            sort(state.events);
-            return state;
+        case ACTION.GET_EVENTS_SUCCESS:
+            {
+                decodeTime(action.data);
+                sort(action.data);
+            return {
+                events: action.data,
+                isFetching: false,
+                isUpload: true,
+                error: null
+            }
         }
-        case ACTION.DELETE_EVENT: {
-            state.events.splice(action.data, 1);
-            return {events: [...state.events]};
+        case ACTION.GET_EVENTS_ERROR:
+        {
+            return {
+                ...state,
+                isFetching: false,
+                error: true,
+            }
+        }
+        case ACTION.ADD_EVENT_SUCCESS: {
+            action.data.events.id = action.data.newId;
+            state.events.push(action.data.events);
+            sort(state.events);
+            return {...state,
+                    events: [...state.events]};
+        }
+        case ACTION.EVENT_ERROR: {
+            return {
+                ...state,
+                error: true}
+        }
+        case ACTION.DELETE_EVENT_SUCCESS: {
+            return {
+                ...state,
+                events: action.data};
         }
         default:
             return state;

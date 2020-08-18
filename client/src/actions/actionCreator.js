@@ -456,6 +456,12 @@ export const makeTransaction = (data) => {
     }
 };
 
+export const getEvents=()=>{
+    return{
+        type: ACTION.GET_EVENTS,
+    }
+};
+
 export const delEvent = (data) => {
     return {
         type: ACTION.DELETE_EVENT,

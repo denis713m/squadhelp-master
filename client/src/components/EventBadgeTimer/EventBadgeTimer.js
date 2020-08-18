@@ -6,19 +6,9 @@ import { Link } from 'react-router-dom';
 
 const EventBadgeTimer = (props) => {
     const {events} = props;
-    const [now, setNow] = React.useState(moment());
-    useEffect(() => {
-        const timer = setInterval(() => {
-            setNow(moment());
-        }, 24 * 60 * 60 * 1000);
-
-        return () => {
-            clearInterval(timer);
-        }
-    }, []);
-
+    const [now] = React.useState(moment());
     const checkEvents = events.reduce((res, event) => {
-        if ( event.date.diff(now, 'd') <= event.remind ) {
+        if (event.date.diff(now, 'd') <= event.remind ) {
             res ++;
         }
         return res;
@@ -26,7 +16,7 @@ const EventBadgeTimer = (props) => {
 
     return (
         <Link to='/EventsTimer' style={{ textDecoration: 'none' }} target={'blank'} className={styles.badgeContainer}>
-            {checkEvents > 0 && <div className={styles.badge}>
+            {events.length!==0 && checkEvents > 0 && <div className={styles.badge}>
             {checkEvents}
             <span className={styles.tooltiptext}>{`You have ${checkEvents} upcoming events`}</span>
         </div>}

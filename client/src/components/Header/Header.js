@@ -12,7 +12,18 @@ class Header extends React.Component {
         if ( !this.props.data ) {
             this.props.getUser();
         }
+        if(this.props.data && this.props.data.role === CONSTANTS.CUSTOMER && this.props.events.isFetching)
+        {
+            this.props.getEvents();}
+
     }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.data && this.props.data.role === CONSTANTS.CUSTOMER && this.props.events.isFetching)
+           {
+            this.props.getEvents();}
+    }
+
 
     logOut = () => {
         localStorage.clear();
@@ -167,11 +178,13 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return state.userStore;
+    return {...state.userStore,
+            events: state.events};
 };
 const mapDispatchToProps = (dispatch) => {
     return {
         getUser: () => dispatch(headerRequest()),
+        getEvents: () => dispatch(getEvents()),
         clearUserStore: () => dispatch(userLogOut()),
     }
 };
