@@ -2,6 +2,7 @@ import * as offersMiddleware from '../middlewares/offersMiddleware';
 import * as eventsController from '../controllers/eventsController';
 
 const express = require('express');
+const chatPostgresController = require('../controllers/chatPostgresController');
 const moderatorController = require('../controllers/moderatorController');
 const basicMiddlewares = require('../middlewares/basicMiddlewares');
 const hashPass = require('../middlewares/hashPassMiddle');
@@ -141,6 +142,7 @@ router.post(
 router.post(
   '/newMessage',
   checkToken.checkToken,
+  chatPostgresController.addMessage,
   chatController.addMessage,
 );
 
