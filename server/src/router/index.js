@@ -56,7 +56,7 @@ router.post(
 router.post(
   '/getCustomersContests',
   checkToken.checkToken,
-  contestController.getCustomersContests,
+  contestController.getContests,
 );
 
 router.get(
