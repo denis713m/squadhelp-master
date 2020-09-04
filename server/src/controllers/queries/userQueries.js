@@ -6,7 +6,7 @@ const CONSTANTS_ERROR_MESSAGES = require('../../CONSTANTS_ERROR_MESSAGES');
 
 module.exports.updateUser = async (data, userId, transaction) => {
   const [updatedCount, [updatedUser]] = await bd.Users.update(data,
-    { where: { id: userId }, returning: true, transaction });
+    { where: { id: userId }, returning: true, transaction: transaction });
   if (updatedCount !== 1) {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.USER_UPDATE);
   }
@@ -14,7 +14,7 @@ module.exports.updateUser = async (data, userId, transaction) => {
 };
 
 module.exports.findUser = async (predicate, transaction) => {
-  const result = await bd.Users.findOne({ where: predicate, transaction });
+  const result = await bd.Users.findOne({ where: predicate, transaction: transaction });
   if ( !result) {
     throw new NotFound(CONSTANTS_ERROR_MESSAGES.USER_DIDNT_FIND);
   } else {

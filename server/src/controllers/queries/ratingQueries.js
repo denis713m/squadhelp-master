@@ -17,6 +17,22 @@ module.exports.createRating = async (data, transaction) => {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.RATING_MARK);
   }
     return result.get({ plain: true });
-  }
 };
 
+module.exports.findRating = async (data, transaction) =>{
+  const ratings = await bd.Ratings.findAll({
+    include: [
+      {
+        model: bd.Offers,
+        required: true,
+        where: data,
+      },
+    ],
+    raw: true,
+    transaction,
+  });
+  if ( !ratings) {
+    throw new ServerError(CONSTANTS_ERROR_MESSAGES.RATING_FIND);
+  }
+  return ratings;
+};
