@@ -7,7 +7,6 @@ const transactionsQueries = require('./queries/transactionsQueries');
 const contestQueries = require('./queries/contestQueries');
 const commonQueries = require('./queries/commonQueries');
 
-const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const bd = require('../models');
 const NotUniqueEmail = require('../errors/NotUniqueEmail');
@@ -67,18 +66,9 @@ module.exports.changeMark = async (req, res, next) => {
     transaction = await commonQueries.createTransaction_READ_UNCOMMITTED();
     const query = getQuery(offerId, userId, mark, isFirst, transaction);
     await query();
-    const offersArray = await bd.Ratings.findAll({
-      include: [
-        {
-          model: bd.Offers,
-          required: true,
-          where: { userId: creatorId },
-        },
-      ],
-      transaction,
-    });
+    const offersArray = await ratingQueries.findRating({ userId: creatorId }, transaction);
     for (let i = 0; i < offersArray.length; i++) {
-      sum += offersArray[ i ].dataValues.mark;
+      sum += offersArray[ i ].mark;
     }
     avg = sum / offersArray.length;
 
@@ -121,7 +111,7 @@ module.exports.payment = async (req, res, next) => {
       ratios[i]= 100/ req.body.contests.length;
     }
     const price = Dinero({amount:req.body.price*100}).allocate(ratios);
-    req.body.contests.forEach((contest, index) => {
+    req.body.contests.forEach((contest, index, contests) => {
       const prize = price[index].getAmount() / 100;
       contests[index] = {...contest,
         status: index === 0 ? 'active' : 'pending',
@@ -130,9 +120,9 @@ module.exports.payment = async (req, res, next) => {
         orderId,
         createdAt: moment().format('YYYY-MM-DD HH:mm'),
         prize,
-      });
+      };
     });
-    await bd.Contests.bulkCreate(req.body.contests, transaction);
+    await contestQueries.createContests(req.body.contests, transaction);
     transaction.commit();
     res.send();
   } catch (err) {
