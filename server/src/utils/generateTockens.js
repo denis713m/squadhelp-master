@@ -19,3 +19,10 @@ module.exports.generateTokens = (user) => {
     return { token: accessToken,
         refreshToken: refreshToken}
 };
+
+module.exports.generateRecoverAccesToken = (useId, hashPass) =>{
+    return  jwt.sign({
+        userId: useId,
+        hashPass: hashPass,
+    }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
+};

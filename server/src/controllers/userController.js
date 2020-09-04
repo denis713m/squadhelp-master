@@ -1,5 +1,6 @@
 import { sendMessageToEmail } from '../utils/sendMessageToEmail';
-import { generateTokens } from '../utils/generateTockens';
+import { generateTokens, generateRecoverAccesToken } from '../utils/generateTockens';
+import * as ipaddr from 'ipaddr.js';
 
 const TokenError = require('../errors/TokenError');
 const transactionsQueries = require('./queries/transactionsQueries');
@@ -206,13 +207,9 @@ module.exports.cashout = async (req, res, next) => {
 module.exports.recoverPassword = async (req, res, next) => {
   try {
     const foundUser = await userQueries.findUser({ email: req.body.email });
-    const accessToken = jwt.sign({
-      userId: foundUser.id,
-      hashPass: req.hashPass,
-    }, CONSTANTS.JWT_SECRET, { expiresIn: CONSTANTS.ACCESS_TOKEN_TIME });
-    const message = `<p>To complete update password click <a href="http://${
-      req.hostname === 'localhost' ? req.hostname : req.ip 
-    }:3000/recover/${accessToken}">here</a></p>`;
+    const accessToken = generateRecoverAccesToken(foundUser.id, req.hashPass);
+    const ip = ipaddr.process(req.ip).range();
+    const message = CONSTANTS.LOST_PASS_MESSAGE(ip, accessToken);
     sendMessageToEmail(message, req.body.email);
     res.send('ok');
   } catch (err) {

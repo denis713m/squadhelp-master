@@ -35,5 +35,9 @@ module.exports = {
   CHANGE_BLOCK_STATUS: 'CHANGE_BLOCK_STATUS',
   ERROR_LOG_FILE: 'ErrorLogs.txt',
   WRITE_TIME: ['23:43', 'HH-mm'],
-  ARCHIVE_DIRECTORY: '../'
+  ARCHIVE_DIRECTORY: '../',
+  LOST_PASS_MESSAGE: (ip, accessToken) =>`<p>To complete update password click <a href="http://${ip
+  }:3000/recover/${accessToken}">here</a></p>`,
+  REJECT_OFFER_BY_MODERATOR: 'Some of yours offers was rejected',
+  APPROVE_OFFER_BY_MODERATOR: 'Some of yours offers was approved',
 };
