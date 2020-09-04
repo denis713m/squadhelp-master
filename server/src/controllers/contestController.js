@@ -243,160 +243,26 @@ module.exports.setOfferStatus = async (req, res, next) => {
     }
 };
 
-module.exports.getCustomersContests = (req, res, next) => {
-    db.Contests.findAll({
-        where: {status: req.headers.status, userId: req.tokenData.userId},
-        limit: req.body.limit,
-        offset: req.body.offset ? req.body.offset : 0,
-        order: [['id', 'DESC']],
-        include: [
-            {
-                model: db.Offers,
-                where: {
-                    status: {
-                        [Op.notIn]:  [CONSTANTS.OFFER_STATUS_PENDING,
-                            CONSTANTS.OFFER_STATUS_REJECTED_MODERATOR]
-                    }
-                },
-                required: false,
-                attributes: ['id'],
-            },
-        ],
-    })
-        .then(contests => {
-            contests.forEach(
-                contest => contest.dataValues.count = contest.dataValues.Offers.length);
-            let haveMore = true;
-            if ( contests.length === 0 ) {
-                haveMore = false;
-            }
-            res.send({contests, haveMore});
-        })
-        .catch(err => next(new ServerError(err)));
-};
-
-module.exports.getContests = (req, res, next) => {
-    const predicates = UtilFunctions.createWhereForAllContests(req.body.typeIndex,
-        req.body.contestId, req.body.industry, req.body.awardSort);
-    db.Contests.findAll({
-        where: predicates.where,
-        order: predicates.order,
-        limit: req.body.limit,
-        offset: req.body.offset ? req.body.offset : 0,
-        include: [
-            {
-                model: db.Offers,
-                required: req.body.ownEntries,
-                where: req.body.ownEntries ? {userId: req.tokenData.userId} : {},
-                attributes: ['id'],
-            },
-        ],
-    })
-        .then(contests => {
-            contests.forEach(
-                contest => contest.dataValues.count = contest.dataValues.Offers.length);
-            let haveMore = true;
-            if ( contests.length === 0 ) {
-                haveMore = false;
-            }
-            res.send({contests, haveMore});
-        })
-        .catch(err => {
-            next(new ServerError());
-        })
-};
-
-module.exports.getOffers = (req, res, next) => {
-    db.Offers.findAll(
-        {
-            where: req.body.searchOptions,
-            attributes: ['fileName']
+module.exports.getContests = async (req, res, next) => {
+    try{
+        let contests;
+        if (req.tokenData.role === CONSTANTS.CUSTOMER){
+            contests = await contestQueries.findAllContestForCustomers(
+            {status: req.headers.status, userId: req.tokenData.userId},
+                    req.body.limit,
+                    req.body.offset);}
+        else {
+            const predicates = UtilFunctions.createWhereForAllContests(req.body.typeIndex,
+                req.body.contestId, req.body.industry, req.body.awardSort);
+            contests = await contestQueries.findAllContestForCreators(predicates, req)}
+        let haveMore = true;
+        if ( contests.length === 0 ) {
+            haveMore = false;
         }
-    )
-        .then(offers => {
-            res.send(offers);
-        })
-        .catch(err => {
-            next(new ServerError());
-        })
-};
-
-
-
-module.exports.getAllTransactions = (req, res, next) => {
-    db.TransactionHistory.findAll(
-        {
-            limit: req.body.limit,
-            offset: req.body.offset,
-        }
-    )
-        .then(offers => {
-            res.send(offers);
-        })
-        .catch(err => {
-            next(new ServerError());
-        })
-};
-
-module.exports.getUserTransactions = (req, res, next) => {
-    db.TransactionHistory.findAll(
-        {
-            where: {
-                userId: req.tokenData.userId
-            },
-            limit: req.body.limit,
-            offset: req.body.offset,
-            attributes: ['typeOperation', 'sum'],
-        }
-    )
-        .then(offers => {
-            res.send(offers);
-        })
-        .catch(err => {
-            next(new ServerError());
-        })
-};
-
-module.exports.getTransactionsSummary = (req, res, next) => {
-    db.TransactionHistory.findAll(
-        {
-            where: {
-                userId: req.tokenData.userId
-            },
-            attributes: ['typeOperation', [sequelize.fn('sum', sequelize.col('sum')), 'total']],
-            group: ['typeOperation']
-        }
-    )
-        .then(offers => {
-            res.send(offers);
-        })
-        .catch(err => {
-            next(new ServerError());
-        })
-};
-
-module.exports.makeTransaction = (req, res, next) => {
-    db.sequelize.transaction(async (t) => {
-        db.TransactionHistory.create(
-            {
-                typeOperation: 'CONSUMPTION',
-                sum: req.body.sum,
-                userId: req.tokenData.userId,
-            },
-            {transaction: t})
-            .then(
-                db.TransactionHistory.create(
-                    {
-                        typeOperation: 'INCOME',
-                        sum: req.body.sum,
-                        userId: req.body.userId,
-                    },
-                    {transaction: t})
-            )
-    })
-        .then(() => res.send('1'))
-        .catch(err => {
-            next(new ServerError());
-        })
+        res.send({contests, haveMore});
+    }
+    catch ( e ) {
+        next(new ServerError(`Can't find contests`))
+    }
 };
 

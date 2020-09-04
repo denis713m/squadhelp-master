@@ -20,7 +20,7 @@ const ContestBox = (props) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
     };
 
-    const {id, title, contestType, prize, count} = props.data;
+    const {id, title, contestType, prize, Offers} = props.data;
     return (
         <div className={styles.contestBoxContainer} onClick={() => props.goToExtended(id)}>
             <div className={styles.mainContestInfo}>
@@ -51,7 +51,7 @@ const ContestBox = (props) => {
                 <div className={styles.entriesContainer}>
                     <div className={styles.entriesCounter}>
                         <img src={`${CONSTANTS.STATIC_IMAGES_PATH}entrieImage.png`} alt='logo'/>
-                        <span>{count}</span>
+                        <span>{Offers.length}</span>
                     </div>
                     <span>Entries</span>
                 </div>
