@@ -33,6 +33,15 @@ module.exports.userCreation = async (data) => {
 module.exports.passwordCompare = async (pass1, pass2) => {
   const passwordCompare = await bcrypt.compare(pass1, pass2);
   if ( !passwordCompare) {
-    throw new NotFound('Wrong password');
+    throw new NotFound(CONSTANTS_ERROR_MESSAGES.WRONG_PASSWORD);
+  }
+};
+
+module.exports.findAllUser = async (predicate) => {
+  const result = await bd.Users.findAll({ where: predicate, raw: true});
+  if ( !result) {
+    throw new NotFound(CONSTANTS_ERROR_MESSAGES.USER_DIDNT_FIND);
+  } else {
+    return result;
   }
 };

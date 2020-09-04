@@ -1,6 +1,3 @@
-import * as offersMiddleware from '../middlewares/offersMiddleware';
-import * as eventsController from '../controllers/eventsController';
-
 const express = require('express');
 const chatPostgresController = require('../controllers/chatPostgresController');
 const moderatorController = require('../controllers/moderatorController');
@@ -10,7 +7,6 @@ const userController = require('../controllers/userController');
 const contestController = require('../controllers/contestController');
 const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
-const chatController = require('../controllers/chatController');
 const transactionHistory = require('../middlewares/transactionHistoryMiddleware');
 const transactionsController = require('../controllers/transactionsController');
 const upload = require('../utils/fileUpload');
@@ -100,12 +96,6 @@ router.post(
   contestController.setNewOffer,
 );
 
-router.get(
-    '/getOffers',
-    offersMiddleware.offersSearchOptions,
-    contestController.getOffers,
-);
-
 router.post(
     '/getAllOffers/',
     checkToken.checkToken,
@@ -145,73 +135,66 @@ router.post(
   '/newMessage',
   checkToken.checkToken,
   chatPostgresController.addMessage,
-  chatController.addMessage,
 );
 
 router.post(
   '/getChat',
   checkToken.checkToken,
-  chatController.getChat,
+  chatPostgresController.getChat,
 );
 
 router.post(
   '/getPreview',
   checkToken.checkToken,
-  chatController.getPreview,
+  chatPostgresController.getPreview,
 );
 
 router.post(
   '/blackList',
   checkToken.checkToken,
-  chatController.blackList,
+  chatPostgresController.blackList,
 );
 
 router.post(
   '/favorite',
   checkToken.checkToken,
-  chatController.favoriteChat,
+  chatPostgresController.favoriteChat,
 );
 
 router.post(
   '/createCatalog',
   checkToken.checkToken,
-  chatController.createCatalog,
+  chatPostgresController.createCatalog,
 );
 
 router.post(
   '/updateNameCatalog',
   checkToken.checkToken,
-  chatController.updateNameCatalog,
+  chatPostgresController.updateNameCatalog,
 );
 
 router.post(
   '/addNewChatToCatalog',
   checkToken.checkToken,
-  chatController.addNewChatToCatalog,
+  chatPostgresController.addNewChatToCatalog,
 );
 
 router.post(
   '/removeChatFromCatalog',
   checkToken.checkToken,
-  chatController.removeChatFromCatalog,
+  chatPostgresController.removeChatFromCatalog,
 );
 
 router.post(
   '/deleteCatalog',
   checkToken.checkToken,
-  chatController.deleteCatalog,
+  chatPostgresController.deleteCatalog,
 );
 
 router.post(
   '/getCatalogs',
   checkToken.checkToken,
-  chatController.getCatalogs,
-);
-
-router.get(
-    '/getAllTransactions',
-    transactionHistory.getAllTransactions,
-    contestController.getAllTransactions,
+  chatPostgresController.getCatalogs,
 );
 
 router.post(
