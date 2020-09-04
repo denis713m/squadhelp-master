@@ -229,8 +229,8 @@ module.exports.setOfferStatus = async (req, res, next) => {
         }
         else if ( req.body.command === 'resolve' ) {
             try {
-                transaction = await db.sequelize.transaction();
-                const winningOffer = await resolveOffer(req.body.contestId,
+                transaction = await commonQueries.createTransaction();
+                await resolveOffer(req.body.contestId,
                     req.body.creatorId, req.body.orderId, req.body.offerId,
                     req.body.priority, transaction);
                 res.send(winningOffer);

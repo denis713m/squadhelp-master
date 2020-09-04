@@ -2,6 +2,9 @@ import { sendMessageToEmail } from '../utils/sendMessageToEmail';
 import { generateTokens } from '../utils/generateTockens';
 
 const TokenError = require('../errors/TokenError');
+const transactionsQueries = require('./queries/transactionsQueries');
+const contestQueries = require('./queries/contestQueries');
+const commonQueries = require('./queries/commonQueries');
 
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
@@ -186,7 +189,7 @@ module.exports.cashout = async (req, res, next) => {
         },
       },
       transaction);
-    await bd.TransactionHistory.create(
+    await transactionsQueries.transactionCreation(
         {
           typeOperation: 'CONSUMPTION',
           sum: req.body.sum,

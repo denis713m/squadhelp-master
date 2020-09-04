@@ -12,6 +12,7 @@ const checkToken = require('../middlewares/checkToken');
 const validators = require('../middlewares/validators');
 const chatController = require('../controllers/chatController');
 const transactionHistory = require('../middlewares/transactionHistoryMiddleware');
+const transactionsController = require('../controllers/transactionsController');
 const upload = require('../utils/fileUpload');
 const router = express.Router();
 
@@ -216,20 +217,20 @@ router.post(
     '/getUserTransactions',
     checkToken.checkToken,
     transactionHistory.getAllTransactions,
-    contestController.getUserTransactions,
+    transactionsController.getUserTransactions,
 );
 
 router.get(
     '/getTransactionsSummary',
     checkToken.checkToken,
-    contestController.getTransactionsSummary,
+    transactionsController.getTransactionsSummary,
 );
 
 router.post(
     '/makeTransaction',
     checkToken.checkToken,
     transactionHistory.makeTransaction,
-    contestController.makeTransaction,
+    transactionsController.makeTransaction,
 );
 
 router.post(
