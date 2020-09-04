@@ -1,8 +1,9 @@
 const ApplicationError = require('./ApplicationError');
+const CONSTANTS_ERROR_MESSAGES = require('../CONSTANTS_ERROR_MESSAGES');
 
 class BadRequestError extends ApplicationError{
   constructor (message) {
-    super(message || 'bad request', 400);
+    super(message || CONSTANTS_ERROR_MESSAGES.BadRequestError, 400);
   }
 }
 
