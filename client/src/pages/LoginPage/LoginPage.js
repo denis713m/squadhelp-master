@@ -26,7 +26,7 @@ const LoginPage = ({error, authClear, loginUser, ...restProps}) => {
                 <div className={styles.loginFormContainer}>
                     <h2>LOGIN TO YOUR ACCOUNT</h2>
                     {error && <Error data={error.data} status={error.status} clearError={clearFields}/>}
-                    <LoginForm onSubmit={handleSubmit} btnName = 'LOGIN' pass='password'/>
+                    <LoginForm onSubmit={handleSubmit} btnName = 'LOGIN' pass='password' isFetching={restProps.isFetching}/>
                     <button className={styles.btnForgotPassword}>
                         <Link to='/recoverpassword'
                               style={{textDecoration: 'none'}}><span>FORGOT PASSWORD?</span></Link></button>
