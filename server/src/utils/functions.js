@@ -8,25 +8,25 @@ module.exports.createWhereForAllContests = (
     order: [],
   };
   if (typeIndex) {
-    Object.assign(object.where, { contestType: getPredicateTypes(typeIndex) });
+    object.where = { contestType: getPredicateTypes(typeIndex) };
   }
   if (contestId) {
-    Object.assign(object.where, { id: contestId });
+    object.where =  {...object.where, id: contestId };
   }
   if (industry) {
-    Object.assign(object.where, { industry: industry });
+    object.where =  {...object.where, industry: industry };
   }
   if (awardSort) {
     object.order.push(['prize', awardSort]);
   }
-  Object.assign(object.where, {
+  object.where =  {...object.where,
     status: {
       [ bd.Sequelize.Op.or ]: [
         CONSTANTS.CONTEST_STATUS_FINISHED,
         CONSTANTS.CONTEST_STATUS_ACTIVE,
       ],
     },
-  });
+  };
   object.order.push(['id', 'desc']);
   return object;
 };

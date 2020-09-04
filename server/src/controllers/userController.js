@@ -29,7 +29,7 @@ module.exports.login = async (req, res, next) => {
 module.exports.registration = async (req, res, next) => {
   try {
     const newUser = await userQueries.userCreation(
-      Object.assign(req.body, { password: req.hashPass }));
+        {...req.body, password: req.hashPass} );
     const tokens = generateTokens(newUser);
     await userQueries.updateUser({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, newUser.id);
     res.send(tokens);
@@ -120,7 +120,7 @@ module.exports.payment = async (req, res, next) => {
     const price = Dinero({amount:req.body.price*100}).allocate(ratios);
     req.body.contests.forEach((contest, index) => {
       const prize = price[index].getAmount() / 100;
-      contest = Object.assign(contest, {
+      contests[index] = {...contest,
         status: index === 0 ? 'active' : 'pending',
         userId: req.tokenData.userId,
         priority: index + 1,

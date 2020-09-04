@@ -31,10 +31,10 @@ class CreatorDashboard extends React.Component {
     }
 
     getContests = (filter) => {
-        this.props.getContests(Object.assign({}, {
+        this.props.getContests({
             limit: 8,
-            offset: 0
-        }, filter));
+            offset: 0,
+            ...filter});
     };
 
     parseUrlForParams = (search) => {
@@ -68,10 +68,10 @@ class CreatorDashboard extends React.Component {
     };
 
     loadMore = (startFrom) => {
-        this.props.getContests(Object.assign({}, {
+        this.props.getContests({
             limit: 8,
-            offset: startFrom
-        }, this.getPredicateOfRequest()));
+            offset: startFrom,
+            ...this.getPredicateOfRequest()});
     };
 
     setContestList = () => {
