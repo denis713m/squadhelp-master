@@ -1,35 +1,26 @@
-import ServerError from '../errors/ServerError';
-const db = require('../models');
+const eventsQueries = require('./queries/eventsQueries');
 
-module.exports.getUserEvents = (req, res, next) => {
-    db.Events.findAll(
-        {
-            where: {
-                user_id: req.tokenData.userId
-            },
-        }
-    )
-        .then(events => {
-            res.send(events);
-        })
-        .catch(err => {
-            next(new ServerError());
-        })
+module.exports.getUserEvents = async (req, res, next) => {
+    try {
+        const events = await eventsQueries.findAllEvents({ user_id: req.tokenData.userId });
+        res.send(events);
+    }
+    catch (err) {
+        next(err);
+    }
 };
 
 module.exports.createEvent = async (req, res, next) => {
     try{
-        const newEvent = await db.Events.create({
-            remind: req.body.remind,
-            name: req.body.name,
-            date: req.body.date,
-            user_id: req.tokenData.userId,
-        });
-        if ( !newEvent) {
-            new ServerError('server error on user creation');
-        } else {
-            res.send(newEvent.get({plain:true}).id.toString());
-        }
+        const newEvent = await eventsQueries.createEvent(
+            {
+                remind: req.body.remind,
+                name: req.body.name,
+                date: req.body.date,
+                user_id: req.tokenData.userId,
+            }
+        );
+        res.send(newEvent.id.toString());
     }
     catch(e){
        next(e)
@@ -37,20 +28,15 @@ module.exports.createEvent = async (req, res, next) => {
 };
 
 module.exports.deleteEvent = async (req, res, next) => {
-
     try{
-        const result = await db.Events.destroy(
-            {
-                where:{
+        const result = await eventsQueries.deleteEvent({
                     user_id: req.tokenData.userId,
                     id : req.body.id
-                },
-                returning: true
-            })
+                });
         res.send(JSON.stringify(result));
     }
-    catch (err){
-        next(new ServerError())
+    catch (e){
+        next(e)
     }
 };
 

@@ -14,6 +14,7 @@ const chatController = require('../controllers/chatController');
 const transactionHistory = require('../middlewares/transactionHistoryMiddleware');
 const transactionsController = require('../controllers/transactionsController');
 const upload = require('../utils/fileUpload');
+const eventsController = require('../controllers/eventsController');
 const router = express.Router();
 
 router.post(
