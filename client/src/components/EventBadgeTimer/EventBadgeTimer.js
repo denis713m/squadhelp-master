@@ -6,13 +6,22 @@ import { Link } from 'react-router-dom';
 
 const EventBadgeTimer = (props) => {
     const {events} = props;
-    const [now] = React.useState(moment());
+    const [now,setNow] = React.useState(moment());
     const checkEvents = events.reduce((res, event) => {
         if (event.date.diff(now, 'd') <= event.remind ) {
             res ++;
         }
         return res;
     }, 0);
+    useEffect(() => {
+        const timer = setInterval(() => {
+            setNow(moment());
+        }, 24 * 60 * 60 * 1000);
+
+        return () => {
+            clearInterval(timer);
+        }
+    }, []);
 
     return (
         <Link to='/EventsTimer' style={{ textDecoration: 'none' }} target={'blank'} className={styles.badgeContainer}>
