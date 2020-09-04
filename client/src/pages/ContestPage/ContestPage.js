@@ -153,6 +153,7 @@ class ContestPage extends React.Component {
                                                            customerId={contestData.User.id}/>}
                                                 {setOfferStatusError && <Error data={setOfferStatusError.data}
                                                                                status={setOfferStatusError.status}
+                                                                               classes={styles.errorContainer}
                                                                                clearError={clearSetOfferStatusError}/>}
                                                 <div className={styles.offers}>
                                                     {this.setOffersList()}

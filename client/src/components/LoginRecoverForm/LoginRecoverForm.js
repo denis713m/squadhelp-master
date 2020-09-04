@@ -34,8 +34,11 @@ const LoginRecoverForm = props => {
                     type='password'
                     label={props.pass}
                 />
-                <button type='submit' disabled={submitting} className={styles.submitContainer}>
-                    <span className={styles.inscription}>{props.btnName}</span>
+                <button type='submit' disabled={ submitting }
+                        className={ styles.submitContainer }>
+                        <span className={ styles.inscription }>{ props.isFetching
+                            ? 'Submitting...'
+                            : props.btnName }</span>
                 </button>
             </form>
 
