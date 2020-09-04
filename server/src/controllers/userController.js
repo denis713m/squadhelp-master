@@ -190,11 +190,11 @@ module.exports.cashout = async (req, res, next) => {
       transaction);
     await transactionsQueries.transactionCreation(
         {
-          typeOperation: 'CONSUMPTION',
-          sum: req.body.sum,
-          userId: req.tokenData.userId,
-        },
-        {transaction: transaction});
+                typeOperation: 'CONSUMPTION',
+                sum: req.body.sum,
+                userId: req.tokenData.userId,
+              },
+              transaction);
     transaction.commit();
     res.send({ balance: updatedUser.balance });
   } catch (err) {
