@@ -24,15 +24,25 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id', // key in Target model that we're referencing
       },
     },
-    blackList:{
-      type: DataTypes.ARRAY(DataTypes.BOOLEAN),
+    blackList1:{
+      type: DataTypes.BOOLEAN,
       allowNull: true,
-      defaultValue: [false, false],
+      defaultValue: false,
     },
-    favotiteList:{
-      type: DataTypes.ARRAY(DataTypes.BOOLEAN),
+    blackList2:{
+      type: DataTypes.BOOLEAN,
       allowNull: true,
-      defaultValue: [false, false],
+      defaultValue: false,
+    },
+    favoriteList1:{
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
+    },
+    favoriteList2:{
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue: false,
     },
   }, {
     indexes: [
@@ -42,11 +52,7 @@ module.exports = (sequelize, DataTypes) => {
       }
     ]
   });
-  Conversations.associate = function(models) {
-    Conversations.belongsTo(models.User, { foreignKey: 'participant1', sourceKey: 'id' });// associations can be defined here
-  };
-  Conversations.associate = function(models) {
-    Conversations.belongsTo(models.User, { foreignKey: 'participant2', sourceKey: 'id' });// associations can be defined here
-  };
+
+
   return Conversations;
 };

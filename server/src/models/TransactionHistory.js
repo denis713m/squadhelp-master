@@ -37,8 +37,5 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: false,
         freezeTableName: true,
     });
-    TransactionHistory.associate = function (models) {
-        TransactionHistory.belongsTo(models.User, {foreignKey: 'userId', sourceKey: 'id'});
-    };
     return TransactionHistory;
 };

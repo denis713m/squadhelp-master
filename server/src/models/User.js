@@ -64,28 +64,26 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
   });
 
-  User.associate = function (models) {
-    User.hasMany(models.Order, { foreignKey: 'user_id', targetKey: 'id' });
-  };
 
   User.associate = function (models) {
-    User.hasMany(models.Participant,
-      { foreignKey: 'user_id', targetKey: 'id' });
+    User.hasMany(models.Offers, { foreignKey: 'user_id', targetKey: 'id' });
   };
-
   User.associate = function (models) {
-    User.hasMany(models.Offer, { foreignKey: 'user_id', targetKey: 'id' });
-  };
-
-  User.associate = function (models) {
-    User.hasMany(models.RefreshToken,
-      { foreignKey: 'user_id', targetKey: 'id' });
+    User.hasMany(models.Events, { foreignKey: 'user_id', targetKey: 'id' });
   };
 
   User.associate = function (models) {
     User.hasMany(models.TransactionHistory,
         { foreignKey: 'user_id', targetKey: 'id' });
   };
-
+  User.associate = function (models) {
+    User.hasMany(models.Conversations, { foreignKey: 'participant1', targetKey: 'id' });
+  };
+  User.associate = function (models) {
+    User.hasMany(models.Conversations, { foreignKey: 'participant2', targetKey: 'id' });
+  };
+  User.associate = function (models) {
+    User.hasMany(models.Messages, { foreignKey: 'sender', targetKey: 'id' });
+  };
   return User;
 };

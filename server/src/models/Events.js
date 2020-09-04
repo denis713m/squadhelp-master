@@ -37,9 +37,6 @@ module.exports = (sequelize, DataTypes) => {
     timestamps: false,
     freezeTableName: true,
   });
-  Events.associate = function(models) {
-      Events.belongsTo(models.User, { foreignKey: 'user_id', sourceKey: 'id' });
 
-  };
   return Events;
 };
