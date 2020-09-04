@@ -154,8 +154,8 @@ module.exports.setNewOffer = async (req, res, next) => {
         delete result.userId;
         controller.getNotificationController().emitEntryCreated(
             req.body.customerId);
-        const User = Object.assign({}, req.tokenData, {id: req.tokenData.userId});
-        res.send(Object.assign({}, result, {User}));
+        const User = { ...req.tokenData, id: req.tokenData.userId};
+        res.send({...result, User: User});
     }
     catch ( e ) {
         return next(new ServerError());
