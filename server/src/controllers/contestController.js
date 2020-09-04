@@ -1,5 +1,6 @@
 const db = require('../models');
-const {moderatorOptions} = require('./moderatorController');
+const commonQueries = require('./queries/commonQueries');
+const {approveRejectOfferByModerator} = require('./moderatorController');
 import ServerError from '../errors/ServerError';
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
@@ -204,6 +205,7 @@ const resolveOffer = async (
             arrayRoomsId.push(offer.userId);
         }
     });
+    await transaction.commit();
     controller.getNotificationController().emitChangeOfferStatus(arrayRoomsId,
         'Someone of yours offers was rejected', contestId);
     controller.getNotificationController().emitChangeOfferStatus(creatorId,
@@ -236,7 +238,7 @@ module.exports.setOfferStatus = async (req, res, next) => {
                 res.send(winningOffer);
             }
             catch ( err ) {
-                transaction.rollback();
+                await transaction.rollback();
                 next(err);
             }
         }

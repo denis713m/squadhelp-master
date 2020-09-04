@@ -63,8 +63,7 @@ module.exports.changeMark = async (req, res, next) => {
   const { isFirst, offerId, mark, creatorId } = req.body;
   const userId = req.tokenData.userId;
   try {
-    transaction = await bd.sequelize.transaction(
-      { isolationLevel: bd.Sequelize.Transaction.ISOLATION_LEVELS.READ_UNCOMMITTED });
+    transaction = await commonQueries.createTransaction_READ_UNCOMMITTED();
     const query = getQuery(offerId, userId, mark, isFirst, transaction);
     await query();
     const offersArray = await bd.Ratings.findAll({
@@ -87,7 +86,7 @@ module.exports.changeMark = async (req, res, next) => {
     controller.getNotificationController().emitChangeMark(creatorId);
     res.send({ userId: creatorId, rating: avg });
   } catch (err) {
-    transaction.rollback();
+    await transaction.rollback();
     next(err);
   }
 };
@@ -95,7 +94,7 @@ module.exports.changeMark = async (req, res, next) => {
 module.exports.payment = async (req, res, next) => {
   let transaction;
   try {
-    transaction = await bd.sequelize.transaction();
+    transaction = await commonQueries.createTransaction();
     await bankQueries.updateBankBalance({
         balance: bd.sequelize.literal(`
                 CASE
@@ -136,7 +135,7 @@ module.exports.payment = async (req, res, next) => {
     transaction.commit();
     res.send();
   } catch (err) {
-    transaction.rollback();
+    await transaction.rollback();
     next(err);
   }
 };
@@ -166,7 +165,7 @@ module.exports.updateUser = async (req, res, next) => {
 module.exports.cashout = async (req, res, next) => {
   let transaction;
   try {
-    transaction = await bd.sequelize.transaction();
+    transaction = await commonQueries.createTransaction();
     const updatedUser = await userQueries.updateUser(
       { balance: bd.sequelize.literal('balance - ' + req.body.sum) },
       req.tokenData.userId, transaction);
