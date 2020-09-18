@@ -76,43 +76,30 @@ module.exports.deleteCatalog = async (req, res, next) => {
 
 module.exports.updateNameCatalog = async (req, res, next) => {
     try {
-        const updatedCatalog = await chatQueries.updateChatElementModel(
-            'Catalogs',
-            {catalogName: req.body.catalogName},
-            { _id: req.body.catalogId }
-            );
+        const newName = req.body.catalogName;
+        const catalogToUpdate = req.body.catalogId;
+        const updatedCatalog = await chatQueries.updateCatalogName(
+             newName, catalogToUpdate);
         res.send(updatedCatalog);
     } catch (err) {
         next(err);
     }
 };
 
-module.exports.addNewChatToCatalog = async (req, res, next) => {
+module.exports.addRemoveChatToCatalog = async (req, res, next) => {
     try {
-        const catalogToChange = await chatQueries.findOneChatElementModel(
-            'Catalogs',
-            {_id: req.body.catalogId });
-        const updatedCatalog = await chatQueries.updateChatElementModel(
-            'Catalogs',
-            {chats: [...catalogToChange.chats, req.body.chatId]},
-            { _id: req.body.catalogId });
-        res.send(updatedCatalog);
-    } catch (err) {
-        next(err);
-    }
-};
-
-module.exports.removeChatFromCatalog = async (req, res, next) => {
-    try {
-        const catalogToChange = await chatQueries.findOneChatElementModel(
-            'Catalogs',
-            {_id: req.body.catalogId });
-        const newConversationsInCatalog=[];
-        catalogToChange.chats.forEach(chat => {if (chat !== req.body.chatId) newConversationsInCatalog.push(chat)});
-        const updatedCatalog = await chatQueries.updateChatElementModel(
-            'Catalogs',
-            {chats: [...newConversationsInCatalog]},
-            {_id: req.body.catalogId });
+        const catalogIdToUpdate = req.body.catalogId;
+        const catalogToChange = await chatQueries.findCatalog(catalogIdToUpdate);
+        const chatToAddRemove = req.body.chatId;
+        const newChats = [];
+        if (req.route.path === '/addNewChatToCatalog')  {
+            catalogToChange.chats.includes(chatToAddRemove) ? newChats.push(...catalogToChange.chats)
+                        : newChats.push(...catalogToChange.chats, chatToAddRemove)}
+            else {
+            catalogToChange.chats.forEach(chat => {if (chat !== chatToAddRemove) newChats.push(chat)});
+        }
+        const updatedCatalog = await chatQueries.changeConversationsInCatalog(
+            newChats, catalogIdToUpdate);
         res.send(updatedCatalog);
     } catch (err) {
         next(err);

@@ -176,13 +176,13 @@ router.post(
 router.post(
   '/addNewChatToCatalog',
   checkToken.checkToken,
-  chatPostgresController.addNewChatToCatalog,
+  chatPostgresController.addRemoveChatToCatalog
 );
 
 router.post(
   '/removeChatFromCatalog',
   checkToken.checkToken,
-  chatPostgresController.removeChatFromCatalog,
+  chatPostgresController.addRemoveChatToCatalog
 );
 
 router.post(
