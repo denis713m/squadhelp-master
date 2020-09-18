@@ -1,4 +1,5 @@
 const CONSTANTS = require('../../constants');
+const eventTimer = require('../../middlewares/eventsTimer');
 
 class WebSocket{
   connect (namespace, io) {
