@@ -6,7 +6,9 @@ class ApplicationError extends Error{
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
-    this.message = message || CONSTANTS_ERROR_MESSAGES.ApplicationError;
+    if( message instanceof Error) this.message = message.message;
+    else this.message = message || CONSTANTS_ERROR_MESSAGES.ApplicationError;
+
     this.code = status || 500;
   }
 
