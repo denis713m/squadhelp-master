@@ -44,6 +44,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       defaultValue: false,
     },
+    participantsHash:{
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
   }, {
     indexes: [
       {

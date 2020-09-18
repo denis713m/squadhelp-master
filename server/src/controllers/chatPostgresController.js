@@ -3,21 +3,17 @@ import moment from 'moment';
 const controller = require('../boot/configureSocketIO');
 const userQueries = require('./queries/userQueries');
 const chatQueries = require('./queries/chatQueries');
-const { Op } = require("sequelize");
-const Sequelize = require('sequelize');
+const hash = require('object-hash');
 
 module.exports.addMessage = async (req, res, next) => {
-    const participants = [req.tokenData.userId, req.body.recipient];
-    participants.sort(
-        (participant1, participant2) => participant1 - participant2);
     try {
-        const conversation = await chatQueries.createConversation(participants);
-        const message = await chatQueries.createChatElementModel('Messages',
-            {
-                conversation: conversation.id,
-                body: req.body.messageBody,
-                sender: req.tokenData.userId});
-        message.participants = participants;
+        const participants = [req.tokenData.userId, req.body.recipient];
+        const participantsHash = hash(participants,{unorderedArrays:true})
+        const conversation = await chatQueries.findOrCreateConversation(participantsHash, participants);
+        const text = req.body.messageBody;
+        const sender = req.tokenData.userId;
+        const message = await chatQueries.createMessage( conversation.id, text, sender);
+        message.participants = [participants];
         const preview = {
             _id: conversation.id,
             sender: req.tokenData.userId,
