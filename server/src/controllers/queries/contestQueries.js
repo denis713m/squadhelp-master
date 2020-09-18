@@ -23,9 +23,21 @@ module.exports.updateContest = async (data, predicate, transaction) => {
   }
 };
 
-module.exports.updateContestStatus = async (data, predicate, transaction) => {
-  const [updatedCount, [updatedContest]] = await bd.Contests.update(data,
-    { where: predicate, returning: true, transaction });
+module.exports.updateContestStatus = async (contestId,orderId,priority, transaction) => {
+  const [updatedCount, [updatedContest]] = await bd.Contests.update(
+      {
+        status: bd.sequelize.literal(`   CASE
+            WHEN "id"=${contestId}  AND "orderId"='${orderId}' THEN '${CONSTANTS.CONTEST_STATUS_FINISHED}'
+            WHEN "orderId"='${orderId}' AND "priority"=${priority +
+        1}  THEN '${CONSTANTS.CONTEST_STATUS_ACTIVE}'
+            ELSE '${CONSTANTS.CONTEST_STATUS_PENDING}'
+            END
+    `),
+      },
+    { where: {orderId: orderId, status:{
+          [Op.ne]:CONSTANTS.CONTEST_STATUS_FINISHED
+        }
+      }, returning: true, transaction });
   if (updatedCount[ 0 ] < 1) {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.CONTEST_UPDATE);
   } else {
@@ -33,9 +45,9 @@ module.exports.updateContestStatus = async (data, predicate, transaction) => {
   }
 };
 
-module.exports.updateOffer = async (data, predicate, transaction) => {
-  const [updatedCount, [updatedOffer]] = await bd.Offers.update(data,
-    { where: predicate, returning: true, transaction });
+module.exports.updateOfferStatus = async (newOfferStatus, offerId) => {
+  const [updatedCount, [updatedOffer]] = await bd.Offers.update({status: newOfferStatus},
+    { where: {id: offerId}, returning: true });
   if (updatedCount !== 1) {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_UPDATE);
   } else {
@@ -43,8 +55,17 @@ module.exports.updateOffer = async (data, predicate, transaction) => {
   }
 };
 
-module.exports.updateOfferStatus = async (data, predicate, transaction) => {
-  const [updatedCount, updatedOffer] = await bd.Offers.update(data,
+module.exports.updateOfferStatusOnResolve = async (offerId, predicate, transaction) => {
+  const [updatedCount, updatedOffer] = await bd.Offers.update(
+      {
+        status: bd.sequelize.literal(` CASE
+            WHEN "id"=${offerId} THEN '${CONSTANTS.OFFER_STATUS_WON}'
+            WHEN "status"='${CONSTANTS.OFFER_STATUS_APPROVED}' THEN '${CONSTANTS.OFFER_STATUS_REJECTED}'
+            WHEN "status"='${CONSTANTS.OFFER_STATUS_REJECTED}' THEN '${CONSTANTS.OFFER_STATUS_REJECTED}'
+            ELSE '${CONSTANTS.OFFER_STATUS_REJECTED_MODERATOR}'
+            END 
+    `),
+      },
     { where: predicate, returning: true, transaction: transaction });
   if (updatedCount < 1) {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_UPDATE);
@@ -62,19 +83,27 @@ module.exports.createOffer = async (data) => {
   }
 };
 
-module.exports.getDataForContest = async (data) => {
+module.exports.getDataForContest = async (characteristic1, characteristic2) => {
   const characteristics = await bd.Selects.findAll({
-    where: data,
+    where: {
+      type: {
+        [Op.or]: [
+          characteristic1,
+          characteristic2,
+          'industry',
+        ],
+      },
+    },
     raw: true
   });
-  if ( !characteristics ) {
+  if ( characteristics.length === 0 ) {
     return next(new ServerError());
   }
   return characteristics;
 };
 
 module.exports.findContestById = async (contestId, role, userId ) => {
-  const result = bd.Contests.findOne({
+  const result = await bd.Contests.findOne({
     where: {id: contestId},
     order: [
       [bd.Offers, 'id', 'asc'],
@@ -129,10 +158,9 @@ module.exports.findContestById = async (contestId, role, userId ) => {
       },
     ],
   });
-  console.log(result)
   if ( !result ) {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.CONTEST_FIND);}
-  return result;
+  return result.get({plain:true});
 };
 
 module.exports.findAllContestForCustomers = async (where, limit, offset) => {
@@ -174,14 +202,14 @@ module.exports.findAllContestForCreators = async (predicates, req) => {
   });
 };
 
-module.exports.findOffer = async (data) => {
-  const result = await bd.Offers.findOne({where: data});
+module.exports.findOffer = async (offerId) => {
+  const result = await bd.Offers.findOne({where: {id: offerId}});
   if ( !result ) {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_FIND);}
   else return result;
 };
 
-module.exports.findAllOffersForModerator = async (data, limit, offset ) => {
+module.exports.findAllOffersForModerator = async (status, limit, offset ) => {
   const result = await bd.Offers.findAndCountAll(
       {
         include:
@@ -202,7 +230,7 @@ module.exports.findAllOffersForModerator = async (data, limit, offset ) => {
                 attributes: ['contestType'],
               }
             ],
-        where: data,
+        where: {status: status},
         order: [['timestamp', 'DESC']],
         attributes: {exclude: ['userId', 'contestId']},
         limit: limit,
