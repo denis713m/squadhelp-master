@@ -19,20 +19,16 @@ module.exports.createRating = async (data, transaction) => {
     return result.get({ plain: true });
 };
 
-module.exports.findRating = async (data, transaction) =>{
-  const ratings = await bd.Ratings.findAll({
+module.exports.findRating = async (userId, transaction) =>{
+  return await bd.Ratings.findAll({
     include: [
       {
         model: bd.Offers,
         required: true,
-        where: data,
+        where: { userId: userId },
       },
     ],
     raw: true,
     transaction,
   });
-  if ( !ratings) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.RATING_FIND);
-  }
-  return ratings;
 };

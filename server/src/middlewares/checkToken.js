@@ -1,5 +1,3 @@
-import { generateTokens } from '../utils/generateTockens';
-
 const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const TokenError = require('../errors/TokenError');
@@ -9,7 +7,7 @@ const sessionController = require ('../controllers/activeUsersController');
 
 module.exports.checkAuth = async (req, res, next) => {
   try {
-    const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
+    const foundUser = await userQueries.findUserById(req.tokenData.userId);
     if (!foundUser.accessToken === req.headers.authorization){
       next(new TokenError());
     }
@@ -25,7 +23,7 @@ module.exports.checkAuth = async (req, res, next) => {
     };
     res.send(sendData);
   } catch (err) {
-    next(new TokenError());
+    next(err);
   }
 };
 
@@ -38,7 +36,7 @@ module.exports.checkRefreshToken = async (req, res, next) => {
     req.tokenData = jwt.verify(refreshToken, CONSTANTS.REFRESH_JWT_SECRET);
     next();
   } catch (err) {
-    next(new TokenError());
+    next(err);
   }
 };
 
@@ -46,7 +44,7 @@ module.exports.checkRefreshToken = async (req, res, next) => {
 module.exports.checkToken = async (req, res, next) => {
   const accessToken = req.headers.authorization;
   if ( !accessToken) {
-    return next(new TokenError('need token'));
+    next(new TokenError('need token'));
   }
   try {
     req.tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
@@ -64,6 +62,6 @@ module.exports.checkToken = async (req, res, next) => {
     }
     next();
   } catch (err) {
-    next(new TokenError());
+    next(err);
   }
 };

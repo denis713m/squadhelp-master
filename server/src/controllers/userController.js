@@ -9,7 +9,6 @@ const contestQueries = require('./queries/contestQueries');
 const commonQueries = require('./queries/commonQueries');
 
 const CONSTANTS = require('../constants');
-const bd = require('../models');
 const NotUniqueEmail = require('../errors/NotUniqueEmail');
 const moment = require('moment');
 const uuid = require('uuid/v1');
@@ -22,8 +21,10 @@ const activeUsers = require('./activeUsersController');
 
 module.exports.login = async (req, res, next) => {
   try {
-    const foundUser = await userQueries.findUser({ email: req.body.email });
-    await userQueries.passwordCompare(req.body.password, foundUser.password);
+    const userEmail = req.body.email;
+    const foundUser = await userQueries.findUserByEmail(userEmail);
+    const enterPassword = req.body.password;
+    await userQueries.passwordCompare(enterPassword, foundUser.password);
     const tokens = generateTokens(foundUser);
     await userQueries.updateUser({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, foundUser.id);
     activeUsers.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
@@ -34,10 +35,11 @@ module.exports.login = async (req, res, next) => {
 };
 module.exports.registration = async (req, res, next) => {
   try {
-    const newUser = await userQueries.userCreation(
-        {...req.body, password: req.hashPass} );
+    const password = req.hashPass;
+    const userData = {...req.body};
+    const newUser = await userQueries.userCreation(userData, password);
     const tokens = generateTokens(newUser);
-    await userQueries.updateUser({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, newUser.id);
+    await userQueries.updateUserTokens({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, newUser.id);
     res.send(tokens);
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
@@ -69,13 +71,13 @@ module.exports.changeMark = async (req, res, next) => {
     transaction = await commonQueries.createTransaction_READ_UNCOMMITTED();
     const query = getQuery(offerId, userId, mark, isFirst, transaction);
     await query();
-    const offersArray = await ratingQueries.findRating({ userId: creatorId }, transaction);
+    const offersArray = await ratingQueries.findRating( creatorId, transaction);
     for (let i = 0; i < offersArray.length; i++) {
       sum += offersArray[ i ].mark;
     }
     avg = sum / offersArray.length;
 
-    await userQueries.updateUser({ rating: avg }, creatorId, transaction);
+    await userQueries.updateUserRating(avg, creatorId, transaction);
     transaction.commit();
     controller.getNotificationController().emitChangeMark(creatorId);
     res.send({ userId: creatorId, rating: avg });
@@ -89,36 +91,28 @@ module.exports.payment = async (req, res, next) => {
   let transaction;
   try {
     transaction = await commonQueries.createTransaction();
-    await bankQueries.updateBankBalance({
-        balance: bd.sequelize.literal(`
-                CASE
-            WHEN "cardNumber"='${ req.body.number.replace(/ /g,
-          '') }' AND "cvc"='${ req.body.cvc }' AND "expiry"='${ req.body.expiry }'
-                THEN "balance"-${ req.body.price }
-            WHEN "cardNumber"='${ CONSTANTS.SQUADHELP_BANK_NUMBER }' AND "cvc"='${ CONSTANTS.SQUADHELP_BANK_CVC }' AND "expiry"='${ CONSTANTS.SQUADHELP_BANK_EXPIRY }'
-                THEN "balance"+${ req.body.price } END
-        `),
-      },
-      {
-        cardNumber: {
-          [ bd.sequelize.Op.in ]: [
-            CONSTANTS.SQUADHELP_BANK_NUMBER,
-            req.body.number.replace(/ /g, ''),
-          ],
-        },
-      },
-      transaction);
+    const cardFrom = {
+        number:req.body.number.replace(/ /g,''),
+        cvc:req.body.cvc,
+        expiry: req.body.expiry};
+    const cardTo = {
+        number:CONSTANTS.SQUADHELP_BANK_NUMBER,
+        cvc:CONSTANTS.SQUADHELP_BANK_CVC,
+        expiry: CONSTANTS.SQUADHELP_BANK_EXPIRY};
+    const transactionSum = req.body.price;
+    const creatorId = req.tokenData.userId;
+    await bankQueries.updateBankBalance(cardFrom,cardTo, transactionSum, transaction);
     const orderId = uuid();
     const ratios = [];
     for (let i = 0; i<req.body.contests.length; i++ ){
       ratios[i]= 100/ req.body.contests.length;
     }
-    const price = Dinero({amount:req.body.price*100}).allocate(ratios);
+    const price = Dinero({amount:transactionSum*100}).allocate(ratios);
     req.body.contests.forEach((contest, index, contests) => {
       const prize = price[index].getAmount() / 100;
       contests[index] = {...contest,
         status: index === 0 ? 'active' : 'pending',
-        userId: req.tokenData.userId,
+        userId: creatorId,
         priority: index + 1,
         orderId,
         createdAt: moment().format('YYYY-MM-DD HH:mm'),
@@ -160,35 +154,20 @@ module.exports.cashout = async (req, res, next) => {
   let transaction;
   try {
     transaction = await commonQueries.createTransaction();
-    const updatedUser = await userQueries.updateUser(
-      { balance: bd.sequelize.literal('balance - ' + req.body.sum) },
-      req.tokenData.userId, transaction);
-    await bankQueries.updateBankBalance({
-        balance: bd.sequelize.literal(`CASE 
-                WHEN "cardNumber"='${ req.body.number.replace(/ /g,
-          '') }' AND "expiry"='${ req.body.expiry }' AND "cvc"='${ req.body.cvc }'
-                    THEN "balance"+${ req.body.sum }
-                WHEN "cardNumber"='${ CONSTANTS.SQUADHELP_BANK_NUMBER }' AND "expiry"='${ CONSTANTS.SQUADHELP_BANK_EXPIRY }' AND "cvc"='${ CONSTANTS.SQUADHELP_BANK_CVC }'
-                    THEN "balance"-${ req.body.sum }
-                 END
-                `),
-      },
-      {
-        cardNumber: {
-          [ bd.sequelize.Op.in ]: [
-            CONSTANTS.SQUADHELP_BANK_NUMBER,
-            req.body.number.replace(/ /g, ''),
-          ],
-        },
-      },
-      transaction);
-    await transactionsQueries.transactionCreation(
-        {
-                typeOperation: 'CONSUMPTION',
-                sum: req.body.sum,
-                userId: req.tokenData.userId,
-              },
-              transaction);
+    const userId = req.tokenData.userId;
+    const transactionSum = req.body.sum;
+    const updatedUser = await userQueries.updateUserCashOut(transactionSum, userId, transaction);
+    const cardFrom = {
+      number:req.body.number.replace(/ /g,''),
+      cvc:req.body.cvc,
+      expiry: req.body.expiry};
+    const cardTo = {
+      number:CONSTANTS.SQUADHELP_BANK_NUMBER,
+      cvc:CONSTANTS.SQUADHELP_BANK_CVC,
+      expiry: CONSTANTS.SQUADHELP_BANK_EXPIRY};
+
+    await bankQueries.updateBankBalance(cardFrom, cardTo, transactionSum, transaction);
+    await transactionsQueries.transactionCreation( false, transactionSum, userId, transaction);
     transaction.commit();
     res.send({ balance: updatedUser.balance });
   } catch (err) {
@@ -199,7 +178,8 @@ module.exports.cashout = async (req, res, next) => {
 
 module.exports.recoverPassword = async (req, res, next) => {
   try {
-    const foundUser = await userQueries.findUser({ email: req.body.email });
+    const userEmail = req.body.email;
+    const foundUser = await userQueries.findUserByEmail(userEmail);
     const accessToken = generateRecoverAccesToken(foundUser.id, req.hashPass);
     const ip = ipaddr.process(req.ip).range();
     const message = CONSTANTS.LOST_PASS_MESSAGE(ip, accessToken);
@@ -212,7 +192,8 @@ module.exports.recoverPassword = async (req, res, next) => {
 
 module.exports.getTokens = async (req, res, next) => {
   try {
-    const foundUser = await userQueries.findUser({ email: req.tokenData.email });
+    const userEmail = req.tokenData.email;
+    const foundUser = await userQueries.findUserByEmail(userEmail);
     if (!foundUser.refreshToken === req.headers.authorization){
       next(new TokenError());
     }
@@ -229,7 +210,7 @@ module.exports.getTokens = async (req, res, next) => {
 
 module.exports.updatePass = async (req, res, next) => {
   try {
-    const foundUser = await userQueries.findUser({ id: req.tokenData.userId });
+    const foundUser = await userQueries.findUserById(req.tokenData.userId );
     const sendData = {
       firstName: foundUser.firstName,
       lastName: foundUser.lastName,
@@ -240,13 +221,15 @@ module.exports.updatePass = async (req, res, next) => {
       balance: foundUser.balance,
       email: foundUser.email,
     };
-    if ( !req.tokenData.hashPass ) {
+    const newPassword = req.tokenData.hashPass;
+    const userId = req.tokenData.userId;
+    if ( !newPassword ) {
       next(new TokenError('absent password'))
     }
     const tokens = generateTokens(foundUser);
-    await userQueries.updateUser({ password: req.tokenData.hashPass, accessToken: tokens.token, refreshToken: tokens.refreshToken }, req.tokenData.userId);
+    await userQueries.updateUser({ password: req.tokenData.hashPass, accessToken: tokens.token, refreshToken: tokens.refreshToken }, userId);
     res.send({...sendData, ...tokens, update: '1'});
   } catch (err) {
-    next(new TokenError());
+    next(err);
   }
 };
