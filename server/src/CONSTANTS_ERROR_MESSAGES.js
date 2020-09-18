@@ -14,6 +14,7 @@ module.exports = {
     USER_CREATE:'server error on user creation',
     USER_UPDATE:'cannot update user',
     USER_DIDNT_FIND: 'user with this data didn`t exist',
+    USERS_DIDNT_FIND: 'problem with users downloading',
     WRONG_PASSWORD:'Wrong password',
     MONEY_TRANSACTION: 'server error on transaction creation',
     RATING_UPDATE: 'cannot update mark on this offer',
@@ -34,5 +35,7 @@ module.exports = {
     CHAT_FIND: (modelName) => `${modelName} with this data didn't exist`,
     CHAT_CATALOG_DELETE: 'server error during delete catalog',
     CHAT_CONVERSATION_CREATE: 'cannot create/find conversation',
-    BANK_DECLINE: 'Bank decline transaction'
+    BANK_DECLINE: 'Bank decline transaction',
+    DATA_FOR_CONTEST: 'cannot get contest preferences',
+    GET_CONTEST_BY_ID: 'problem with contest loading'
 };
