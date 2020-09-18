@@ -224,42 +224,13 @@ module.exports.getPreview = async (req, res, next) => {
     }
 };
 
-module.exports.blackList = async (req, res, next) => {
-    const predicate = req.body.participants.indexOf(req.tokenData.userId);
+module.exports.moveChatToFavoriteBlackList = async (req, res, next) => {
     try {
-        const chat = await chatQueries.updateChatElementModel('Conversations',
-                        {[`blackList${predicate+1}`]: req.body.blackListFlag},
-                          {
-                              [Op.and]:[
-                                {participant1: req.body.participants[0]},
-                                {participant2: req.body.participants[1]}]
-                                });
-        const message = {
-            blackList: [chat.blackList1, chat.blackList2],
-            favoriteList: [chat.favoriteList1, chat.favoriteList2],
-            participants: [chat.participant1, chat.participant2],
-            updatedAt: chat.updatedAt,
-            _id: chat.id
-        };
-        res.send(message);
-        const interlocutorId = req.body.participants.filter(
-            (participant) => participant !== req.tokenData.userId)[ 0 ];
-        controller.getChatController().emitChangeBlockStatus(interlocutorId, message);
-    } catch (err) {
-        res.send(err);
-    }
-};
-
-module.exports.favoriteChat = async (req, res, next) => {
-    const predicate = req.body.participants.indexOf(req.tokenData.userId);
-    try {
-        const chat = await chatQueries.updateChatElementModel('Conversations',
-            {[`favoriteList${predicate+1}`]: req.body.favoriteFlag},
-            {
-                [Op.and]:[
-                    {participant1: req.body.participants[0]},
-                    {participant2: req.body.participants[1]}]
-            });
+        const isFavoriteOption = (req.route.path === '/favorite');
+        const userIndexInConversation = req.body.participants.indexOf(req.tokenData.userId)+1;
+        const newStatus = req.body.flag;
+        const participants = req.body.participants;
+        const chat = await chatQueries.markChatFavoriteOrBlock(isFavoriteOption, userIndexInConversation,participants, newStatus);
         res.send({
             blackList: [chat.blackList1, chat.blackList2],
             favoriteList: [chat.favoriteList1, chat.favoriteList2],
@@ -268,7 +239,7 @@ module.exports.favoriteChat = async (req, res, next) => {
             _id: chat.id
         });
     } catch (err) {
-        res.send(err);
+        next(err);
     }
 };
 
