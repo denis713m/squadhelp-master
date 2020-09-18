@@ -3,8 +3,8 @@ const commonQueries = require('./queries/commonQueries');
 
 module.exports.getUserTransactions = async (req, res, next) => {
     try {
-        const transactions = await transactionsQueries.transactionsFindAll(
-            {userId: req.tokenData.userId});
+        const userId = req.tokenData.userId;
+        const transactions = await transactionsQueries.transactionsFindAll(userId);
         res.send(transactions);
     }
     catch (err) {
@@ -14,8 +14,8 @@ module.exports.getUserTransactions = async (req, res, next) => {
 
 module.exports.getTransactionsSummary = async (req, res, next) => {
     try {
-        const transactions = await transactionsQueries.transactionsGetSummary(
-            {userId: req.tokenData.userId});
+        const userId = req.tokenData.userId;
+        const transactions = await transactionsQueries.transactionsGetSummary(userId);
         res.send(transactions);
     }
     catch (err) {
@@ -27,20 +27,11 @@ module.exports.makeTransaction = async (req, res, next) => {
     let transaction;
     try {
         transaction = await commonQueries.createTransaction();
-        await transactionsQueries.transactionCreation(
-            {
-                typeOperation: 'CONSUMPTION',
-                sum: req.body.sum,
-                userId: req.tokenData.userId,
-            },
-            transaction);
-        await transactionsQueries.transactionCreation(
-            {
-                typeOperation: 'INCOME',
-                sum: req.body.sum,
-                userId: req.body.userId,
-            },
-            transaction);
+        const sum = req.body.sum;
+        const customer = req.tokenData.userId;
+        const creator = req.body.userId;
+        await transactionsQueries.transactionCreation(false, sum, customer, transaction);
+        await transactionsQueries.transactionCreation(true, sum, creator, transaction);
         transaction.commit();
         res.send('1')
     }
