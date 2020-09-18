@@ -2,8 +2,14 @@ const db = require('../../models');
 const ServerError = require('../../errors/ServerError');
 const CONSTANTS_ERROR_MESSAGES = require('../../CONSTANTS_ERROR_MESSAGES');
 
-module.exports.createEvent = async (data) => {
-    const event = await db.Events.create(data);
+module.exports.createEvent = async (user,remind, name,date) => {
+    const event = await db.Events.create(
+        {
+            user_id : user,
+            name: name,
+            date: date,
+            remind: remind
+        });
     if ( !event) {
         throw new ServerError(CONSTANTS_ERROR_MESSAGES.EVENT_CREATE);
     }
@@ -12,7 +18,7 @@ module.exports.createEvent = async (data) => {
 
 module.exports.deleteEvent = async(data) =>{
     const deleteElement = await db.Events.destroy({
-        where: data,
+        where: {id: data},
         returning: true
     });
     if(deleteElement !==1)
@@ -20,13 +26,27 @@ module.exports.deleteEvent = async(data) =>{
     return deleteElement;
 };
 
-module.exports.findAllEvents = async ( data) => {
-    const result = await db.Events.findAll(
+module.exports.findAllUserEvents = async (data) => {
+    return await db.Events.findAll(
         {
-            where: data,
+            where: {user_id:data},
             raw: true,
         });
-    if ( !result ) {
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.EVENT_FIND);}
-    return result;
+};
+
+module.exports.findAllEvents =  async () => {
+    return await db.Events.findAll(
+        {
+            raw: true,
+        });
+};
+
+module.exports.findAllUsersEvents =  async (users) => {
+    return await db.Events.findAll(
+        {
+            where:{
+                user_id: users
+            },
+            raw: true,
+        });
 };

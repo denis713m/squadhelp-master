@@ -1,8 +1,10 @@
 const eventsQueries = require('./queries/eventsQueries');
+const eventTimerController = require('../middlewares/eventsTimer');
 
 module.exports.getUserEvents = async (req, res, next) => {
     try {
-        const events = await eventsQueries.findAllEvents({ user_id: req.tokenData.userId });
+        const user = req.tokenData.userId;
+        const events = await eventsQueries.findAllUserEvents(user);
         res.send(events);
     }
     catch (err) {
@@ -12,14 +14,12 @@ module.exports.getUserEvents = async (req, res, next) => {
 
 module.exports.createEvent = async (req, res, next) => {
     try{
-        const newEvent = await eventsQueries.createEvent(
-            {
-                remind: req.body.remind,
-                name: req.body.name,
-                date: req.body.date,
-                user_id: req.tokenData.userId,
-            }
-        );
+        const user = req.tokenData.userId;
+        const name = req.body.name;
+        const date = req.body.date;
+        const remind = req.body.remind;
+        const newEvent = await eventsQueries.createEvent(user,remind, name,date);
+        eventTimerController.checkUserEvents(user);
         res.send(newEvent.id.toString());
     }
     catch(e){
@@ -29,10 +29,8 @@ module.exports.createEvent = async (req, res, next) => {
 
 module.exports.deleteEvent = async (req, res, next) => {
     try{
-        const result = await eventsQueries.deleteEvent({
-                    user_id: req.tokenData.userId,
-                    id : req.body.id
-                });
+        const event = req.body.id;
+        const result = await eventsQueries.deleteEvent(event);
         res.send(JSON.stringify(result));
     }
     catch (e){
