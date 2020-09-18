@@ -37,7 +37,13 @@ class NotificationSocket extends WebSocket {
     };
     unsubscribe = (id) => {
         this.socket.emit('unsubscribe', id);
-    }
+    };
+
+    onEventReminder = () => {
+        this.socket.on('eventReminder', (message) => {
+            toast(<Notification message={message.message} events={true}/>);
+        })
+    };
 }
 
 export default NotificationSocket;
