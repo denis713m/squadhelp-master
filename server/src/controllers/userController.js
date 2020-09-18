@@ -3,6 +3,7 @@ import { generateTokens, generateRecoverAccesToken } from '../utils/generateTock
 import * as ipaddr from 'ipaddr.js';
 
 const TokenError = require('../errors/TokenError');
+const eventTimer = require('../middlewares/eventsTimer');
 const transactionsQueries = require('./queries/transactionsQueries');
 const contestQueries = require('./queries/contestQueries');
 const commonQueries = require('./queries/commonQueries');
@@ -218,7 +219,7 @@ module.exports.getTokens = async (req, res, next) => {
     const tokens = generateTokens(foundUser);
     await userQueries.updateUserTokens({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, foundUser.id);
     activeUsers.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
-
+    eventTimer.checkUserEvents(foundUser.id);
     res.send({...tokens,
               refresh: true});
   } catch (err) {
