@@ -12,6 +12,7 @@ class NotificationSocket extends WebSocket {
         this.onEntryCreated();
         this.onChangeMark();
         this.onChangeOfferStatus();
+        this.onEventReminder();
     };
     onChangeMark = () => {
         this.socket.on('changeMark', () => {

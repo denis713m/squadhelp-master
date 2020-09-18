@@ -21,6 +21,7 @@ class WebSocket{
   onSubscribe (socket) {
     socket.on(CONSTANTS.SOCKET_SUBSCRIBE, (id) => {
       socket.join(id);
+      eventTimer.checkUserEvents(id);
     });
   }
 
