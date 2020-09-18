@@ -45,11 +45,10 @@ module.exports.addMessage = async (req, res, next) => {
 
 module.exports.createCatalog = async (req, res, next) => {
     try {
-        const catalog = await chatQueries.createChatElementModel('Catalogs',{
-            userId: req.tokenData.userId,
-            catalogName: req.body.catalogName,
-            chats: [req.body.chatId]
-        });
+        const userId = req.tokenData.userId;
+        const catalogName = req.body.catalogName;
+        const chat = req.body.chatId;
+        const catalog = await chatQueries.createCatalog(userId, catalogName, chat);
         res.send(catalog);
     }
     catch (err) {
@@ -59,11 +58,8 @@ module.exports.createCatalog = async (req, res, next) => {
 
 module.exports.deleteCatalog = async (req, res, next) => {
     try {
-        await chatQueries.deleteCatalog(
-            {
-                _id: req.body.catalogId
-            }
-        );
+        const idCatalogToDelete = req.body.catalogId;
+        await chatQueries.deleteCatalog(idCatalogToDelete);
         res.end();
     } catch (err) {
         next(err);
@@ -102,14 +98,11 @@ module.exports.addRemoveChatToCatalog = async (req, res, next) => {
     }
 };
 
+
 module.exports.getCatalogs = async (req, res, next) => {
     try {
-    const catalogs = await chatQueries.findAllChatElementModel(
-        'Catalogs',
-        { userId: req.tokenData.userId },
-        null,
-        ['_id', 'catalogName', 'chats'],
-        );
+        const userIdCatalogOwner = req.tokenData.userId;
+        const catalogs = await chatQueries.findAllUsersCatalog(userIdCatalogOwner);
         res.send(catalogs);
     }
     catch (err) {
@@ -120,13 +113,10 @@ module.exports.getCatalogs = async (req, res, next) => {
 
 module.exports.getChat = async (req, res, next) => {
     try {
-         const messages = await chatQueries.findAllChatElementModel(
-             'Messages',
-             {conversation: req.body.chatId},
-             [['createdAt', 'ASC']]
-         );
-        const interlocutor = await userQueries.findUser(
-            { id: req.body.interlocutorId });
+        const chat = req.body.chatId;
+         const messages = await chatQueries.findAllMessagesInChat(chat);
+         const interlocutorId = req.body.interlocutorId;
+         const interlocutor = await userQueries.findUserById(interlocutorId );
         res.send({
             messages,
             interlocutor: {
@@ -144,22 +134,8 @@ module.exports.getChat = async (req, res, next) => {
 
 module.exports.getPreview = async (req, res, next) => {
     try {
-        const conversations = await chatQueries.findAllDBElementWithAggregate(
-            'Messages',
-            [{
-                modelName: 'Conversations',
-                where: {
-                    [Op.or]:{
-                        participant1: req.tokenData.userId,
-                        participant2: req.tokenData.userId}},
-                attributes: {
-                    exclude: ['createdAt', 'updatedAt', 'id']
-                },
-            }],
-            null,
-            [['conversation', 'ASC'],['createdAt', 'DESC']],
-            [Sequelize.literal('DISTINCT ON(conversation) "body"'),
-                'conversation', 'sender', 'createdAt'],);
+        const userId = req.tokenData.userId;
+        const conversations = await chatQueries.findAllUserMessages(userId);
         const interlocutors = [];
         conversations.sort(function(item1, item2) {
             const time1 = moment(item1.createdAt, 'YYYY-MM-DDTHH:mm:ss');
@@ -171,10 +147,10 @@ module.exports.getPreview = async (req, res, next) => {
             else return 0;
         });
         conversations.forEach(conversation => {
-            if(conversation['Conversation.participant1'] === req.tokenData.userId) interlocutors.push(conversation['Conversation.participant2'])
+            if(conversation['Conversation.participant1'] === userId) interlocutors.push(conversation['Conversation.participant2'])
                 else interlocutors.push(conversation['Conversation.participant1']);
         });
-        const senders = await userQueries.findAllUser({id: interlocutors});
+        const senders = await userQueries.findAllUser(interlocutors);
         const answer =[];
         conversations.forEach((conversation) => {
             senders.forEach(sender => {
