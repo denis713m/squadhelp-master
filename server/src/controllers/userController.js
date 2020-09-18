@@ -216,7 +216,9 @@ module.exports.getTokens = async (req, res, next) => {
       next(new TokenError());
     }
     const tokens = generateTokens(foundUser);
-    await userQueries.updateUser({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, foundUser.id);
+    await userQueries.updateUserTokens({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, foundUser.id);
+    activeUsers.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
+
     res.send({...tokens,
               refresh: true});
   } catch (err) {
