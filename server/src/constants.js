@@ -31,6 +31,7 @@ module.exports = {
   NOTIFICATION_ENTRY_CREATED: 'onEntryCreated',
   NOTIFICATION_CHANGE_MARK: 'changeMark',
   NOTIFICATION_CHANGE_OFFER_STATUS: 'changeOfferStatus',
+  NOTIFICATION_EVENT_REMINDER: 'eventReminder',
   NEW_MESSAGE: 'newMessage',
   CHANGE_BLOCK_STATUS: 'CHANGE_BLOCK_STATUS',
   ERROR_LOG_FILE: 'ErrorLogs.txt',
