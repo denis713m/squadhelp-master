@@ -29,13 +29,11 @@ const DialogBox = (props) => {
                     <span className={styles.time}>{getTimeStr(createAt)}</span>
                     <i onClick={(event) => changeFavorite({
                         participants,
-                        favoriteFlag: !isFavorite,
-                        chatId: _id
+                        flag: !isFavorite,
                     }, event)} className={classNames({'far fa-heart': !isFavorite, 'fas fa-heart': isFavorite})}/>
                     <i onClick={(event) => changeBlackList({
                         participants,
-                        blackListFlag: !isBlocked,
-                        chatId: _id
+                        flag: !isBlocked,
                     }, event)}
                        className={classNames({'fas fa-user-lock': !isBlocked, 'fas fa-unlock': isBlocked})}/>
                     <i onClick={(event) => catalogOperation(event, _id)} className={classNames({
