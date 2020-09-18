@@ -17,6 +17,7 @@ const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
 const Dinero = require('dinero.js');
+const activeUsers = require('./activeUsersController');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -24,6 +25,7 @@ module.exports.login = async (req, res, next) => {
     await userQueries.passwordCompare(req.body.password, foundUser.password);
     const tokens = generateTokens(foundUser);
     await userQueries.updateUser({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, foundUser.id);
+    activeUsers.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
     res.send(tokens);
   } catch (err) {
     next(err);
