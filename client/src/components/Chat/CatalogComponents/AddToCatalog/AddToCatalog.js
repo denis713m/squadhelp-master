@@ -4,12 +4,14 @@ import {Field, reduxForm} from 'redux-form';
 import SelectInput from '../../../SelectInput/SelectInput';
 import {addChatToCatalog} from '../../../../actions/actionCreator';
 import styles from './AddToCatalog.module.sass';
+import { toast } from 'react-toastify';
+import Notification from '../../../Notification/Notification';
+import CONSTANTS from '../../../../constants'
 
 
 const AddToCatalog = (props) => {
 
     const getCatalogsNames = () => {
-        const {catalogList} = props;
         const namesArray = [];
         catalogList.forEach((catalog) => {
             namesArray.push(catalog.catalogName);
@@ -18,7 +20,6 @@ const AddToCatalog = (props) => {
     };
 
     const getValueArray = () => {
-        const {catalogList} = props;
         const valueArray = [];
         catalogList.forEach((catalog) => {
             valueArray.push(catalog._id);
@@ -28,11 +29,17 @@ const AddToCatalog = (props) => {
 
     const click = (values) => {
         const {addChatId} = props;
-        props.addChatToCatalog({chatId: addChatId, catalogId: values.catalogId});
+        let isChatPresent = false;
+        catalogList.forEach((catalog) => {
+            if ((catalog._id === values.catalogId) && catalog.chats.includes(addChatId)) isChatPresent = true;
+        });
+        if (!isChatPresent) props.addChatToCatalog({chatId: addChatId, catalogId: values.catalogId});
+        else
+            toast(<Notification message={CONSTANTS.CHATS_IN_CATALOG} catalog={true}/>);
     };
 
 
-    const {handleSubmit} = props;
+    const {handleSubmit, catalogList} = props;
     const selectArray = getCatalogsNames();
     return (<>
             {selectArray.length !== 0 ?

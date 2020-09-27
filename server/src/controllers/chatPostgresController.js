@@ -88,21 +88,19 @@ module.exports.updateNameCatalog = async (req, res, next) => {
     }
 };
 
-module.exports.addRemoveChatToCatalog = async (req, res, next) => {
+module.exports.changeChatsInCatalog = async (req, res, next) => {
     try {
         const catalogIdToUpdate = req.body.catalogId;
         const catalogToChange = await chatQueries.findCatalog(catalogIdToUpdate);
         const chatToAddRemove = req.body.chatId;
         const newChats = [];
-        if (req.route.path === '/addNewChatToCatalog')  {
-            catalogToChange.chats.includes(chatToAddRemove) ? newChats.push(...catalogToChange.chats)
-                        : newChats.push(...catalogToChange.chats, chatToAddRemove)}
+        if (req.isAddChat)  {
+            newChats.push(...catalogToChange.chats, chatToAddRemove)}
             else {
             catalogToChange.chats.forEach(chat => {if (chat !== chatToAddRemove) newChats.push(chat)});
         }
-        const updatedCatalog = await chatQueries.changeConversationsInCatalog(
-            newChats, catalogIdToUpdate);
-        res.send(updatedCatalog);
+        await chatQueries.changeConversationsInCatalog(newChats, catalogIdToUpdate);
+        res.end();
     } catch (err) {
         next(err);
     }

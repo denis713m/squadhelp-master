@@ -112,5 +112,6 @@ export default {
             'Tech, Internet, Software', 'Transportation', 'Travel & Hotel', 'Tutoring & bTest Prep', 'Venture Capital & Investment',
             'Video, Books & Magazines', 'Virtual Reality(VR) and Augmented Reality(AR) Company', 'Vitamins and Supplements', 'Weddings & Bridal'],
     ],
-    pagesWithout: ['/login', '/registration', '/' , '/howitworks' , '/recoverpassword',]
+    pagesWithout: ['/login', '/registration', '/' , '/howitworks' , '/recoverpassword',],
+    CHATS_IN_CATALOG: 'Chat already in this catalog'
 };

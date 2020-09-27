@@ -120,11 +120,11 @@ export function* getCatalogListSaga(action) {
 
 export function* addChatToCatalog(action) {
     try {
-        const {data} = yield restController.addChatToCatalog(action.data);
+        yield restController.addChatToCatalog(action.data);
         const {catalogList} = yield select(state => state.chatStore);
         for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].chats = data.chats;
+            if (catalogList[i]._id === action.data.catalogId) {
+                catalogList[i].chats.push(action.data.chatId);
                 break;
             }
         }
@@ -157,15 +157,15 @@ export function* deleteCatalog(action) {
 
 export function* removeChatFromCatalogSaga(action) {
     try {
-        const {data} = yield restController.removeChatFromCatalog(action.data);
+        yield restController.removeChatFromCatalog(action.data);
         const {catalogList} = yield select(state => state.chatStore);
         for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].chats = data.chats;
+            if (catalogList[i]._id === action.data.catalogId) {
+                remove(catalogList[i].chats, catalog => catalog === action.data.chatId);
                 break;
             }
         }
-        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: {catalogList, currentCatalog: data}});
+        yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_SUCCESS, data: catalogList});
     } catch (err) {
         yield put({type: ACTION.REMOVE_CHAT_FROM_CATALOG_ERROR, error: err.response});
     }
