@@ -135,24 +135,18 @@ module.exports.getChat = async (req, res, next) => {
 module.exports.getPreview = async (req, res, next) => {
     try {
         const userId = req.tokenData.userId;
-        const conversations = await chatQueries.findAllUserMessages(userId);
+        const conversations = await chatQueries.findLastUserMessageInConversations(userId);
+        const result =[];
+        if(conversations.length > 0)
+        {
         const interlocutors = [];
-        conversations.sort(function(item1, item2) {
-            const time1 = moment(item1.createdAt, 'YYYY-MM-DDTHH:mm:ss');
-            const time2 = moment(item2.createdAt, 'YYYY-MM-DDTHH:mm:ss');
-            if(time1.isAfter(time2))
-                return -1;
-            else if (time1.isBefore(time2))
-                return 1;
-            else return 0;
-        });
-        conversations.forEach(conversation => {
-            if(conversation['Conversation.participant1'] === userId) interlocutors.push(conversation['Conversation.participant2'])
-                else interlocutors.push(conversation['Conversation.participant1']);
-        });
-        const senders = await userQueries.findAllUser(interlocutors);
-        const answer =[];
-        conversations.forEach((conversation) => {
+        const sortConversationsByTime = _.orderBy(conversations, (o)=> moment(o.createdAt, 'YYYY-MM-DDTHH:mm:ss'), ['desc'])
+        sortConversationsByTime.forEach(conversation => {
+                if(conversation['Conversation.participant1'] === userId) interlocutors.push(conversation['Conversation.participant2'])
+                    else interlocutors.push(conversation['Conversation.participant1']);
+            });
+            const senders = await userQueries.findAllUser(interlocutors);
+            sortConversationsByTime.forEach((conversation) => {
             senders.forEach(sender => {
                 if ( (conversation['Conversation.participant1'] === sender.id)
                     || (conversation['Conversation.participant2'] === sender.id) ) {
