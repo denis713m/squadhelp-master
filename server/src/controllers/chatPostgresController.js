@@ -76,13 +76,12 @@ module.exports.deleteCatalog = async (req, res, next) => {
     }
 };
 
-module.exports.updateNameCatalog = async (req, res, next) => {
+module.exports.renameCatalog = async (req, res, next) => {
     try {
         const newName = req.body.catalogName;
         const catalogToUpdate = req.body.catalogId;
-        const updatedCatalog = await chatQueries.updateCatalogName(
-             newName, catalogToUpdate);
-        res.send(updatedCatalog);
+        await chatQueries.renameCatalog(newName, catalogToUpdate);
+        res.end();
     } catch (err) {
         next(err);
     }

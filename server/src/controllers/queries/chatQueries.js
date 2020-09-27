@@ -46,15 +46,15 @@ module.exports.createCatalog = async (userId, catalogName, chat) => {
     return message.get({ plain: true });
 };
 
-module.exports.updateCatalogName = async (newData, where, transaction) => {
+module.exports.renameCatalog = async (newName, catalogId, transaction) => {
     const [updatedCount, [updatedRow]] = await db.Catalogs.update(
-        {catalogName:newData},
-        { where: {_id: where},
+        {catalogName:newName},
+        { where: {_id: catalogId},
             returning: true,
             transaction
         });
     if (updatedCount !== 1) {
-        new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Catalog'));
+        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Catalog'));
     }
     return updatedRow.dataValues;
 };

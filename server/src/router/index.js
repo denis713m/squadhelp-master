@@ -170,7 +170,7 @@ router.post(
 router.post(
   '/updateNameCatalog',
   checkToken.checkToken,
-  chatPostgresController.updateNameCatalog,
+  chatPostgresController.renameCatalog,
 );
 
 router.post(

@@ -174,11 +174,13 @@ export function* removeChatFromCatalogSaga(action) {
 
 export function* changeCatalogName(action) {
     try {
-        const {data} = yield restController.changeCatalogName(action.data);
+        yield restController.changeCatalogName(action.data);
         const {catalogList} = yield select(state => state.chatStore);
+        let data = {};
         for (let i = 0; i < catalogList.length; i++) {
-            if (catalogList[i]._id === data._id) {
-                catalogList[i].catalogName = data.catalogName;
+            if (catalogList[i]._id === action.data.catalogId) {
+                catalogList[i].catalogName = action.data.catalogName;
+                data = catalogList[i];
                 break;
             }
         }
