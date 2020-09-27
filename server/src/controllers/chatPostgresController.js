@@ -118,22 +118,11 @@ module.exports.getCatalogs = async (req, res, next) => {
 };
 
 
-module.exports.getChat = async (req, res, next) => {
+module.exports.getAllMessagesInConversation = async (req, res, next) => {
     try {
         const chat = req.body.chatId;
-         const messages = await chatQueries.findAllMessagesInChat(chat);
-         const interlocutorId = req.body.interlocutorId;
-         const interlocutor = await userQueries.findUserById(interlocutorId );
-        res.send({
-            messages,
-            interlocutor: {
-                firstName: interlocutor.firstName,
-                lastName: interlocutor.lastName,
-                displayName: interlocutor.displayName,
-                id: interlocutor.id,
-                avatar: interlocutor.avatar,
-            },
-        });
+        const messages = await chatQueries.findAllMessagesInChat(chat);
+        res.send(messages);
     } catch (err) {
         next(err);
     }

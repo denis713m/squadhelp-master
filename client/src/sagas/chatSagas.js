@@ -17,8 +17,10 @@ export function* previewSaga() {
 
 export function* getDialog(action) {
     try {
-        const {data} = yield  restController.getDialog(action.data);
-        yield put({type: ACTION.GET_DIALOG_MESSAGES, data: data});
+        const {data} = yield  restController.getDialog(
+            {chatId: action.data.chatId, interlocutorId: action.data.interlocutor.id}
+            );
+        yield put({type: ACTION.GET_DIALOG_MESSAGES, data: {messages: data, interlocutor: action.data.interlocutor}});
     } catch (err) {
         yield put({type: ACTION.GET_DIALOG_MESSAGES_ERROR, error: err.response});
     }
