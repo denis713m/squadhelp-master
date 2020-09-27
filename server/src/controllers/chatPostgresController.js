@@ -3,7 +3,7 @@ import moment from 'moment';
 const controller = require('../boot/configureSocketIO');
 const userQueries = require('./queries/userQueries');
 const chatQueries = require('./queries/chatQueries');
-const hash = require('object-hash');
+const _ = require('lodash');
 
 module.exports.addMessage = async (req, res, next) => {
     try {

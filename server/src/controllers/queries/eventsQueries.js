@@ -30,6 +30,7 @@ module.exports.findAllUserEvents = async (data) => {
     return await db.Events.findAll(
         {
             where: {user_id:data},
+            order: [['date', 'ASC']],
             raw: true,
         });
 };
