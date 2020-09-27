@@ -8,36 +8,46 @@ const hash = require('object-hash');
 module.exports.addMessage = async (req, res, next) => {
     try {
         const participants = [req.tokenData.userId, req.body.recipient];
-        const participantsHash = hash(participants,{unorderedArrays:true})
-        const conversation = await chatQueries.findOrCreateConversation(participantsHash, participants);
+        let conversation={};
+        console.log(req.body.conversation)
+        if (req.body.conversation) conversation.id = req.body.conversation;
+        else conversation = await chatQueries.createConversation(participants);
+        //const conversation = await chatQueries.findOrCreateConversation(/*participantsHash,*/ participants);
         const text = req.body.messageBody;
         const sender = req.tokenData.userId;
         const message = await chatQueries.createMessage( conversation.id, text, sender);
-        message.participants = [participants];
+        //message.participants = [participants];
+        message.convers = conversation.id;
         const preview = {
             _id: conversation.id,
             sender: req.tokenData.userId,
             text: req.body.messageBody,
             createAt: message.createdAt,
             participants,
-            blackList: [conversation.blackList1, conversation.blackList2],
-            favoriteList: [conversation.favoriteList1, conversation.favoriteList2],
-            interlocutor: req.body.interlocutor};
-        controller.getChatController().emitNewMessage(req.body.recipient, {
-            message: message,
-            preview: {
-                ...preview,
-                interlocutor: {
-                    id: req.tokenData.userId,
-                    firstName: req.tokenData.firstName,
-                    lastName: req.tokenData.lastName,
-                    displayName: req.tokenData.displayName,
-                    avatar: req.tokenData.avatar,
-                    email: req.tokenData.email,
+            blackList: [false, false],
+            favoriteList: [false, false],
+            //interlocutor: req.body.interlocutor
+        };
+        if (req.body.conversation) {
+            controller.getChatController().emitNewMessage(req.body.recipient, {
+                message: message});}
+        else{
+            controller.getChatController().emitNewMessage(req.body.recipient, {
+                message: message,
+                preview: {
+                    ...preview,
+                    interlocutor: {
+                        id: req.tokenData.userId,
+                        firstName: req.tokenData.firstName,
+                        lastName: req.tokenData.lastName,
+                        displayName: req.tokenData.displayName,
+                        avatar: req.tokenData.avatar,
+                    },
                 },
-            },
-        });
-        res.send({message, preview})
+            });
+        }
+
+        res.send({message/*, preview*/})
     } catch (err) {
         next(err);
     }

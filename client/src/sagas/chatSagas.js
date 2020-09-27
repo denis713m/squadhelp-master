@@ -28,17 +28,39 @@ export function* sendMessage(action) {
     try {
         const {data} = yield restController.newMessage(action.data);
         const {messagesPreview} = yield select(state => state.chatStore);
-        let isNew = true;
-        messagesPreview.forEach(preview => {
-            if (isEqual(preview.participants, data.message.participants)) {
-                preview.text = data.message.body;
-                preview.sender = data.message.sender;
-                preview.createAt = data.message.createdAt;
-                isNew = false;
-            }
-        });
-        if (isNew) {
-            messagesPreview.push(data.preview);
+        const dataForStore = {
+            message : {
+                body: action.data.messageBody,
+                sender: action.data.sender,
+                createdAt: data.message.createdAt
+            }};
+        if(action.data.convers)
+        {
+            messagesPreview.forEach(preview => {
+                if (isEqual(preview._id, action.data.convers)) {
+                    preview.text = action.data.messageBody;
+                    preview.sender = action.data.sender;
+                    preview.createAt = data.message.createdAt;
+                }
+        });}
+        else {
+            const preview = {
+                _id: data.message.convers,
+                sender: action.data.sender,
+                text: action.data.messageBody,
+                createAt: data.message.createdAt,
+                blackList: [false, false],
+                favoriteList: [false, false],
+                interlocutor: action.data.recipient,
+                participants: [action.data.sender, action.data.recipient]
+            };
+            messagesPreview.push(preview);
+            dataForStore.chatData = {
+                    _id: data.message.convers,
+                    participants: [action.data.sender, action.data.recipient],
+                    blackList: [false, false],
+                    favoriteList: [false, false],
+            };
         }
         yield put({
             type: ACTION.SEND_MESSAGE,

@@ -22,7 +22,8 @@ const ChatInput = (props) => {
         props.sendMessage({
             messageBody: values.message,
             recipient: props.interlocutor.id,
-            interlocutor: props.interlocutor
+            sender: props.data.id,
+            conversation: props._id,
         });
         reset();
     };
@@ -53,8 +54,9 @@ const ChatInput = (props) => {
 
 const mapStateToProps = (state) => {
     const {interlocutor} = state.chatStore;
+    const {_id} = state.chatStore.chatData ? state.chatStore.chatData : {_id: undefined};
     const {data} = state.userStore;
-    return {interlocutor, data};
+    return {interlocutor, data, _id, be};
 };
 
 const mapDispatchToProps = (dispatch) => {

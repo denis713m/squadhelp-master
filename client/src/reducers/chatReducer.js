@@ -100,7 +100,7 @@ export default function (state = initialState, action) {
             return {
                 ...state,
                 chatData: {...state.chatData,...action.data.chatData},
-                messagesPreview: action.data.messagesPreview,
+                messagesPreview: [...action.data.messagesPreview],
                 messages: [...state.messages, action.data.message]
             }
         }

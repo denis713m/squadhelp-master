@@ -94,7 +94,7 @@ class ContestPage extends React.Component {
         const participants = [id, interlocutorId];
         participants.sort((participant1, participant2) => participant1 - participant2);
         for (let i = 0; i < messagesPreview.length; i++) {
-            if (isEqual(participants, messagesPreview[i].participants)) {
+            if ((messagesPreview[i].participants.includes(id)) && (messagesPreview[i].participants.includes(interlocutorId))) {
                 return {
                     participants: messagesPreview[i].participants,
                     _id: messagesPreview[i]._id,
