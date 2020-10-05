@@ -1,4 +1,4 @@
-const bd = require('../models');
+const bd = require('../models/postgreModel');
 const CONSTANTS = require('../constants');
 
 module.exports.createWhereForAllContests = (
