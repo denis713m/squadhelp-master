@@ -2,6 +2,7 @@ import {put} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
 import * as restController from '../api/rest/restController';
 import {controller} from '../api/ws/socketController';
+import CONTANTS from '../constants';
 
 
 
@@ -21,6 +22,7 @@ export  function* privateSaga(action){
 export function* notAuthorizeSaga(action){
     yield put({type: ACTION.GET_USER_REQUEST});
     try{
+        if(!window.localStorage.getItem(CONTANTS.ACCESS_TOKEN)) throw new Error();
         const {data}=yield  restController.getUser();
         action.replace('/');
         yield  put({type: ACTION.GET_USER_SUCCESS, data: data});
