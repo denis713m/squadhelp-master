@@ -4,8 +4,8 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const configPath = env === 'production' ? path.join(__dirname, '..', '..', '..',
-  'src/server/config/postgresConfig.json') : path.join(__dirname, '..',
+const configPath = env === 'production' ? path.join(__dirname, '..', '..', '..','..',
+  'src/server/config/postgresConfig.json') : path.join(__dirname, '..','..',
   '/config/postgresConfig.json');
 const config = require(configPath)[ env ];
 const db = {};
@@ -48,6 +48,9 @@ db[ 'Users' ].hasMany(db[ 'Messages' ],
 db[ 'Users' ].hasMany(db[ 'Catalogs' ],
     { foreignKey: 'userId', targetKey: 'id' });
 
+db[ 'Users' ].hasMany(db[ 'UserInConversation' ],
+    { foreignKey: 'userId', targetKey: 'id' });
+
 db[ 'Offers' ].belongsTo(db[ 'Users' ],
   { foreignKey: 'userId', sourceKey: 'id' });
 db[ 'Offers' ].belongsTo(db[ 'Contests' ],
@@ -71,6 +74,13 @@ db[ 'Conversations' ].belongsTo(db[ 'Users' ],
 db[ 'Conversations' ].belongsTo(db[ 'Users' ],
     { foreignKey: 'participant2', sourceKey: 'id' });
 db[ 'Conversations' ].hasMany(db[ 'Messages' ],
+    { foreignKey: 'conversation', sourceKey: 'id' });
+
+db[ 'Conversations' ].hasMany(db[ 'UserInConversation' ],
+    { foreignKey: 'conversation', targetKey: 'id' });
+db[ 'UserInConversation' ].belongsTo(db[ 'Users' ],
+    { foreignKey: 'userId', sourceKey: 'id' });
+db[ 'UserInConversation' ].belongsTo(db[ 'Conversations' ],
     { foreignKey: 'conversation', sourceKey: 'id' });
 
 db[ 'Messages' ].belongsTo(db[ 'Users' ],

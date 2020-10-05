@@ -1,4 +1,4 @@
-const bd = require('../../models');
+const bd = require('../../models/postgreModel');
 const ServerError = require('../../errors/ServerError');
 const sequelize = require('sequelize');
 const CONSTANTS = require('../../constants');

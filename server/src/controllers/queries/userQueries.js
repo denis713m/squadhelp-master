@@ -1,4 +1,4 @@
-const bd = require('../../models');
+const bd = require('../../models/postgreModel');
 const NotFound = require('../../errors/UserNotFoundError');
 const ServerError = require('../../errors/ServerError');
 const bcrypt = require('bcrypt');
@@ -73,11 +73,11 @@ module.exports.findUserById = async (userId) => {
 
 module.exports.userCreation = async (userData, password) => {
   const newUser = await bd.Users.create({...userData, password: password});
-  if ( !newUser) {
+/*  if ( !newUser) {
     throw new ServerError(CONSTANTS_ERROR_MESSAGES.USER_CREATE);
-  } else {
+  } else {*/
     return newUser.get({ plain: true });
-  }
+  //}
 };
 
 module.exports.passwordCompare = async (pass1, pass2) => {
@@ -88,11 +88,24 @@ module.exports.passwordCompare = async (pass1, pass2) => {
 };
 
 module.exports.findAllUser = async (users) => {
-  const result = await bd.Users.findAll({ where: {id: users}, raw: true});
-  if ( result.length === 0) {
+  const usersInfo = await bd.Users.findAll({
+    where: {id: users},
+    include:[
+      {
+        model: bd.UserInConversation,
+        attributes: ['status']
+      }
+    ],
+    attributes: ['id', 'firstName', 'lastName', 'displayName', 'avatar'],
+    raw: true});
+  if ( usersInfo.length === 0) {
     throw new NotFound(CONSTANTS_ERROR_MESSAGES.USERS_DIDNT_FIND);
   } else {
-    return result;
+    usersInfo.forEach((user) =>{
+      user.isBlockedConversation = user['UserInConversations.status'] === 'block';
+      delete user['UserInConversations.status'];
+    });
+    return usersInfo;
   }
 };
 

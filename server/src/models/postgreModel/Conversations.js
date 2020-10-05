@@ -24,30 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         key: 'id', // key in Target model that we're referencing
       },
     },
-    blackList1:{
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-    blackList2:{
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-    favoriteList1:{
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-    favoriteList2:{
-      type: DataTypes.BOOLEAN,
-      allowNull: true,
-      defaultValue: false,
-    },
-/*    participantsHash:{
-      type: DataTypes.STRING,
-      allowNull: false,
-    },*/
+
   }, {
     indexes: [
       {

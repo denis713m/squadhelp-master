@@ -1,4 +1,4 @@
-const bd = require('../../models');
+const bd = require('../../models/postgreModel');
 const ServerError = require('../../errors/ServerError');
 const CONSTANTS_ERROR_MESSAGES = require('../../CONSTANTS_ERROR_MESSAGES');
 
