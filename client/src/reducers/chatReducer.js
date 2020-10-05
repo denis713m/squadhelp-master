@@ -132,15 +132,16 @@ export default function (state = initialState, action) {
         case ACTION.CHANGE_CHAT_FAVORITE:{
             return{
                 ...state,
-                chatData: action.data.changedPreview,
-                messagesPreview: action.data.messagesPreview
+                chatData: {...state.chatData,...action.data.changedPreview},
+                messagesPreview: [...action.data.messagesPreview]
             }
         }
         case ACTION.CHANGE_CHAT_BLOCK:{
             return {
                 ...state,
-                chatData: action.data.chatData,
-                messagesPreview: action.data.messagesPreview
+                interlocutor: {...state.interlocutor, ...action.data.interlocutor},
+                chatData: {...state.chatData, ...action.data.chatData},
+                messagesPreview: [...action.data.messagesPreview]
             }
         }
         case ACTION.RECEIVE_CATALOG_LIST: {

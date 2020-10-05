@@ -5,18 +5,18 @@ import classNames from 'classnames';
 
 
 const DialogBox = (props) => {
-    const {chatPreview, userId, getTimeStr, changeFavorite, changeBlackList, catalogOperation, goToExpandedDialog, chatMode, interlocutor} = props;
-    const {favoriteList, participants, blackList, _id, text, createAt} = chatPreview;
-    const isFavorite = favoriteList[participants.indexOf(userId)];
-    const isBlocked = blackList[participants.indexOf(userId)];
+    const {chatPreview, getTimeStr, changeFavorite, changeBlackList, catalogOperation,
+        goToExpandedDialog, chatMode, interlocutor} = props;
+    const {participants, _id, text, createAt, status } = chatPreview;
+    const isFavorite = status === 'favorite';
+    const isBlocked = status === 'block';
     return (
         <div className={styles.previewChatBox} onClick={() => goToExpandedDialog({
             interlocutor,
             conversationData: {
                 participants: participants,
                 _id: _id,
-                blackList: blackList,
-                favoriteList: favoriteList
+                status: status,
             }
         })}>
             <img src={interlocutor.avatar === 'anon.png' ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${interlocutor.avatar}`} alt='user'/>
@@ -28,12 +28,13 @@ const DialogBox = (props) => {
                 <div className={styles.buttonsContainer}>
                     <span className={styles.time}>{getTimeStr(createAt)}</span>
                     <i onClick={(event) => changeFavorite({
-                        participants,
-                        flag: !isFavorite,
+                        id: _id,
+                        status: status
                     }, event)} className={classNames({'far fa-heart': !isFavorite, 'fas fa-heart': isFavorite})}/>
                     <i onClick={(event) => changeBlackList({
-                        participants,
-                        flag: !isBlocked,
+                        id: _id,
+                        status: status,
+                        interlocutor: interlocutor.id,
                     }, event)}
                        className={classNames({'fas fa-user-lock': !isBlocked, 'fas fa-unlock': isBlocked})}/>
                     <i onClick={(event) => catalogOperation(event, _id)} className={classNames({

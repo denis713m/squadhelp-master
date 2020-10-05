@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
     const {interlocutor} = state.chatStore;
     const {_id} = state.chatStore.chatData ? state.chatStore.chatData : {_id: undefined};
     const {data} = state.userStore;
-    return {interlocutor, data, _id, be};
+    return {interlocutor, data, _id};
 };
 
 const mapDispatchToProps = (dispatch) => {

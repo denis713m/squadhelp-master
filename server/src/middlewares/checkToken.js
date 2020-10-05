@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const TokenError = require('../errors/TokenError');
 const userQueries = require ('../controllers/queries/userQueries');
-const sessionController = require ('../controllers/activeUsersController');
+const sessionController = require ('../models/activeUsersController');
 
 
 module.exports.checkAuth = async (req, res, next) => {
@@ -36,7 +36,7 @@ module.exports.checkRefreshToken = async (req, res, next) => {
     req.tokenData = jwt.verify(refreshToken, CONSTANTS.REFRESH_JWT_SECRET);
     next();
   } catch (err) {
-    next(err);
+    next(new TokenError(err));
   }
 };
 
@@ -48,7 +48,7 @@ module.exports.checkToken = async (req, res, next) => {
   }
   try {
     req.tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
-    const sessionStillActive = sessionController.checkUserAtSessionCache(accessToken);
+    const sessionStillActive = sessionController.checkUserAtSessionCache(accessToken, req.tokenData.userId);
     if(sessionStillActive !== 'active') {
       const foundUser = await userQueries.findUserById(req.tokenData.userId );
       if (!foundUser.accessToken === req.headers.authorization){

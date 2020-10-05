@@ -14,12 +14,12 @@ import styles from './DialogList.module.sass';
 
 const DialogList = (props) => {
 
-    const changeFavorite = (data, event) => {
+    const setChatFavorite = (data, event) => {
         props.changeChatFavorite(data);
         event.stopPropagation();
     };
 
-    const changeBlackList = (data, event) => {
+    const setChatBlock = (data, event) => {
         props.changeChatBlock(data);
         event.stopPropagation();
     };
@@ -30,12 +30,12 @@ const DialogList = (props) => {
     };
 
 
-    const onlyFavoriteDialogs = (chatPreview, userId) => {
-        return chatPreview.favoriteList[chatPreview.participants.indexOf(userId)];
+    const onlyFavoriteDialogs = (chatPreview) => {
+        return chatPreview.status === 'favorite';
     };
 
-    const onlyBlockDialogs = (chatPreview, userId) => {
-        return chatPreview.blackList[chatPreview.participants.indexOf(userId)];
+    const onlyBlockDialogs = (chatPreview) => {
+        return chatPreview.status === 'block';
     };
 
     const getTimeStr = (time) => {
@@ -58,10 +58,10 @@ const DialogList = (props) => {
             const dialogNode = <DialogBox
                 interlocutor={chatPreview.interlocutor}
                 chatPreview={chatPreview} userId={userId} key={index} getTimeStr={getTimeStr}
-                changeFavorite={changeFavorite} changeBlackList={changeBlackList} chatMode={chatMode}
+                changeFavorite={setChatFavorite} changeBlackList={setChatBlock} chatMode={chatMode}
                 catalogOperation={chatMode === CONSTANTS.CATALOG_PREVIEW_CHAT_MODE ? removeChat : changeShowCatalogCreation}
                 goToExpandedDialog={goToExpandedDialog}/>;
-            if (filterFunc && filterFunc(chatPreview, userId)) {
+            if (filterFunc && filterFunc(chatPreview)) {
                 arrayList.push(dialogNode);
             } else if (!filterFunc) {
                 arrayList.push(dialogNode);

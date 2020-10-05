@@ -7,30 +7,28 @@ import classNames from 'classnames';
 import { addDefaultSrc } from '../../../../api/utils';
 
 const ChatHeader = (props) => {
-    const changeFavorite = (data, event) => {
+    const setChatFavorite = (data, event) => {
         props.changeChatFavorite(data);
         event.stopPropagation();
     };
 
-    const changeBlackList = (data, event) => {
+    const setChatBlock = (data, event) => {
         props.changeChatBlock(data);
         event.stopPropagation();
     };
 
 
-    const isFavorite = (chatData, userId) => {
-        const {favoriteList, participants} = chatData;
-        return favoriteList[participants.indexOf(userId)];
+    const isFavorite = (chatData) => {
+        return chatData.status === 'favorite'
     };
 
-    const isBlocked = (chatData, userId) => {
-        const {participants, blackList} = chatData;
-        return blackList[participants.indexOf(userId)];
+    const isBlocked = (chatData) => {
+        return chatData.status === 'block'
     };
 
 
-    const {avatar, firstName} = props.interlocutor;
-    const {backToDialogList, chatData, userId} = props;
+    const {avatar, firstName, id} = props.interlocutor;
+    const {backToDialogList, chatData} = props;
     return (
         <div className={styles.chatHeader}>
             <div className={styles.buttonContainer} onClick={() => backToDialogList()}>
@@ -45,21 +43,22 @@ const ChatHeader = (props) => {
                 </div>
                 {chatData &&
                 <div>
-                    <i onClick={(event) => changeFavorite({
-                        participants: chatData.participants,
-                        flag: !isFavorite(chatData, userId),
+                    <i onClick={(event) => setChatFavorite({
+                        id: chatData._id,
+                        status: chatData.status,
                     }, event)}
                        className={classNames({
-                           'far fa-heart': !isFavorite(chatData, userId),
-                           'fas fa-heart': isFavorite(chatData, userId)
+                           'far fa-heart': !isFavorite(chatData),
+                           'fas fa-heart': isFavorite(chatData)
                        })}/>
-                    <i onClick={(event) => changeBlackList({
-                        participants: chatData.participants,
-                        flag: !isBlocked(chatData, userId),
+                    <i onClick={(event) => setChatBlock({
+                        id: chatData._id,
+                        status: chatData.status,
+                        interlocutor: id,
                     }, event)}
                        className={classNames({
-                           'fas fa-user-lock': !isBlocked(chatData, userId),
-                           'fas fa-unlock': isBlocked(chatData, userId)
+                           'fas fa-user-lock': !isBlocked(chatData),
+                           'fas fa-unlock': isBlocked(chatData)
                        })}/>
                 </div>
                 }

@@ -2,7 +2,7 @@ import moment from 'moment';
 const eventsQueries = require('../controllers/queries/eventsQueries');
 const controller = require('../boot/configureSocketIO');
 const CONSTANTS = require('../constants');
-const sessionController = require('../controllers/activeUsersController');
+const sessionController = require('../models/activeUsersController');
 
 module.exports.startTimer = async () => {
     const timeToCheck = moment('12:00:10', 'HH:mm:ss').diff(moment());

@@ -91,15 +91,12 @@ class ContestPage extends React.Component {
     findConversationInfo = (interlocutorId) => {
         const {messagesPreview} = this.props.chatStore;
         const {id} = this.props.userStore.data;
-        const participants = [id, interlocutorId];
-        participants.sort((participant1, participant2) => participant1 - participant2);
         for (let i = 0; i < messagesPreview.length; i++) {
             if ((messagesPreview[i].participants.includes(id)) && (messagesPreview[i].participants.includes(interlocutorId))) {
                 return {
                     participants: messagesPreview[i].participants,
                     _id: messagesPreview[i]._id,
-                    blackList: messagesPreview[i].blackList,
-                    favoriteList: messagesPreview[i].favoriteList
+                    status: messagesPreview.status
                 };
             }
         }

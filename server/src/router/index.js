@@ -140,7 +140,7 @@ router.post(
 router.post(
   '/getChat',
   checkToken.checkToken,
-  chatPostgresController.getChat,
+  chatPostgresController.getAllMessagesInConversation,
 );
 
 router.post(

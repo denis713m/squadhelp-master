@@ -8,7 +8,6 @@ const CatalogList = (props) => {
 
 
     const goToCatalog = (event, catalog) => {
-        console.log(catalog)
         props.changeShowModeCatalog(catalog);
         event.stopPropagation();
     };
@@ -19,7 +18,6 @@ const CatalogList = (props) => {
     };
 
     const getListCatalog = () => {
-        console.log(props)
         const {catalogList} = props;
         const elementList = [];
         catalogList.forEach((catalog) => {

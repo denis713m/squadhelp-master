@@ -36,46 +36,37 @@ export function* sendMessage(action) {
                 sender: action.data.sender,
                 createdAt: data.message.createdAt
             }};
-        if(action.data.convers)
+        if(action.data.conversation)
         {
             messagesPreview.forEach(preview => {
-                if (isEqual(preview._id, action.data.convers)) {
+                if (isEqual(preview._id, action.data.conversation)) {
                     preview.text = action.data.messageBody;
                     preview.sender = action.data.sender;
                     preview.createAt = data.message.createdAt;
                 }
         });}
         else {
+            const {interlocutor} = yield select(state => state.chatStore);
             const preview = {
-                _id: data.message.convers,
+                _id: data.message.conversation,
                 sender: action.data.sender,
                 text: action.data.messageBody,
                 createAt: data.message.createdAt,
-                blackList: [false, false],
-                favoriteList: [false, false],
-                interlocutor: action.data.recipient,
+                interlocutor: interlocutor,
                 participants: [action.data.sender, action.data.recipient]
             };
             messagesPreview.push(preview);
             dataForStore.chatData = {
-                    _id: data.message.convers,
+                    _id: data.message.conversation,
                     participants: [action.data.sender, action.data.recipient],
-                    blackList: [false, false],
-                    favoriteList: [false, false],
+                    status: 'unset'
             };
         }
         yield put({
             type: ACTION.SEND_MESSAGE,
             data: {
-                message: data.message,
-                messagesPreview,
-                chatData: {
-                    _id: data.preview._id,
-                    participants: data.preview.participants,
-                    favoriteList: data.preview.favoriteList,
-                    blackList: data.preview.blackList
-                }
-            }
+                ...dataForStore,
+                messagesPreview,}
         });
     } catch (err) {
         yield put({type: ACTION.SEND_MESSAGE_ERROR, error: err.response});
@@ -84,13 +75,16 @@ export function* sendMessage(action) {
 
 export function* changeChatFavorite(action) {
     try {
-        const {data} = yield restController.changeChatFavorite(action.data);
+        if(action.data.status === 'favorite') action.data.status = 'unset';
+        else action.data.status = 'favorite';
+        yield restController.changeChatFavorite(action.data);
         const {messagesPreview} = yield select(state => state.chatStore);
         messagesPreview.forEach(preview => {
-            if (isEqual(preview.participants, data.participants))
-                preview.favoriteList = data.favoriteList;
+            if (isEqual(preview._id, action.data.id))
+                preview.status = action.data.status
         });
-        yield put({type: ACTION.CHANGE_CHAT_FAVORITE, data: {changedPreview: data, messagesPreview}});
+        yield put({type: ACTION.CHANGE_CHAT_FAVORITE,
+            data: {changedPreview: {status: action.data.status},messagesPreview}});
     } catch (err) {
         yield put({type: ACTION.SET_CHAT_FAVORITE_ERROR, error: err.response});
     }
@@ -98,13 +92,16 @@ export function* changeChatFavorite(action) {
 
 export function* changeChatBlock(action) {
     try {
-        const {data} = yield restController.changeChatBlock(action.data);
+        if(action.data.status === 'block') action.data.status = 'unset';
+        else action.data.status = 'block';
+        yield restController.changeChatBlock(action.data);
         const {messagesPreview} = yield select(state => state.chatStore);
         messagesPreview.forEach(preview => {
-            if (isEqual(preview.participants, data.participants))
-                preview.blackList = data.blackList
+            if (isEqual(preview._id, action.data.id))
+                preview.status = action.data.status
         });
-        yield put({type: ACTION.CHANGE_CHAT_BLOCK, data: {messagesPreview, chatData: data}});
+        yield put({type: ACTION.CHANGE_CHAT_BLOCK,
+            data: {chatData: {status: action.data.status}, messagesPreview}});
     } catch (err) {
         yield put({type: ACTION.SET_CHAT_BLOCK_ERROR, error: err.response})
     }
@@ -140,7 +137,11 @@ export function* addChatToCatalog(action) {
 export function* createCatalog(action) {
     try {
         const {data} = yield restController.createCatalog(action.data);
-        yield put({type: ACTION.CREATE_CATALOG_SUCCESS, data: data});
+        console.log(action.data)
+        console.log(data)
+        yield put({type: ACTION.CREATE_CATALOG_SUCCESS, data: {_id: data._id,
+                                                                      catalogName: action.data.catalogName,
+                                                                      chats: [action.data.chatId]}});
     } catch (err) {
         yield  put({type: ACTION.CREATE_CATALOG_ERROR, error: err.response});
     }

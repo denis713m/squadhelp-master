@@ -22,15 +22,12 @@ const OfferBox = (props) => {
 
     const findConversationInfo = () => {
         const {messagesPreview, id} = props;
-        const participants = [id, props.data.User.id];
-        participants.sort((participant1, participant2) => participant1 - participant2);
         for (let i = 0; i < messagesPreview.length; i++) {
             if ( (messagesPreview[i].participants.includes(id)) && (messagesPreview[i].participants.includes(props.data.User.id))) {
                 return {
                     participants: messagesPreview[i].participants,
                     _id: messagesPreview[i]._id,
-                    blackList: messagesPreview[i].blackList,
-                    favoriteList: messagesPreview[i].favoriteList
+                    status: messagesPreview[i].status
                 };
             }
         }

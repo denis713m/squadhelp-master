@@ -6,48 +6,37 @@ const sequelize = require('sequelize');
 
 const Op = sequelize.Op;
 
-module.exports.findOrCreateConversation = async (participantsHash, participants) => {
-    const [conversation] = await db.Conversations.findOrCreate(
+module.exports.createConversation = async (participants,transaction) => {
+    const conversation = await db.Conversations.create(
         {
-            where: {
-                participantsHash: participantsHash
-            },
-        defaults:{
             participant1: participants[0],
-            participant2: participants[1],}
-        });
-    if (!conversation) {
-        new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_CONVERSATION_CREATE);
-    }
-    return conversation;
+            participant2: participants[1]
+        }, {transaction: transaction});
+    return conversation.get({ plain: true });
 };
+
 
 module.exports.createMessage = async (conversation, text, sender) => {
     const message = await db.Messages.create(
         {
             conversation: conversation,
             body: text,
-            sender: sender});
-    if ( !message) {
-        new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_CREATE('Message'));
-    }
+            sender: sender
+        });
     return message.get({ plain: true });
 };
 
 module.exports.createCatalog = async (userId, catalogName, chat) => {
-    const message = await db.Catalogs.create({
+    const catalog = await db.Catalogs.create({
         userId: userId,
         catalogName: catalogName,
         chats: [chat]
     });
-    if ( !message) {
-        new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_CREATE('Catalog'));
-    }
-    return message.get({ plain: true });
+    return catalog.get({ plain: true });
 };
 
 module.exports.renameCatalog = async (newName, catalogId, transaction) => {
-    const [updatedCount, [updatedRow]] = await db.Catalogs.update(
+    const [updatedCount,] = await db.Catalogs.update(
         {catalogName:newName},
         { where: {_id: catalogId},
             returning: true,
@@ -56,42 +45,38 @@ module.exports.renameCatalog = async (newName, catalogId, transaction) => {
     if (updatedCount !== 1) {
         throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Catalog'));
     }
-    return updatedRow.dataValues;
 };
 
-module.exports.changeConversationsInCatalog = async (newData, catalogId) => {
-    const [updatedCount, [updatedRow]] = await db.Catalogs.update(
+module.exports.changeChatsInCatalog = async (newData, catalogId) => {
+    const [updatedCount] = await db.Catalogs.update(
         {chats: newData},
         { where: { _id: catalogId},
             returning: true,
         });
     if (updatedCount !== 1) {
-        new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Catalog'));
+        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Catalog'));
     }
-    return updatedRow.dataValues;
 };
 
-module.exports.markChatFavoriteOrBlock = async (isFavorite, userIndexInConversation, participants, newStatus) => {
-    const columnToChange = `${isFavorite ? 'favoriteList' : 'blackList'}${userIndexInConversation}`;
-    const [updatedCount, [updatedRow]] = await db.Conversations.update(
-        {[columnToChange]: newStatus},
+module.exports.changeChatStatus = async (newStatus, chatId, userId) => {
+    const [updatedCount] = await db.UserInConversation.update(
+        {status: newStatus},
         { where:
-                {[Op.and]:[
-                            {participant1: participants[0]},
-                            {participant2: participants[1]}],},
+                {
+                    conversation: chatId,
+                    userId: userId},
             returning: true,
         });
     if (updatedCount !== 1) {
-        new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Conversation'));
+        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Conversation'));
     }
-    return updatedRow.dataValues;
 };
 
 module.exports.findCatalog = async (catalogId) => {
-    const catalog = await db.Catalogs.findOne({catalogId: {_id: catalogId}});
+    const catalog = await db.Catalogs.findOne({where: {_id: catalogId}});
     if ( !catalog ) {
-        new NotFound(CONSTANTS_ERROR_MESSAGES.CHAT_FIND);}
-    return catalog;
+         throw new NotFound(CONSTANTS_ERROR_MESSAGES.CHAT_FIND);}
+    return catalog.get({plain:true});
 };
 
 module.exports.findAllUsersCatalog = async (userId) => {
@@ -109,7 +94,7 @@ module.exports.deleteCatalog = async(data) =>{
             _id: data}
     });
     if(deleteCatalog !==1)
-        new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_CATALOG_DELETE);
+        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_CATALOG_DELETE);
 };
 
 module.exports.findAllMessagesInChat = async (chat) => {
@@ -121,8 +106,8 @@ module.exports.findAllMessagesInChat = async (chat) => {
         });
 };
 
-module.exports.findAllUserMessages = async ( userId ) => {
-    return await db.Messages.findAll(
+module.exports.findLastUserMessagesInConversations = async (userId ) => {
+    const result =  await db.Messages.findAll(
         {
             include: [{
                 model: db.Conversations,
@@ -133,10 +118,49 @@ module.exports.findAllUserMessages = async ( userId ) => {
                 attributes: {
                     exclude: ['createdAt', 'updatedAt', 'id']
                 },
-            }],
+                include: [
+                    {
+                        model: db.UserInConversation,
+                        where: {
+                            userId: userId
+                        },
+                        attributes: ['status']
+                    }
+                ]
+            },
+
+            ],
             order: [['conversation', 'ASC'],['createdAt', 'DESC']],
-            attributes: [sequelize.literal('DISTINCT ON(conversation) "body"'),
-            'conversation', 'sender', 'createdAt'],
+            attributes: [sequelize.literal('DISTINCT ON(conversation) 1'),
+            'conversation', 'body', 'sender', 'createdAt'],
             raw: true,
         });
+    return allMessagesDataParse(result)
+};
+
+const allMessagesDataParse = (messages) => {
+    messages.forEach((item) => {
+        item.participants = [item['Conversation.participant1'], item['Conversation.participant2']];
+        item.interlocutor =
+            item['Conversation.UserInConversations.userId'] === item['Conversation.participant1'] ?
+                item['Conversation.participant2']:
+                item['Conversation.participant1'];
+        delete item['Conversation.UserInConversations.userId'];
+        item.status = item['Conversation.UserInConversations.status'];
+        delete item['Conversation.UserInConversations.status'];
+        item.text = item.body;
+        delete item.body;
+        item._id = item.conversation;
+        delete item.conversation;
+    });
+    return messages
+};
+
+
+module.exports.createUserInConversation = async (conversation, userId, transaction) => {
+    await db.UserInConversation.create(
+        {
+            conversation: conversation,
+            userId: userId
+        }, {transaction: transaction});
 };
