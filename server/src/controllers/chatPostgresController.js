@@ -98,7 +98,7 @@ module.exports.changeChatsInCatalog = async (req, res, next) => {
             else {
             catalogToChange.chats.forEach(chat => {if (chat !== chatToAddRemove) newChats.push(chat)});
         }
-        await chatQueries.changeConversationsInCatalog(newChats, catalogIdToUpdate);
+        await chatQueries.changeChatsInCatalog(newChats, catalogIdToUpdate);
         res.end();
     } catch (err) {
         next(err);
@@ -173,25 +173,32 @@ module.exports.getPreview = async (req, res, next) => {
     }
 };
 
-module.exports.moveChatToFavoriteBlackList = async (req, res, next) => {
+module.exports.changeChatStatus = async (req, res, next) => {
     try {
-        const isFavoriteOption = (req.route.path === '/favorite');
-        const userIndexInConversation = req.body.participants.indexOf(req.tokenData.userId)+1;
-        const newStatus = req.body.flag;
-        const participants = req.body.participants;
-        const chat = await chatQueries.markChatFavoriteOrBlock(isFavoriteOption, userIndexInConversation,participants, newStatus);
-        res.send({
-            blackList: [chat.blackList1, chat.blackList2],
-            favoriteList: [chat.favoriteList1, chat.favoriteList2],
-            participants: [chat.participant1, chat.participant2],
-            updatedAt: chat.updatedAt,
-            _id: chat.id
-        });
+        const newStatus = req.body.status;
+        const chatId = req.body.id;
+        const userId = req.tokenData.userId;
+        await chatQueries.changeChatStatus(newStatus, chatId, userId);
+        res.end();
+        if(!req.markChatFavorite){
+            const message = {
+                _id: chatId,
+                newStatus: newStatus === 'block'};
+            const interlocutorId = req.body.interlocutor;
+            controller.getChatController().emitChangeBlockStatus(interlocutorId, message);
+        }
     } catch (err) {
         next(err);
     }
 };
 
+module.exports.markChatStatusFavorite = async (req, res, next) =>{
+    req.markChatFavorite = true;
+    next();
+};
 
-
+module.exports.isAddChatToCatalog = async (req, res, next) =>{
+    req.isAddChat = true;
+    next();
+};
 

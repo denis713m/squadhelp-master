@@ -152,13 +152,14 @@ router.post(
 router.post(
   '/blackList',
   checkToken.checkToken,
-  chatPostgresController.moveChatToFavoriteBlackList
+  chatPostgresController.changeChatStatus,
 );
 
 router.post(
   '/favorite',
   checkToken.checkToken,
-  chatPostgresController.moveChatToFavoriteBlackList
+  chatPostgresController.markChatStatusFavorite,
+  chatPostgresController.changeChatStatus,
 );
 
 router.post(
@@ -176,13 +177,14 @@ router.post(
 router.post(
   '/addNewChatToCatalog',
   checkToken.checkToken,
-  chatPostgresController.addRemoveChatToCatalog
+  chatPostgresController.isAddChatToCatalog,
+  chatPostgresController.changeChatsInCatalog
 );
 
 router.post(
   '/removeChatFromCatalog',
   checkToken.checkToken,
-  chatPostgresController.addRemoveChatToCatalog
+  chatPostgresController.changeChatsInCatalog
 );
 
 router.post(
