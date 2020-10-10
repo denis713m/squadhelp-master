@@ -83,23 +83,26 @@ module.exports.passwordCompare = async (pass1, pass2) => {
   }
 };
 
-module.exports.findAllUser = async (users) => {
-  const usersInfo = await bd.Users.findAll({
+module.exports.findAllUser = async (users, conversations) => {
+  const usersData = await bd.Users.findAll({
     where: {id: users},
     include:[
       {
         model: bd.UserInConversation,
+        where: {conversation: conversations},
         attributes: ['status']
       }
     ],
     attributes: ['id', 'firstName', 'lastName', 'displayName', 'avatar'],
     raw: true});
-  if ( usersInfo.length === 0) {
-    throw new NotFound(CONSTANTS_ERROR_MESSAGES.USERS_DIDNT_FIND);
+  if ( usersData.length === 0) {
+    throw new NotFound(`can't find users`);
   } else {
-    usersInfo.forEach((user) =>{
+    const usersInfo = new Map();
+    usersData.forEach((user) =>{
       user.isBlockedConversation = user['UserInConversations.status'] === 'block';
       delete user['UserInConversations.status'];
+      usersInfo.set(user.id, user);
     });
     return usersInfo;
   }

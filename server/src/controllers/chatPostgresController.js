@@ -144,16 +144,17 @@ module.exports.getPreview = async (req, res, next) => {
         if(conversations.length > 0)
         {
             const interlocutors = [];
+            const conversationsId = [];
             const sortConversationsByTime = _.orderBy(conversations, (o)=> moment(o.createdAt, 'YYYY-MM-DDTHH:mm:ss'), ['desc'])
+            //get all interlocutors from messages and messages
             sortConversationsByTime.forEach(conversation => {
                         interlocutors.push(conversation.interlocutor)
+                        conversationsId.push(conversation._id)
                 });
-                const senders = await userQueries.findAllUser(interlocutors);
-                sortConversationsByTime.forEach((conversation) => {
-                senders.forEach(sender => {
-                    if ( conversation.interlocutor === sender.id){
-                        conversation.interlocutor = sender;}
-                });
+            //find info about all interlocutors(name, avatar, etc) and their statuses to conversations
+            const senders = await userQueries.findAllUser(interlocutors, conversationsId);
+            sortConversationsByTime.forEach((conversation) => {
+                conversation.interlocutor = senders.get(conversation.interlocutor);
                 result.push(conversation);
             });
         }
@@ -170,7 +171,7 @@ module.exports.changeChatStatus = async (req, res, next) => {
         const userId = req.tokenData.userId;
         await chatQueries.changeChatStatus(newStatus, chatId, userId);
         res.end();
-        if(!req.markChatFavorite){
+        if(!req.isMarkChatFavorite){
             const message = {
                 _id: chatId,
                 newStatus: newStatus === 'block'};
@@ -183,7 +184,7 @@ module.exports.changeChatStatus = async (req, res, next) => {
 };
 
 module.exports.markChatStatusFavorite = async (req, res, next) =>{
-    req.markChatFavorite = true;
+    req.isMarkChatFavorite = true;
     next();
 };
 

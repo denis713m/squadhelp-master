@@ -1,7 +1,6 @@
 const db = require('../../models/postgreModel');
 const ServerError = require('../../errors/ServerError');
 const NotFound = require('../../errors/UserNotFoundError');
-const CONSTANTS_ERROR_MESSAGES = require('../../CONSTANTS_ERROR_MESSAGES');
 const sequelize = require('sequelize');
 
 const Op = sequelize.Op;
@@ -43,7 +42,7 @@ module.exports.renameCatalog = async (newName, catalogId, transaction) => {
             transaction
         });
     if (updatedCount !== 1) {
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Catalog'));
+        throw new ServerError('cannot update catalog');
     }
 };
 
@@ -54,7 +53,7 @@ module.exports.changeChatsInCatalog = async (newData, catalogId) => {
             returning: true,
         });
     if (updatedCount !== 1) {
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Catalog'));
+        throw new ServerError('cannot update chats in catalog');
     }
 };
 
@@ -68,14 +67,14 @@ module.exports.changeChatStatus = async (newStatus, chatId, userId) => {
             returning: true,
         });
     if (updatedCount !== 1) {
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_UPDATE('Conversation'));
+        throw new ServerError('cannot update chat status');
     }
 };
 
 module.exports.findCatalog = async (catalogId) => {
     const catalog = await db.Catalogs.findOne({where: {_id: catalogId}});
     if ( !catalog ) {
-         throw new NotFound(CONSTANTS_ERROR_MESSAGES.CHAT_FIND);}
+         throw new NotFound('catalog is not exist');}
     return catalog.get({plain:true});
 };
 
@@ -94,7 +93,7 @@ module.exports.deleteCatalog = async(data) =>{
             _id: data}
     });
     if(deleteCatalog !==1)
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.CHAT_CATALOG_DELETE);
+        throw new ServerError('can not delete catalog');
 };
 
 module.exports.findAllMessagesInChat = async (chat) => {
@@ -131,8 +130,8 @@ module.exports.findLastUserMessagesInConversations = async (userId ) => {
 
             ],
             order: [['conversation', 'ASC'],['createdAt', 'DESC']],
-            attributes: [sequelize.literal('DISTINCT ON(conversation) 1'),
-            'conversation', 'body', 'sender', 'createdAt'],
+            attributes: [sequelize.literal('DISTINCT ON("Messages"."conversation")  "Messages"."conversation"'),
+            'body', 'sender', 'createdAt'],
             raw: true,
         });
     return allMessagesDataParse(result)
@@ -146,6 +145,8 @@ const allMessagesDataParse = (messages) => {
                 item['Conversation.participant2']:
                 item['Conversation.participant1'];
         delete item['Conversation.UserInConversations.userId'];
+        delete item['Conversation.participant2'];
+        delete item['Conversation.participant1'];
         item.status = item['Conversation.UserInConversations.status'];
         delete item['Conversation.UserInConversations.status'];
         item.text = item.body;
