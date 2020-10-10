@@ -2,22 +2,18 @@ const bd = require('../../models/postgreModel');
 const ServerError = require('../../errors/ServerError');
 const sequelize = require('sequelize');
 const CONSTANTS = require('../../constants');
-const CONSTANTS_ERROR_MESSAGES = require('../../CONSTANTS_ERROR_MESSAGES');
 
 const Op = sequelize.Op;
 
 module.exports.createContests = async (data, transaction) => {
-  const result = await bd.Contests.bulkCreate(data, transaction);
-  if ( !result) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.CONTEST_CREATE);
-  }
+  await bd.Contests.bulkCreate(data, transaction);
 };
 
 module.exports.updateContest = async (data, predicate, transaction) => {
   const [updatedCount, [updatedContest]] = await bd.Contests.update(data,
     { where: predicate, returning: true, transaction });
   if (updatedCount !== 1) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.CONTEST_UPDATE);
+    throw new ServerError('problem with contest updating');
   } else {
     return updatedContest.dataValues;
   }
@@ -39,7 +35,7 @@ module.exports.updateContestStatus = async (contestId,orderId,priority, transact
         }
       }, returning: true, transaction });
   if (updatedCount[ 0 ] < 1) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.CONTEST_UPDATE);
+    throw new ServerError('problem with contest updating');
   } else {
     return updatedContest.dataValues;
   }
@@ -49,7 +45,7 @@ module.exports.updateOfferStatus = async (newOfferStatus, offerId) => {
   const [updatedCount, [updatedOffer]] = await bd.Offers.update({status: newOfferStatus},
     { where: {id: offerId}, returning: true });
   if (updatedCount !== 1) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_UPDATE);
+    throw new ServerError('problem with offerStatus updating');
   } else {
     return updatedOffer.dataValues;
   }
@@ -68,7 +64,7 @@ module.exports.updateOfferStatusOnResolve = async (offerId, predicate, transacti
       },
     { where: predicate, returning: true, transaction: transaction });
   if (updatedCount < 1) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_UPDATE);
+    throw new ServerError('problem with offerStatus updating');
   } else {
     return updatedOffer;
   }
@@ -76,11 +72,7 @@ module.exports.updateOfferStatusOnResolve = async (offerId, predicate, transacti
 
 module.exports.createOffer = async (data) => {
   const result = await bd.Offers.create(data);
-  if ( !result) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_CREATE);
-  } else {
-    return result.get({ plain: true });
-  }
+  return result.get({ plain: true });
 };
 
 module.exports.getDataForContest = async (characteristic1, characteristic2) => {
@@ -159,7 +151,7 @@ module.exports.findContestById = async (contestId, role, userId ) => {
     ],
   });
   if ( !result ) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.CONTEST_FIND);}
+    throw new ServerError('contest doesnt exists');}
   return result.get({plain:true});
 };
 
@@ -205,7 +197,7 @@ module.exports.findAllContestForCreators = async (predicates, req) => {
 module.exports.findOffer = async (offerId) => {
   const result = await bd.Offers.findOne({where: {id: offerId}});
   if ( !result ) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_FIND);}
+    throw new ServerError('can not find offers');}
   else return result;
 };
 
@@ -237,6 +229,6 @@ module.exports.findAllOffersForModerator = async (status, limit, offset ) => {
         offset: offset,
       });
   if ( !result ) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.OFFER_FIND_PROBLEM);}
+    throw new ServerError(`can't find offers`);}
   return result;
 };

@@ -1,7 +1,6 @@
 const db = require('../../models/postgreModel');
 const ServerError = require('../../errors/ServerError');
 const Sequelize = require('sequelize');
-const CONSTANTS_ERROR_MESSAGES = require('../../CONSTANTS_ERROR_MESSAGES');
 
 module.exports.transactionCreation = async (isIncome, sum, userId, transaction) => {
     const typeOperation = isIncome ? 'INCOME': 'CONSUMPTION'
@@ -12,7 +11,7 @@ module.exports.transactionCreation = async (isIncome, sum, userId, transaction) 
             userId: userId,
         }, {transaction: transaction});
     if ( !newTransaction) {
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.MONEY_TRANSACTION);
+        throw new ServerError('server error on transaction creation');
     }
 };
 
