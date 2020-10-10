@@ -1,6 +1,5 @@
 const db = require('../../models/postgreModel');
 const ServerError = require('../../errors/ServerError');
-const CONSTANTS_ERROR_MESSAGES = require('../../CONSTANTS_ERROR_MESSAGES');
 
 module.exports.createEvent = async (user,remind, name,date) => {
     const event = await db.Events.create(
@@ -10,9 +9,6 @@ module.exports.createEvent = async (user,remind, name,date) => {
             date: date,
             remind: remind
         });
-    if ( !event) {
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.EVENT_CREATE);
-    }
     return event.get({ plain: true });
 };
 
@@ -22,7 +18,7 @@ module.exports.deleteEvent = async(data) =>{
         returning: true
     });
     if(deleteElement !==1)
-        throw new ServerError(CONSTANTS_ERROR_MESSAGES.EVENT_DELETE);
+        throw new ServerError(`problem with event delete`);
     return deleteElement;
 };
 

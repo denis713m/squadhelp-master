@@ -73,11 +73,7 @@ module.exports.findUserById = async (userId) => {
 
 module.exports.userCreation = async (userData, password) => {
   const newUser = await bd.Users.create({...userData, password: password});
-/*  if ( !newUser) {
-    throw new ServerError(CONSTANTS_ERROR_MESSAGES.USER_CREATE);
-  } else {*/
-    return newUser.get({ plain: true });
-  //}
+  return newUser.get({ plain: true });
 };
 
 module.exports.passwordCompare = async (pass1, pass2) => {
