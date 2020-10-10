@@ -3,7 +3,7 @@ const ChatController = require('../controllers/sockets/ChatController');
 const NotificationController = require(
     '../controllers/sockets/NotificationController');
 import httpServer from "./configureHTTPServer";
-const eventTimer = require('../middlewares/eventsTimer');
+const eventTimer = require('./eventsTimer');
 
 const io = socketIO.listen(httpServer);
 

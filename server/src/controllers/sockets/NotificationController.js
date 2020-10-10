@@ -21,6 +21,11 @@ class NotificationController extends WebSocket{
         { message }));
 
   }
+  emitOneEventRemind (target, message) {
+    this.io.to(target).emit(CONSTANTS.NOTIFICATION_EVENT_REMINDER,
+        { message });
+
+  }
 }
 
 module.exports = NotificationController;

@@ -1,5 +1,5 @@
 const eventsQueries = require('./queries/eventsQueries');
-const eventTimerController = require('../middlewares/eventsTimer');
+const eventTimerController = require('../boot/eventsTimer');
 
 module.exports.getUserEvents = async (req, res, next) => {
     try {
@@ -19,7 +19,7 @@ module.exports.createEvent = async (req, res, next) => {
         const date = req.body.date;
         const remind = req.body.remind;
         const newEvent = await eventsQueries.createEvent(user,remind, name,date);
-        eventTimerController.checkUserEvents(user);
+        eventTimerController.startEventTimer(newEvent);
         res.send(newEvent.id.toString());
     }
     catch(e){
@@ -31,6 +31,7 @@ module.exports.deleteEvent = async (req, res, next) => {
     try{
         const event = req.body.id;
         const result = await eventsQueries.deleteEvent(event);
+        eventTimerController.deleteEventTimer(event);
         res.send(JSON.stringify(result));
     }
     catch (e){
