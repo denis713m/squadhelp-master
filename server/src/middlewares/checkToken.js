@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../constants');
 const TokenError = require('../errors/TokenError');
 const userQueries = require ('../controllers/queries/userQueries');
-const sessionController = require ('../models/activeUsersController');
+const sessionController = require ('../boot/sessionStore');
 
 
 module.exports.checkAuth = async (req, res, next) => {
@@ -48,18 +48,12 @@ module.exports.checkToken = async (req, res, next) => {
   }
   try {
     req.tokenData = jwt.verify(accessToken, CONSTANTS.JWT_SECRET);
-    const sessionStillActive = sessionController.checkUserAtSessionCache(accessToken, req.tokenData.userId);
-    if(sessionStillActive !== 'active') {
-      const foundUser = await userQueries.findUserById(req.tokenData.userId );
-      if (!foundUser.accessToken === req.headers.authorization){
-        next(new TokenError());}
-      if(sessionStillActive === 'notActive'){sessionController.updateLastRequest(foundUser.id);}
-      else {
-        sessionController.addUser(
-          {id:foundUser.id, lastRequest: Date.now(), accessToken: foundUser.accessToken});
-
-      }
+    const userId = req.tokenData.userId;
+    const sessionStillActive = sessionController.checkUserAtSessionStore(accessToken, userId);
+    if(!sessionStillActive){
+      next(new TokenError('need authentication'));
     }
+    sessionController.updateLastRequest(userId);
     next();
   } catch (err) {
     next(err);
