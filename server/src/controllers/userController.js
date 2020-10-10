@@ -3,7 +3,7 @@ import { generateTokens, generateRecoverAccesToken } from '../utils/generateTock
 import * as ipaddr from 'ipaddr.js';
 
 const TokenError = require('../errors/TokenError');
-const eventTimer = require('../middlewares/eventsTimer');
+const eventTimer = require('../boot/eventsTimer');
 const transactionsQueries = require('./queries/transactionsQueries');
 const contestQueries = require('./queries/contestQueries');
 const commonQueries = require('./queries/commonQueries');
@@ -17,7 +17,7 @@ const userQueries = require('./queries/userQueries');
 const bankQueries = require('./queries/bankQueries');
 const ratingQueries = require('./queries/ratingQueries');
 const Dinero = require('dinero.js');
-const activeUsers = require('../models/activeUsersController');
+const sessionStore = require('../boot/sessionStore');
 
 module.exports.login = async (req, res, next) => {
   try {
@@ -27,7 +27,7 @@ module.exports.login = async (req, res, next) => {
     await userQueries.passwordCompare(enterPassword, foundUser.password);
     const tokens = generateTokens(foundUser);
     await userQueries.updateUser({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, foundUser.id);
-    activeUsers.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
+    sessionStore.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
     res.send(tokens);
   } catch (err) {
     next(err);
@@ -40,6 +40,7 @@ module.exports.registration = async (req, res, next) => {
     const newUser = await userQueries.userCreation(userData, password);
     const tokens = generateTokens(newUser);
     await userQueries.updateUserTokens({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, newUser.id);
+    sessionStore.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
     res.send(tokens);
   } catch (err) {
     if (err.name === 'SequelizeUniqueConstraintError') {
@@ -199,7 +200,7 @@ module.exports.getTokens = async (req, res, next) => {
     }
     const tokens = generateTokens(foundUser);
     await userQueries.updateUserTokens({ accessToken: tokens.token, refreshToken: tokens.refreshToken }, foundUser.id);
-    activeUsers.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
+    sessionStore.addUser({id:foundUser.id, lastRequest: Date.now(), accessToken: tokens.token});
     eventTimer.checkUserEvents(foundUser.id);
     res.send({...tokens,
               refresh: true});
